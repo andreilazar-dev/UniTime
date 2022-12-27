@@ -3,8 +3,8 @@
 
     <!--        android:name="${applicationName}"-->
     <application
-        android:name="UniTime"
-        android:label="scaffold"
+        android:name="${applicationName}"
+        android:label="UniTime"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name="io.flutter.embedding.android.FlutterActivity"

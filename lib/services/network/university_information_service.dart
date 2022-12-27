@@ -94,7 +94,7 @@ class UniversityInformationService {
     required String textcurr ,
     required String anno ,
     required String corso ,
-    required String anno2 ,
+    required List<String> anno2 ,
     required String date ,
     String lang = 'it',
     String highlightedDate = '0',
@@ -107,12 +107,15 @@ class UniversityInformationService {
       r'txtcurr': textcurr,
       r'anno': anno,
       r'corso': corso,
-      r'anno2': anno2,
+      r'anno2[]': anno2,
       r'date': date,
       r'_lang': lang,
       r'highlighted_date': highlightedDate,
       r'all_events': allEvents,
     };
+    // anno2.forEach((element) {
+    //   queryParameters["r'anno2'"] = element;
+    // });
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await dio

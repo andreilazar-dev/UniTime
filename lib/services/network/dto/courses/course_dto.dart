@@ -10,6 +10,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:school_timetable/services/network/dto/courses/periodo_dto.dart';
+import 'package:school_timetable/services/network/dto/courses/year_dto.dart';
 
 part 'course_dto.g.dart';
 
@@ -18,6 +19,7 @@ part 'course_dto.freezed.dart';
 @freezed
 class CourseDTO with _$CourseDTO{
   const factory CourseDTO({
+    @JsonKey(name: 'elenco_anni') required List<YearDTO> elencoAnni,
     @JsonKey(name: 'label') required String label,
     @JsonKey(name: 'tipo') required String tipo,
     @JsonKey(name: 'TipoID') required String tipoID,

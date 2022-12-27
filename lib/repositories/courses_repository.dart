@@ -49,7 +49,7 @@ class CoursesRepository {
 
   Future<TimeTableDTO> lessons() async {
     try {
-      final response = await universityInformationService.timetable(textcurr: '1+-+UNICO', anno: '2022',anno2: '999|1',date: '20-12-2022', corso: '419',);
+      final response = await universityInformationService.timetable(textcurr: '1 - UNICO,2 - UNICO,3 - UNICO', anno: '2022',anno2: ['999|1' , '999|2' , '999|3' ],date: '20-12-2022', corso: '419',);
       //return coursesMapper.toModel(response);
       return response;
     } on NetworkError catch (error) {

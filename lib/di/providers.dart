@@ -11,9 +11,19 @@
 part of 'dependency_injector.dart';
 
 final List<SingleChildWidget> _providers = [
+  Provider<PrettyDioLogger>(
+      create: (context) => PrettyDioLogger(
+            requestHeader: true,
+            requestBody: true,
+            compact: true,
+            responseBody: false,
+          )),
   Provider<Dio>(create: (context) {
     final dio = Dio();
     //Interceptors
+    dio.interceptors.addAll([
+      context.read<PrettyDioLogger>(),
+    ]);
     return dio;
   }),
   Provider<Server>(create: (context) => Server()),
