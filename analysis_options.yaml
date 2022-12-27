@@ -1,0 +1,8 @@
+analyzer:
+  errors:
+    todo: warning
+    missing_return: error
+    dead_code: error
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.gr.dart"

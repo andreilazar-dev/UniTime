@@ -1,0 +1,14 @@
+hostname = "gitlab.mylittlesuite.com"
+path = "/iOS/signature.git"
+ci_token = ENV['CI_JOB_TOKEN']
+
+if ci_token.nil?
+  git_url("http://#{hostname}#{path}")
+else
+  git_url("http://gitlab-ci-token:#{ci_token}@#{hostname}#{path}")
+end
+
+app_identifier("#{ENV["BUNDLE_IDENTIFIER"]}")
+type("appstore")
+
+ENV["MATCH_PASSWORD"] = ENV["MLS_OWN_SIGNATURE_MATCH_PASSWORD_IOS"]

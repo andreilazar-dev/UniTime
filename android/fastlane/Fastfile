@@ -1,0 +1,34 @@
+default_platform(:android)
+
+platform :android do
+
+  STORE_FILE = "#{Dir.pwd}/../signature.keystore"
+  STORE_PASSWORD = ENV["MLS_OWN_SIGNATURE_STORE_PASSWORD_ANDROID"]
+  KEY_ALIAS = ENV["MLS_OWN_SIGNATURE_KEY_ALIAS_ANDROID"]
+  KEY_PASSWORD = ENV["MLS_OWN_SIGNATURE_KEY_PASSWORD_ANDROID"]
+
+  desc "Deploy a new version to the Google Play"
+  lane :build do
+    gradle(
+      task: "bundle",
+      print_command: false,
+      build_type: "Release",
+      properties: {
+        "android.injected.signing.store.file" => STORE_FILE,
+        "android.injected.signing.store.password" => STORE_PASSWORD,
+        "android.injected.signing.key.alias" => KEY_ALIAS,
+        "android.injected.signing.key.password" => KEY_PASSWORD,
+      }
+    )
+  end
+
+  lane :upload do
+    upload_to_play_store(
+      track: 'internal',
+      aab: "../build/app/outputs/bundle/release/app-release.aab",
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+end

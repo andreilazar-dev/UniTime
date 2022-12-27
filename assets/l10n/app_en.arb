@@ -1,0 +1,20 @@
+{
+  "app_name": "Scaffold",
+
+  "error_generic": "Something went wrong!",
+
+  "hello_world": "Hello world!",
+  "@hello_world": {
+    "description": "The hello world label"
+  },
+
+  "settings_app": "App",
+  "settings_theme": "Theme",
+  "settings_dark_mode": "Dark Mode",
+
+  "theme_system": "System",
+  "theme_light": "Light",
+  "theme_dark": "Dark",
+
+  "title_settings": "Settings"
+}

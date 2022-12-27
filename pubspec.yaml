@@ -1,0 +1,47 @@
+name: school_timetable
+description: UniTime App.
+publish_to: 'none'
+version: 3.1.0+28
+
+environment:
+  sdk: ">=2.18.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flutter_cupertino_localizations:
+  auto_route: ^5.0.2
+  cupertino_icons: ^1.0.5
+  flutter_bloc: ^8.1.1
+  freezed_annotation: ^2.1.0
+  hydrated_bloc: ^9.0.0
+  intl: ^0.17.0
+  json_annotation: ^4.7.0
+  path_provider: ^2.0.11
+  provider: ^6.0.3
+  settings_ui: ^2.0.2
+  flutter_essentials_kit: ^2.3.5
+  retrofit: ^3.3.1
+  dio: ^4.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  flutter_driver:
+    sdk: flutter
+  bloc_test: ^9.1.0
+  auto_route_generator: ^5.0.2
+  build_runner: ^2.2.1
+  flutter_lints: ^2.0.1
+  freezed: ^2.1.0+1
+  json_serializable: ^6.4.1
+  retrofit_generator:
+  mocktail: ^0.3.0
+
+flutter:
+  generate: true
+  uses-material-design: true
