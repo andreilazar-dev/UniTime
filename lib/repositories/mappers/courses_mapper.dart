@@ -9,11 +9,13 @@
  */
 
 import 'package:school_timetable/misc/mappers/dto_mapper.dart';
-import 'package:school_timetable/models/course.dart';
-import 'package:school_timetable/models/courses.dart';
-import 'package:school_timetable/models/periodo.dart';
-import 'package:school_timetable/models/school.dart';
+import 'package:school_timetable/models/courses/course.dart';
+import 'package:school_timetable/models/courses/school.dart';
+import 'package:school_timetable/models/courses/teaching.dart';
+import 'package:school_timetable/models/courses/year.dart';
 import 'package:school_timetable/services/network/dto/courses/course_list_response.dart';
+import 'package:school_timetable/models/courses/courses.dart';
+import 'package:school_timetable/models/courses/periodo.dart';
 
 class CoursesMapper extends DTOMapper<CourseListResponse, Courses> {
   @override
@@ -21,6 +23,21 @@ class CoursesMapper extends DTOMapper<CourseListResponse, Courses> {
         elencoCorsi: dto.elencoCorsi
             .map(
               (corso) => Course(
+                  years: corso.elencoAnni
+                      .map((year) => Year(
+                          label: year.label,
+                          valore: year.valore,
+                          elencoInsegnamenti: year.elencoInsegnamenti
+                              .map((list) => Teaching(
+                                  label: list.label,
+                                  valore: list.valore,
+                                  id: list.id,
+                                  idPeriodo: list.idPeriodo,
+                                  docente: list.docente))
+                              .toList(),
+                          orderLbl: year.orderLbl,
+                          external: year.external))
+                      .toList(),
                   label: corso.label,
                   tipo: corso.tipo,
                   tipoID: corso.tipoID,

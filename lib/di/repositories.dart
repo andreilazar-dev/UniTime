@@ -11,10 +11,15 @@
 part of 'dependency_injector.dart';
 
 final List<RepositoryProvider> _repositories = [
-  // TODO: add here your repositories with RepositoryProvider
+  RepositoryProvider<ConfigurationRepository>(
+    create: (context) => ConfigurationRepository(
+      sharedPreferences: SharedPreferences.getInstance(),
+    ),
+  ),
   RepositoryProvider<CoursesRepository>(
       create: (context) => CoursesRepository(
-          universityInformationService: context.read<UniversityInformationService>(),
+          universityInformationService:
+              context.read<UniversityInformationService>(),
           coursesMapper: context.read<CoursesMapper>(),
           academicYearMapper: context.read<AcademicYearMapper>()))
 ];

@@ -33,7 +33,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     emit(const RegistrationState.perform());
     try{
       final years = await courseRepository.academicYears();
-      final courses = await courseRepository.courses();
+      //final courses = await courseRepository.courses();
       final lesson = await courseRepository.lessons();
       if(years != null){
         emit(RegistrationState.years(years));

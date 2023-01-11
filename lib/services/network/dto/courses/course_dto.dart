@@ -26,7 +26,7 @@ class CourseDTO with _$CourseDTO{
     @JsonKey(name: 'valore') required String valore,
     @JsonKey(name: 'cdl_id') required String cdlId,
     @JsonKey(name: 'scuola') required String scuola,
-    @JsonKey(name: 'pub_type') required String pubType,
+    @JsonKey(name: 'pub_type') String? pubType,
     @JsonKey(name: 'default_grid') required String defaultGrid,
     @JsonKey(name: 'pub_periodi') required List<PeriodoDTO> pubPeriodi,
     @JsonKey(name: 'periodi') required List<PeriodoDTO> periodi,

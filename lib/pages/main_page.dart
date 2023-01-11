@@ -8,57 +8,36 @@
  *
  */
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_essentials_kit/extensions/commons.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:school_timetable/blocs/registration_bloc.dart';
-
-import '../models/academic_year.dart';
+import 'package:school_timetable/blocs/registration/registration_bloc.dart';
+import 'package:school_timetable/routers/app_router.gr.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(
-        title: AppLocalizations.of(context)?.app_name.let((it) => Text(it)),
-      ),
-      body: BlocConsumer<RegistrationBloc, RegistrationState>(
-        listener: (context, state) {
-          state.whenOrNull(
-             // initial: () => _initial(context),
-              perform: () => _loading(),
-              years: (years) => showYears(years),
-              yearError: (error) => Container());
-        },
-        builder: (context,state) => BlocBuilder<RegistrationBloc, RegistrationState>(builder: (context,state)
-        {
-          return _initial(context);
-        }),
-      )
+  Widget build(BuildContext context) => WillPopScope(
+        onWillPop: () async => false,
+        child: BlocConsumer<RegistrationBloc, RegistrationState>(
+          listener: (context, state) => state.whenOrNull(
+            registered: () {
+              _goToPage(context, HomeRoute());
+            },
+            notRegistered: () => _goToPage(context, RegistrationHomeRoute()),
+            reset: () {},
+          ),
+          builder: (context, state) => Scaffold(
+            body: state.whenOrNull(
+                checking: () =>
+                    Center(child: const CircularProgressIndicator())),
+          ),
+        ),
       );
 
-  Widget _initial(BuildContext context) {
-    return Container(
-      child: TextButton(
-        onPressed: () {
-          context.read<RegistrationBloc>().yearsReq();
-        },
-        child: Text("date"),
-      ),
-    );
-  }
-
-  Widget _loading() {
-    return CircularProgressIndicator();
-  }
-
-  Widget showYears(List<AcademicYear> academicYear) {
-    return ListView.builder(
-        itemCount: academicYear.length,
-        itemBuilder: (context, index) {
-          return Text(academicYear[index].label);
-        });
+  Future<void> _goToPage(BuildContext context, PageRouteInfo route) async {
+    context.router.popUntilRouteWithName(MainRoute.name);
+    await context.pushRoute(route);
   }
 }

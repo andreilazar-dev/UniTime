@@ -9,13 +9,17 @@
  */
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:school_timetable/models/courses/teaching.dart';
 
-part 'school.freezed.dart';
+part 'year.freezed.dart';
 
 @freezed
-class School with _$School {
-  const factory School({
+class Year with _$Year {
+  const factory Year({
     required String label,
     required String valore,
-  }) = _School;
+    required List<Teaching> elencoInsegnamenti,
+    required String orderLbl,
+    required int external,
+  }) = _Year;
 }

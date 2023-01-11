@@ -12,11 +12,11 @@
 import 'package:school_timetable/errors/network_error.dart';
 import 'package:school_timetable/errors/repository_error.dart';
 import 'package:school_timetable/models/academic_year.dart';
-import 'package:school_timetable/models/courses.dart';
 import 'package:school_timetable/repositories/mappers/courses_mapper.dart';
 import 'package:school_timetable/services/network/dto/time_table/time_table_dto.dart';
 import 'package:school_timetable/services/network/university_information_service.dart';
 import 'package:school_timetable/repositories/mappers/accademic_year.dart';
+import 'package:school_timetable/models/courses/courses.dart';
 
 class CoursesRepository {
   final UniversityInformationService universityInformationService;
@@ -38,9 +38,9 @@ class CoursesRepository {
   }
 
 
-  Future<Courses> courses() async {
+  Future<Courses> courses({required String academicYear}) async {
     try {
-      final response = await universityInformationService.courseList(aa: '2022');
+      final response = await universityInformationService.courseList(aa: academicYear);
       return coursesMapper.toModel(response);
     } on NetworkError catch (error) {
       throw RepositoryError(error);

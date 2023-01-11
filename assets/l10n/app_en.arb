@@ -1,20 +1,29 @@
 {
-  "app_name": "Scaffold",
+  "app_name": "UniTime",
+  "welcome": "Welcome",
+  "select_uni": "Select your university",
+  "tap_uni": "tap to view universities",
+  "uni_of" : "University of ",
+
+  "course_page_label" : "Some more information",
+  "select_academic_label" : "Select academic year",
+  "select_course_label" : "Course of study" ,
+  "select_course_label_hint" : "Enter the course of study" ,
+  "select_year_label" : "Year of study",
+  "select_year_label_hint" : "Enter the year of study",
+
+  "filter_course_page_label" : "Select the teachings you want to see",
 
   "error_generic": "Something went wrong!",
-
   "hello_world": "Hello world!",
   "@hello_world": {
     "description": "The hello world label"
   },
-
   "settings_app": "App",
   "settings_theme": "Theme",
   "settings_dark_mode": "Dark Mode",
-
   "theme_system": "System",
   "theme_light": "Light",
   "theme_dark": "Dark",
-
   "title_settings": "Settings"
 }

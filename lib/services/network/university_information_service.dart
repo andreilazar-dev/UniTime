@@ -9,7 +9,6 @@
  */
 
 import 'package:dio/dio.dart';
-import 'package:school_timetable/models/courses.dart';
 import 'package:school_timetable/services/network/dto/courses/course_list_response.dart';
 import 'package:school_timetable/services/network/dto/years/academic_year_dto.dart';
 import 'package:school_timetable/services/network/misc/json_scrubber.dart';
@@ -17,10 +16,16 @@ import 'package:school_timetable/services/network/misc/json_scrubber.dart';
 import 'dto/time_table/time_table_dto.dart';
 
 class UniversityInformationService {
-  String baseUrl;
+  String? baseUrl;
   final Dio dio;
 
-  UniversityInformationService(this.dio, {required this.baseUrl});
+  UniversityInformationService(this.dio, {this.baseUrl});
+
+  setServer({required String server}) {
+    if (server.isNotEmpty) {
+      this.baseUrl = server;
+    }
+  }
 
   Future<List<AcademicYearDTO>> academicYear({
     String sw = 'ec_',
@@ -91,11 +96,11 @@ class UniversityInformationService {
   Future<TimeTableDTO> timetable({
     String view = 'easycourse',
     String include = 'corso',
-    required String textcurr ,
-    required String anno ,
-    required String corso ,
-    required List<String> anno2 ,
-    required String date ,
+    required String textcurr,
+    required String anno,
+    required String corso,
+    required List<String> anno2,
+    required String date,
     String lang = 'it',
     String highlightedDate = '0',
     String allEvents = '1',
@@ -124,13 +129,13 @@ class UniversityInformationService {
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-      dio.options,
-      '/grid_call.php',
-      queryParameters: queryParameters,
-      data: _data,
-    )
-        .copyWith(baseUrl: baseUrl ?? dio.options.baseUrl)));
+            .compose(
+              dio.options,
+              '/grid_call.php',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? dio.options.baseUrl)));
     final value = TimeTableDTO.fromJson(_result.data!);
     return value;
   }

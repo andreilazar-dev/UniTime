@@ -10,6 +10,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'academic_year.g.dart';
 part 'academic_year.freezed.dart';
 
 @freezed
@@ -18,4 +19,7 @@ class AcademicYear with _$AcademicYear {
     required String label,
     required String value,
   }) = _AcademicYear;
+
+  factory AcademicYear.fromJson(Map<String, dynamic> json) =>
+      _$AcademicYearFromJson(json);
 }

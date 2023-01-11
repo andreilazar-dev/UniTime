@@ -9,16 +9,17 @@
  */
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:school_timetable/models/courses/school.dart';
-import 'course.dart';
 
+part 'teaching.freezed.dart';
 
-part 'courses.freezed.dart';
-
-@freezed
-class Courses with _$Courses {
-  const factory Courses({
-    required List<Course> elencoCorsi,
-    List<School>? elencoScuole,
-  }) = _Courses;
+@unfreezed
+class Teaching with _$Teaching {
+  factory Teaching({
+    required String label,
+    required String valore,
+    required String id,
+    required int idPeriodo,
+    required String docente,
+    bool? selected,
+  }) = _Teaching;
 }

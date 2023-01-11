@@ -14,6 +14,8 @@ final List<BlocProvider> _blocs = [
   BlocProvider<ThemeCubit>(
     create: (context) => ThemeCubit(),
   ),
-  BlocProvider<RegistrationBloc>(create: (context) => RegistrationBloc(courseRepository: context.read()))
+  BlocProvider<RegistrationBloc>(
+    create: (context) => RegistrationBloc(repository: context.read())..checkRegistration(),
+  ),
   // TODO: add here your blocs and cubits with BlocProvider
 ];
