@@ -16,14 +16,14 @@ import 'package:school_timetable/services/network/misc/json_scrubber.dart';
 import 'dto/time_table/time_table_dto.dart';
 
 class UniversityInformationService {
-  String? baseUrl;
+  String? _baseUrl;
   final Dio dio;
 
-  UniversityInformationService(this.dio, {this.baseUrl});
+  UniversityInformationService(this.dio);
 
   setServer({required String server}) {
     if (server.isNotEmpty) {
-      this.baseUrl = server;
+      this._baseUrl = server;
     }
   }
 
@@ -52,7 +52,7 @@ class UniversityInformationService {
               queryParameters: queryParameters,
               //data: _data,
             )
-            .copyWith(baseUrl: baseUrl)));
+            .copyWith(baseUrl: _baseUrl)));
 
     final value = List<AcademicYearDTO>.from(
         JsonScrubber.academicYear(_result.data!)
@@ -87,7 +87,7 @@ class UniversityInformationService {
               queryParameters: queryParameters,
               //data: _data,
             )
-            .copyWith(baseUrl: baseUrl)));
+            .copyWith(baseUrl: _baseUrl)));
     final value =
         CourseListResponse.fromJson(JsonScrubber.courses(_result.data!));
     return value;
@@ -135,9 +135,8 @@ class UniversityInformationService {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? dio.options.baseUrl)));
-    final value = TimeTableDTO.fromJson(_result.data!);
-    return value;
+            .copyWith(baseUrl: _baseUrl ?? dio.options.baseUrl)));
+    return TimeTableDTO.fromJson(_result.data!);
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

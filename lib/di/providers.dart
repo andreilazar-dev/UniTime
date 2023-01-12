@@ -26,7 +26,7 @@ final List<SingleChildWidget> _providers = [
     ]);
     return dio;
   }),
-  Provider<Servers>(create: (context) => Servers()),
+  // Provider<Servers>(create: (context) => Servers()),
   Provider<UniversityInformationService>(
     create: (context) => UniversityInformationService(context.read()),
   ),

@@ -13,6 +13,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:school_timetable/misc/server/servers.dart';
+import 'package:school_timetable/models/preferences/configuration.dart';
 
 import '../../repositories/configuration_repository.dart';
 
@@ -36,7 +38,11 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     try {
       final config = await repository.ConfigurationData;
       emit(config != null
-          ? RegistrationState.registered()
+          ? RegistrationState.registered(
+              Servers.servers
+                  .firstWhere((element) => element.code == config.university)
+                  .server,
+              config)
           : const RegistrationState.notRegistered());
     } catch (error) {
       emit(RegistrationState.error());
@@ -44,6 +50,4 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   }
 
   void checkRegistration() => add(const _CheckRegistrationEvent());
-
-  void fakerCheck() => emit(RegistrationState.registered());
 }

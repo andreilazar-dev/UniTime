@@ -26,7 +26,7 @@ class RegistrationHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQuery = MediaQuery.of(context);
-    final serversUny = context.read<Servers>().servers;
+    final serversUny = Servers.servers;
     Server? selectedServer;
     return Scaffold(
       resizeToAvoidBottomInset: false,

@@ -29,16 +29,15 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     on<_YearsRegistrationEvent>(_mapPerformYears);
   }
 
-  Future<void> _mapPerformYears(event,emit) async{
+  Future<void> _mapPerformYears(event, emit) async {
     emit(const RegistrationState.perform());
-    try{
+    try {
       final years = await courseRepository.academicYears();
       //final courses = await courseRepository.courses();
-      final lesson = await courseRepository.lessons();
-      if(years != null){
+      if (years != null) {
         emit(RegistrationState.years(years));
       }
-    } on LocalizedError catch (error){
+    } on LocalizedError catch (error) {
       emit(RegistrationState.yearError(error));
     }
   }

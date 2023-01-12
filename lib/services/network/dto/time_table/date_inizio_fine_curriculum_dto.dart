@@ -30,7 +30,7 @@ class DateDTO with _$DateDTO{
   const factory DateDTO({
     //@JsonKey(name: 'timestamp') Streaming? timestamp,
     @JsonKey(name: '1') DatedescriptionDTO? datedescription,
-  }) = _DateDTOO;
+  }) = _DateDTO;
 
   factory DateDTO.fromJson(Map<String, dynamic> json) => _$DateDTOFromJson(json);
 }

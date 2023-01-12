@@ -1,16 +1,40 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:school_timetable/models/academic_year.dart';
+import 'package:school_timetable/models/courses/courses.dart';
+import 'package:school_timetable/models/timetable/time_table.dart';
+import 'package:school_timetable/repositories/courses_repository.dart';
+
+part 'daily_timetable_bloc.freezed.dart';
 
 part 'daily_timetable_event.dart';
+
 part 'daily_timetable_state.dart';
 
 class DailyTimetableBloc
     extends Bloc<DailyTimetableEvent, DailyTimetableState> {
-  DailyTimetableBloc() : super(DailyTimetableInitial()) {
-    on<DailyTimetableEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+  final CoursesRepository coursesRepository;
+
+  DailyTimetableBloc({required this.coursesRepository})
+      : super(DailyTimetableState.fetching()) {
+    on<_LoadDailyTimetableEvent>(_onLoading);
   }
+
+  Future<void> _onLoading(
+      _LoadDailyTimetableEvent event, Emitter<DailyTimetableState> emit) async {
+    try {
+      final timetable = await coursesRepository.lessons(event.date);
+
+      emit(DailyTimetableState.fetched(timetable));
+      //emit(DailyTimetableState.fetched());
+
+    } catch (error) {
+      //TODO : EXCEPTION
+      throw Exception(error);
+    }
+  }
+
+  void loadTimetable(DateTime date) => add(_LoadDailyTimetableEvent(date));
 }

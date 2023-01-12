@@ -13,8 +13,11 @@ part of 'registration_bloc.dart';
 @freezed
 class RegistrationState with _$RegistrationState {
   const factory RegistrationState.checking() = _CheckingRegistrationState;
-  const factory RegistrationState.registered() = _RegisteredRegistrationState;
-  const factory RegistrationState.notRegistered() = _NotRegisteredRegistrationState;
+  const factory RegistrationState.registered(
+          String baseUrl, Configuration configuration) =
+      _RegisteredRegistrationState;
+  const factory RegistrationState.notRegistered() =
+      _NotRegisteredRegistrationState;
   const factory RegistrationState.reset() = _ResetRegistrationState;
   const factory RegistrationState.error() = _ErrorRegistrationState;
 }

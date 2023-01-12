@@ -1,4 +1,7 @@
 part of 'daily_timetable_bloc.dart';
 
-@immutable
-abstract class DailyTimetableEvent {}
+@freezed
+class DailyTimetableEvent with _$DailyTimetableEvent {
+  const factory DailyTimetableEvent.load(DateTime date) =
+      _LoadDailyTimetableEvent;
+}

@@ -18,8 +18,10 @@ final List<RepositoryProvider> _repositories = [
   ),
   RepositoryProvider<CoursesRepository>(
       create: (context) => CoursesRepository(
-          universityInformationService:
-              context.read<UniversityInformationService>(),
-          coursesMapper: context.read<CoursesMapper>(),
-          academicYearMapper: context.read<AcademicYearMapper>()))
+            universityInformationService:
+                context.read<UniversityInformationService>(),
+            coursesMapper: context.read<CoursesMapper>(),
+            academicYearMapper: context.read<AcademicYearMapper>(),
+            timeTableMapper: context.read<TimeTableMapper>(),
+          ))
 ];

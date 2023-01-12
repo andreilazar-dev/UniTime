@@ -16,5 +16,8 @@ final List<SingleChildWidget> _mappers = [
   ),
   Provider<AcademicYearMapper>(
     create: (_) => AcademicYearMapper(),
-  )
+  ),
+  Provider<TimeTableMapper>(
+    create: (_) => TimeTableMapper(),
+  ),
 ];
