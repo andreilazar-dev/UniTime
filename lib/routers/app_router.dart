@@ -30,8 +30,8 @@ import 'package:school_timetable/pages/settings_page.dart';
     ),
     AutoRoute(path: 'details', page: RegistrationDetailsPage),
     AutoRoute(page: HomePage, children: [
-      AutoRoute(page: DailyLessonsPage, initial: true),
-      AutoRoute(page: OverviewPage),
+      AutoRoute(page: DailyLessonsPage),
+      AutoRoute(page: OverviewPage, initial: true),
       AutoRoute(page: SettingsPage),
     ])
   ],

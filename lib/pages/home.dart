@@ -88,7 +88,7 @@ class HomePage extends StatelessWidget {
     /// Week
     ReiBottomBarItem(
       icon: const Icon(FontAwesomeIcons.calendarWeek),
-      title: const Text("Week"),
+      title: const Text("Calendar"),
       selectedColor: const Color.fromRGBO(245, 177, 12, 1),
     ),
 
