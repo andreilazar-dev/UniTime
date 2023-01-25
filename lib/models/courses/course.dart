@@ -17,7 +17,7 @@ part 'course.freezed.dart';
 @freezed
 class Course with _$Course {
   const factory Course({
-    required List<Year> years,
+    List<Year>? years,
     required String label,
     required String tipo,
     required String tipoID,

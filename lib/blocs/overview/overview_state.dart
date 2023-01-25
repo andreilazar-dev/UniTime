@@ -12,10 +12,10 @@ part of 'overview_bloc.dart';
 
 @freezed
 class OverviewState with _$OverviewState {
-  const factory OverviewState.fetching() = _FetchingOverviewState;
+  const factory OverviewState.fetching() = FetchingOverviewState;
 
   const factory OverviewState.fetched(TimeTable timeTable) =
-      _FetchedOverviewState;
+      FetchedOverviewState;
 
-  const factory OverviewState.error() = _ErrorOverviewState;
+  const factory OverviewState.error() = ErrorOverviewState;
 }

@@ -28,8 +28,8 @@ class HomePage extends StatelessWidget {
         // routes used here must be declaraed as children
         // routes of /dashboard
         routes: const [
-          DailyLessonsRoute(),
           OverviewRoute(),
+          DailyLessonsRoute(),
           SettingsRoute(),
         ],
         builder: (context, child, animation) {
@@ -78,18 +78,18 @@ class HomePage extends StatelessWidget {
   }
 
   static var itemsBar = [
-    /// Day
-    ReiBottomBarItem(
-      icon: const Icon(FontAwesomeIcons.calendarDay),
-      title: const Text("Day"),
-      selectedColor: const Color.fromRGBO(251, 119, 80, 1),
-    ),
-
     /// Week
     ReiBottomBarItem(
       icon: const Icon(FontAwesomeIcons.calendarWeek),
       title: const Text("Calendar"),
       selectedColor: const Color.fromRGBO(245, 177, 12, 1),
+    ),
+
+    /// Day
+    ReiBottomBarItem(
+      icon: const Icon(FontAwesomeIcons.calendarDay),
+      title: const Text("Day"),
+      selectedColor: const Color.fromRGBO(251, 119, 80, 1),
     ),
 
     /// Setting

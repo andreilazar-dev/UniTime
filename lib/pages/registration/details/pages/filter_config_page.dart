@@ -53,8 +53,7 @@ class _FilterConfigPageState extends State<FilterConfigPage> {
                 child: IconButton(
                     padding: const EdgeInsets.only(left: 20.0),
                     onPressed: () {
-                      //TODO: implement back
-                      //context.read<CourseSettingBloc>().add(event);
+                      context.read<CourseSettingBloc>().initial();
                     },
                     icon: const Icon(Icons.arrow_back_sharp,
                         color: Colors.white, size: 30.0)),
@@ -70,14 +69,14 @@ class _FilterConfigPageState extends State<FilterConfigPage> {
               ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: course.years.length,
+                  itemCount: course.years!.length,
                   itemBuilder: (_, indexYears) {
                     return Column(
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            course.years[indexYears].label,
+                            course.years![indexYears].label,
                             style: Theme.of(context).textTheme.headline2,
                           ),
                         ),
@@ -85,10 +84,10 @@ class _FilterConfigPageState extends State<FilterConfigPage> {
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: course
-                              .years[indexYears].elencoInsegnamenti.length,
+                              .years![indexYears].elencoInsegnamenti.length,
                           itemBuilder: (BuildContext context, int index) {
                             return index <=
-                                    course.years[indexYears].elencoInsegnamenti
+                                    course.years![indexYears].elencoInsegnamenti
                                             .length -
                                         1
                                 ? Padding(
@@ -102,22 +101,19 @@ class _FilterConfigPageState extends State<FilterConfigPage> {
                                         autofocus: true,
                                         enableFeedback: true,
                                         title: Text(
-                                          course.years[indexYears]
+                                          course.years![indexYears]
                                               .elencoInsegnamenti[index].label,
                                           style: const TextStyle(
                                               color: Color(0xFFFFFFFC)),
                                         ),
-                                        value: course
-                                                .years[indexYears]
-                                                .elencoInsegnamenti[index]
-                                                .selected ??
-                                            false,
+                                        value: course.years![indexYears]
+                                            .elencoInsegnamenti[index].selected,
                                         onChanged: (bool? value) {
                                           setState(() {
                                             course
-                                                .years[indexYears]
+                                                .years![indexYears]!
                                                 .elencoInsegnamenti[index]
-                                                .selected = value;
+                                                .selected = value!;
                                           });
                                         },
                                       ),

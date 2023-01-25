@@ -13,6 +13,8 @@ import 'package:school_timetable/models/courses/teaching.dart';
 
 part 'year.freezed.dart';
 
+part 'year.g.dart';
+
 @freezed
 class Year with _$Year {
   const factory Year({
@@ -22,4 +24,6 @@ class Year with _$Year {
     required String orderLbl,
     required int external,
   }) = _Year;
+
+  factory Year.fromJson(Map<String, dynamic> json) => _$YearFromJson(json);
 }

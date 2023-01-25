@@ -17,9 +17,9 @@ part 'course_dto.g.dart';
 part 'course_dto.freezed.dart';
 
 @freezed
-class CourseDTO with _$CourseDTO{
+class CourseDTO with _$CourseDTO {
   const factory CourseDTO({
-    @JsonKey(name: 'elenco_anni') required List<YearDTO> elencoAnni,
+    @JsonKey(name: 'elenco_anni') List<YearDTO>? elencoAnni,
     @JsonKey(name: 'label') required String label,
     @JsonKey(name: 'tipo') required String tipo,
     @JsonKey(name: 'TipoID') required String tipoID,
@@ -34,5 +34,6 @@ class CourseDTO with _$CourseDTO{
     @JsonKey(name: 'facolta_code') required String facoltaCode,
   }) = _CourseDTO;
 
-  factory CourseDTO.fromJson(Map<String, dynamic> json) => _$CourseDTOFromJson(json);
+  factory CourseDTO.fromJson(Map<String, dynamic> json) =>
+      _$CourseDTOFromJson(json);
 }

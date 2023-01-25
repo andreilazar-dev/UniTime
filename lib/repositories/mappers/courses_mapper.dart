@@ -23,21 +23,23 @@ class CoursesMapper extends DTOMapper<CourseListResponse, Courses> {
         elencoCorsi: dto.elencoCorsi
             .map(
               (corso) => Course(
-                  years: corso.elencoAnni
-                      .map((year) => Year(
-                          label: year.label,
-                          valore: year.valore,
-                          elencoInsegnamenti: year.elencoInsegnamenti
-                              .map((list) => Teaching(
-                                  label: list.label,
-                                  valore: list.valore,
-                                  id: list.id,
-                                  idPeriodo: list.idPeriodo,
-                                  docente: list.docente))
-                              .toList(),
-                          orderLbl: year.orderLbl,
-                          external: year.external))
-                      .toList(),
+                  years: corso.elencoAnni != null
+                      ? corso.elencoAnni!
+                          .map((year) => Year(
+                              label: year.label,
+                              valore: year.valore,
+                              elencoInsegnamenti: year.elencoInsegnamenti
+                                  .map((list) => Teaching(
+                                      label: list.label,
+                                      valore: list.valore,
+                                      id: list.id,
+                                      idPeriodo: list.idPeriodo,
+                                      docente: list.docente))
+                                  .toList(),
+                              orderLbl: year.orderLbl,
+                              external: year.external))
+                          .toList()
+                      : null,
                   label: corso.label,
                   tipo: corso.tipo,
                   tipoID: corso.tipoID,

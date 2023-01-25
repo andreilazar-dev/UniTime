@@ -13,4 +13,8 @@ part of 'courses_bloc.dart';
 @freezed
 class CoursesEvent with _$CoursesEvent {
   const factory CoursesEvent.load() = _LoadCoursesEvent;
+  const factory CoursesEvent.reload() = _ReloadCoursesEvent;
+  const factory CoursesEvent.getYears(
+          String courseValue, String academicYear, String code) =
+      _GetYearsCoursesEvent;
 }

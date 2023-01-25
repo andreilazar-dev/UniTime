@@ -10,6 +10,8 @@
 
 import 'package:dio/dio.dart';
 import 'package:school_timetable/services/network/dto/courses/course_list_response.dart';
+import 'package:school_timetable/services/network/dto/courses/year_dto.dart';
+import 'package:school_timetable/services/network/dto/courses/years_response.dart';
 import 'package:school_timetable/services/network/dto/years/academic_year_dto.dart';
 import 'package:school_timetable/services/network/misc/json_scrubber.dart';
 
@@ -88,9 +90,39 @@ class UniversityInformationService {
               //data: _data,
             )
             .copyWith(baseUrl: _baseUrl)));
-    final value =
-        CourseListResponse.fromJson(JsonScrubber.courses(_result.data!));
-    return value;
+    final value = JsonScrubber.courses(_result.data!);
+    return CourseListResponse.fromJson(value);
+  }
+
+  Future<List<YearDTO>> yearList({
+    String key = '_ec_elenco_anno2_',
+    required String code,
+    required String academicYear, //year
+    required String courseValue,
+  }) async {
+    // const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'key': code + '_' + academicYear + key + courseValue,
+    };
+    //final _headers = <String, dynamic>{};
+    // final _data = <String, dynamic>{};
+    final _result =
+        await dio.fetch<String>(_setStreamType<CourseListResponse>(Options(
+      method: 'GET',
+      // headers: _headers,
+      // extra: _extra,
+    )
+            .compose(
+              dio.options,
+              '/call_redis.php',
+              queryParameters: queryParameters,
+              //data: _data,
+            )
+            .copyWith(baseUrl: _baseUrl)));
+    // final value = List<YearDTO>.from(
+    //     JsonScrubber.years(_result.data!).map((dto) => YearDTO.fromJson(dto)));
+    final value = YearsResponse.fromJson(JsonScrubber.years(_result.data!));
+    return value.elencoAnni;
   }
 
   Future<TimeTableDTO> timetable({

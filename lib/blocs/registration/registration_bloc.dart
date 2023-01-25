@@ -31,6 +31,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     required this.repository,
   }) : super(RegistrationState.checking()) {
     on<_CheckRegistrationEvent>(_onCheck);
+    on<_ResetRegistrationEvent>(_onReset);
   }
 
   Future<void> _onCheck(
@@ -47,7 +48,25 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     } catch (error) {
       emit(RegistrationState.error());
     }
+
+    //on LocalizedError catch (error) {}
+  }
+
+  Future<void> _onReset(
+      _ResetRegistrationEvent event, Emitter<RegistrationState> emit) async {
+    try {
+      final removed = await repository.removeConfigurationData();
+      emit(removed
+          ? RegistrationState.notRegistered()
+          : RegistrationState.error());
+    } catch (error) {
+      emit(RegistrationState.error());
+    }
+
+    //on LocalizedError catch (error) {}
   }
 
   void checkRegistration() => add(const _CheckRegistrationEvent());
+
+  void resetApp() => add(const _ResetRegistrationEvent());
 }

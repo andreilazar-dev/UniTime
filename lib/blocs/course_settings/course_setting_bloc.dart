@@ -28,8 +28,18 @@ class CourseSettingBloc extends Bloc<CourseSettingEvent, CourseSettingState> {
 
   CourseSettingBloc({required this.repository})
       : super(CourseSettingState.initial()) {
+    on<_SelectionCourseSettingEvent>(_onInitial);
     on<_ChosenCourseSettingEvent>(_onTeachingsLoad);
     on<_SavingCourseSettingEvent>(_onSaving);
+  }
+
+  Future<void> _onInitial(_SelectionCourseSettingEvent event,
+      Emitter<CourseSettingState> emit) async {
+    try {
+      emit(CourseSettingState.initial());
+    } catch (error) {
+      //TODO: Implement
+    }
   }
 
   Future<void> _onTeachingsLoad(
@@ -45,7 +55,7 @@ class CourseSettingBloc extends Bloc<CourseSettingEvent, CourseSettingState> {
   Future<void> _onSaving(
       _SavingCourseSettingEvent event, Emitter<CourseSettingState> emit) async {
     try {
-      if (await repository.setConfiguration(event.course)) {
+      if (await repository.setCourse(event.course)) {
         emit(CourseSettingState.saved());
       }
       //emit(CourseSettingState.teachings());
@@ -53,6 +63,8 @@ class CourseSettingBloc extends Bloc<CourseSettingEvent, CourseSettingState> {
       //TODO : ERROR Implement
     }
   }
+
+  void initial() => add(_SelectionCourseSettingEvent());
 
   void chosenCourse(AcademicYear academicYear, Course course) =>
       add(_ChosenCourseSettingEvent(academicYear, course));

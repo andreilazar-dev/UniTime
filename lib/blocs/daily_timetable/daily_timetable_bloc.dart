@@ -1,9 +1,6 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:school_timetable/models/academic_year.dart';
-import 'package:school_timetable/models/courses/courses.dart';
 import 'package:school_timetable/models/timetable/time_table.dart';
 import 'package:school_timetable/repositories/courses_repository.dart';
 
@@ -25,7 +22,7 @@ class DailyTimetableBloc
   Future<void> _onLoading(
       _LoadDailyTimetableEvent event, Emitter<DailyTimetableState> emit) async {
     try {
-      final timetable = await coursesRepository.lessons(event.date);
+      final timetable = await coursesRepository.dailyLessons(event.date);
 
       emit(DailyTimetableState.fetched(timetable));
       //emit(DailyTimetableState.fetched());

@@ -40,7 +40,9 @@ class RegistrationDetailsPage extends StatelessWidget with AutoRouteWrapper {
     final pages = [CoursesSelectPage(), FilterConfigPage()];
     return BlocConsumer<CourseSettingBloc, CourseSettingState>(
         listener: (context, coursesState) =>
-            coursesState.whenOrNull(teachings: (_) {
+            coursesState.whenOrNull(initial: () {
+              _animateTo(0);
+            }, teachings: (_) {
               _animateTo(1);
             }, saved: () {
               context.read<RegistrationBloc>()..checkRegistration();
@@ -67,7 +69,7 @@ class RegistrationDetailsPage extends StatelessWidget with AutoRouteWrapper {
                     ),
                   ),
                   PageView.builder(
-                    //physics: const NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     controller: _pageController,
                     onPageChanged: (page) {
                       debugPrint("Page Number:" + page.toString());

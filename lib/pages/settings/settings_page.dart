@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020 - 2022
+ *  Copyright (c) 2020 - 2023
  *  Author: Andrei Lazar
  *
  *  This file is part of UniTime.
@@ -7,54 +7,124 @@
  *  Use of this source code is governed by a GPL-3.0 license that can be found in the LICENSE file
  *
  */
-
+import 'package:auto_route/auto_route.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_essentials_kit/flutter_essentials_kit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:school_timetable/pages/settings/builders/settings_tile_bloc_builder.dart';
+import 'package:school_timetable/blocs/registration/registration_bloc.dart';
+import 'package:school_timetable/routers/app_router.gr.dart';
 import 'package:school_timetable/theme/cubits/theme_cubit.dart';
 import 'package:school_timetable/theme/models/theme.dart' as theme;
-import 'package:school_timetable/widgets/bottom_sheets/selector_value_sheet.dart';
-import 'package:settings_ui/settings_ui.dart';
+import 'package:school_timetable/widgets/custom_button.dart';
+import 'package:school_timetable/widgets/customshape.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context)?.title_settings ?? ''),
-        ),
-        body: SettingsList(
-          //TODO: backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          contentPadding: const EdgeInsets.symmetric(vertical: 8),
-          sections: [
-            _appSettings(context),
-          ],
-        ),
-      );
+  final buttonwidth = 300.00;
+  final buttonheight = 55.00;
 
-  AbstractSettingsSection _appSettings(BuildContext context) => SettingsSection(
-        title: Text(AppLocalizations.of(context)?.settings_app ?? ''),
-        tiles: [
-          SettingsTileBlocBuilder<ThemeCubit, ThemeState>(
-            builder: (context, state) => SettingsTile(
-              title: Text(AppLocalizations.of(context)?.settings_theme ?? ''),
-              leading: const Icon(Icons.lightbulb),
-              value: state.theme.localize(context)?.let((it) => Text(it)),
-              onPressed: (context) => showBottomSheet(
-                context: context,
-                builder: (context) => SelectorValueSheet<theme.Theme>(
-                  title: AppLocalizations.of(context)?.settings_theme,
-                  values: theme.Theme.values,
-                  initialValue: state.theme,
-                  localizeValue: (theme) => theme.localize(context),
-                  onSelectedValueChanged: context.watch<ThemeCubit>().setTheme,
-                ),
+  void _resetApp(BuildContext context) {
+    context.read<RegistrationBloc>()..resetApp;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    MediaQueryData mediaQuery = MediaQuery.of(context);
+    return Scaffold(
+        body: SafeArea(
+      child: Align(
+        alignment: const FractionalOffset(0.5, 0.2),
+        child: Wrap(
+          spacing: 20,
+          // to apply margin in the main axis of the wrap
+          runSpacing: 20,
+          // to apply margin in the cross axis of the wrap
+          children: [
+            CustomButton(
+              width: buttonwidth,
+              height: buttonheight,
+              onPressed: context.read<RegistrationBloc>().resetApp,
+              borderRadius: BorderRadius.circular(20),
+              child: Text(AppLocalizations.of(context)?.settings_reset ?? ''),
+            ),
+            CustomButton(
+              width: buttonwidth,
+              height: buttonheight,
+              onPressed: () {
+                context.router.replace(ManageCoursesRoute());
+              },
+              borderRadius: BorderRadius.circular(20),
+              child: Text(
+                AppLocalizations.of(context)?.settings_manage_courses ?? '',
               ),
             ),
+            CustomButton(
+              width: buttonwidth,
+              height: buttonheight,
+              onPressed: () {
+                context.router.replace(FilterModulesRoute());
+              },
+              borderRadius: BorderRadius.circular(20),
+              child: Text(AppLocalizations.of(context)?.settings_filter ?? ''),
+            ),
+            Container(
+                width: buttonwidth,
+                alignment: Alignment.center,
+                child: _themeButton()),
+          ],
+        ),
+      ),
+    ));
+  }
+
+  Widget _themeButton() {
+    return BlocBuilder<ThemeCubit, ThemeState>(
+      builder: (context, state) {
+        return SizedBox(
+          width: MediaQuery.of(context).size.width * 0.45,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Text(
+                  AppLocalizations.of(context)?.settings_theme ?? '',
+                  //style: Theme.of(context).textTheme.headline3,
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+                ),
+              ),
+              DropdownSearch<theme.Theme>(
+                items: theme.Theme.values,
+                compareFn: (i, s) => i.name == s.name,
+                itemAsString: (theme) => theme.localize(context) ?? "",
+                selectedItem: state.theme,
+                dropdownDecoratorProps: DropDownDecoratorProps(
+                  textAlign: TextAlign.end,
+                  baseStyle: TextStyle(fontWeight: FontWeight.w700),
+                  dropdownSearchDecoration: InputDecoration(
+                    filled: true,
+                    contentPadding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                  ),
+                ),
+                popupProps: PopupProps.menu(
+                  fit: FlexFit.loose,
+                  menuProps: MenuProps(
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                  ),
+                ),
+                clearButtonProps: ClearButtonProps(isVisible: false),
+                dropdownButtonProps: DropdownButtonProps(isVisible: false),
+                onChanged: context.read<ThemeCubit>().setTheme,
+              ),
+            ],
           ),
-        ],
-      );
+        );
+      },
+    );
+  }
 }

@@ -11,6 +11,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'teaching.freezed.dart';
+part 'teaching.g.dart';
 
 @unfreezed
 class Teaching with _$Teaching {
@@ -20,6 +21,9 @@ class Teaching with _$Teaching {
     required String id,
     required int idPeriodo,
     required String docente,
-    bool? selected,
+    @Default(true) bool selected,
   }) = _Teaching;
+
+  factory Teaching.fromJson(Map<String, dynamic> json) =>
+      _$TeachingFromJson(json);
 }

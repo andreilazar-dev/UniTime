@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 class JsonScrubber {
-
   static Iterable academicYear(String rawjson) {
     String cleanJson = "";
     RegExp regex =
@@ -20,13 +19,11 @@ class JsonScrubber {
 
     // Extract the substring between the indices
     cleanJson = "[" + cleanJson.substring(startIndex + 1, cleanJson.length);
-   // cleanJson = cleanJson + "]";
+    // cleanJson = cleanJson + "]";
     return json.decode(cleanJson);
   }
 
-
-  static Map<String, dynamic> courses(String data){
-
+  static Map<String, dynamic> courses(String data) {
     data = _removeElencoCdl(data);
     // Use a regular expression to match the content between 'var' and '='
     data = data.replaceAllMapped(RegExp(r'var\s+(\w+)\s*='), (match) {
@@ -55,7 +52,7 @@ class JsonScrubber {
     return json.decode("[{" + data + "}]")[0];
   }
 
-  static String _removeElencoCdl(String data){
+  static String _removeElencoCdl(String data) {
     // Find the position of the first ';' character after 'var elenco_cdl'
     int startIndex = data.indexOf('var elenco_cdl');
     if (startIndex == -1) {
@@ -78,5 +75,34 @@ class JsonScrubber {
     String modified = before + after;
 
     return modified;
+  }
+
+  static Map<String, dynamic> years(String data) {
+    // Use a regular expression to match the content between 'var' and '='
+    data = data.replaceAllMapped(RegExp(r'var\s+(\w+)\s*='), (match) {
+      // Extract the content between 'var' and '='
+      String? content = match.group(1);
+      // Wrap the content with double quotes and replace '=' with ':'
+      return '"$content":';
+    });
+
+    // Replace all remaining ';' with ','
+    data = data.replaceAll(';', ',');
+
+    //remove last ,
+
+    // Find the position of the last ',' character
+    int commaIndex = data.lastIndexOf(',');
+    if (commaIndex == -1) {
+      print('Error: No comma found in the string');
+    }
+
+    // Extract the portion of the string before the last ',' character
+    data = data.substring(0, commaIndex);
+
+    //end
+
+    final value = json.decode("[{" + data + "}]");
+    return value[0];
   }
 }

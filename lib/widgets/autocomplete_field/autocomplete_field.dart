@@ -30,6 +30,7 @@ class AutoCompleteField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TypeAheadFormField(
+      enabled: false,
       suggestionsBoxDecoration: const SuggestionsBoxDecoration(
           color: Color(0xFF3E3E70),
           borderRadius: BorderRadius.all(Radius.circular(20))),

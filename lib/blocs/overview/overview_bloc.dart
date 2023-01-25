@@ -13,11 +13,14 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:school_timetable/models/timetable/celle.dart';
 import 'package:school_timetable/models/timetable/time_table.dart';
 import 'package:school_timetable/repositories/courses_repository.dart';
 
 part 'overview_bloc.freezed.dart';
+
 part 'overview_event.dart';
+
 part 'overview_state.dart';
 
 class OverviewBloc extends Bloc<OverviewEvent, OverviewState> {
@@ -30,10 +33,16 @@ class OverviewBloc extends Bloc<OverviewEvent, OverviewState> {
 
   Future<void> _onLoading(
       _LoadOverviewEvent event, Emitter<OverviewState> emit) async {
+    emit(OverviewState.fetching());
     try {
       final timetable = await coursesRepository.lessons(event.date);
 
-      emit(OverviewState.fetched(timetable));
+      //TODO: need refactor
+      List<Celle> celle = [];
+      for (TimeTable obj in timetable) {
+        celle.addAll(obj.celle ?? []);
+      }
+      emit(OverviewState.fetched(timetable[0].copyWith(celle: celle)));
       //emit(DailyTimetableState.fetched());
 
     } catch (error) {

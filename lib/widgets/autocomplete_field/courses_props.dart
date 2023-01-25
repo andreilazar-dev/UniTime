@@ -16,7 +16,7 @@ import 'package:school_timetable/models/courses/course.dart';
 import 'package:school_timetable/models/courses/courses.dart';
 
 class CoursesProps extends FieldProps<Course> {
-  Courses courses;
+  List<Course> courses;
 
   CoursesProps(
       {required this.courses,
@@ -25,9 +25,7 @@ class CoursesProps extends FieldProps<Course> {
       super.labelText});
 
   List<Course> getSuggestions(String pattern) {
-    List<Course> availableValues = courses.elencoCorsi;
-
-    final suggestions = availableValues.where((Course element) {
+    final suggestions = courses.where((Course element) {
       final elementLower = element.label.toLowerCase();
       final queryLower = pattern.toLowerCase();
       return elementLower.contains(queryLower);
@@ -37,7 +35,7 @@ class CoursesProps extends FieldProps<Course> {
 
   @override
   void setSelected(Course select, TextEditingController textEditingController) {
-    Course selectedValue = courses.elencoCorsi.firstWhere((element) {
+    Course selectedValue = courses.firstWhere((element) {
       return element == select;
     });
     textEditingController.text = selectedValue.label;

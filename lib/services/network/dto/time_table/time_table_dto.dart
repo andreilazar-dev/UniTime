@@ -54,8 +54,8 @@ class TimeTableDTO with _$TimeTableDTO {
     @JsonKey(name: 'celle') List<CelleDTO>? celle,
     @JsonKey(name: 'legenda') List<LegendaDTO>? legenda,
     //@JsonKey(name: 'note_generali') List<NoteGenerali>? noteGenerali,
-    @JsonKey(name: 'date_inizio_fine_curriculum')
-        List<String>? dateInizioFineCurriculum,
+    // @JsonKey(name: 'date_inizio_fine_curriculum')
+    //     List<String>? dateInizioFineCurriculum,
     //@JsonKey(name: 'nota_cdl') List<Null>? notaCdl,
     @JsonKey(name: 'curricula_course') String? curriculaCourse,
     @JsonKey(name: 'now_timestamp') double? nowTimestamp,

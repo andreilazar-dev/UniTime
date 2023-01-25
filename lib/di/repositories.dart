@@ -23,5 +23,6 @@ final List<RepositoryProvider> _repositories = [
             coursesMapper: context.read<CoursesMapper>(),
             academicYearMapper: context.read<AcademicYearMapper>(),
             timeTableMapper: context.read<TimeTableMapper>(),
+            yearsMapper: context.read<YearsMapper>(),
           ))
 ];

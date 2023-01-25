@@ -32,27 +32,57 @@ class ConfigurationRepository {
     return null;
   }
 
+  Future<bool> setConfigurationData(Configuration configuration) async {
+    return (await sharedPreferences)
+        .setString(_kAppConfiguration, json.encode(configuration));
+  }
+
+  Future<bool> removeConfigurationData() async {
+    // Remove data for the 'counter' key.
+    return (await sharedPreferences).remove(_kAppConfiguration);
+  }
+
   Future<void> setAcademic(AcademicYear academicYear) async =>
       this._academicYear = academicYear;
 
   Future<void> setServer(Server server) async => this._serverCode = server.code;
 
-  Future<bool> setConfiguration(Course config) async {
+  Future<String> getServer() async => this._serverCode ?? "";
+
+  Future<bool> setCourse(Course config) async {
     var configurationData = await ConfigurationData;
     if (configurationData != null) {
-      //TODO merge
-      return true;
+      return (await sharedPreferences).setString(_kAppConfiguration,
+          json.encode(_mergeConfiguration(configurationData, config)));
     } else {
       var data = Configuration(university: _serverCode ?? '', selectedCourses: [
         SelectedCourse(
+          label: config.label,
           corso: config.valore,
-          textcurr: config.years.map((e) => e.label).join(),
-          anno2: config.years.map((e) => e.valore).toList(),
+          // textcurr: config.years.map((e) => e.label).join(),
+          // anno2: config.years.map((e) => e.valore).toList(),
+          years: config.years ?? [],
           anno: _academicYear!,
         )
       ]);
       return (await sharedPreferences)
           .setString(_kAppConfiguration, json.encode(data));
     }
+  }
+
+  Configuration _mergeConfiguration(Configuration data, Course config) {
+    return data.copyWith(
+      selectedCourses: data.selectedCourses
+          .where((element) => element.corso != config.valore)
+          .toList()
+        ..add(
+          SelectedCourse(
+            label: config.label,
+            corso: config.valore,
+            years: config.years ?? [],
+            anno: _academicYear!,
+          ),
+        ),
+    );
   }
 }

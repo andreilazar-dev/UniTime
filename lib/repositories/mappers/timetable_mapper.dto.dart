@@ -51,7 +51,7 @@ class TimeTableMapper extends DTOMapper<TimeTableDTO, TimeTable> {
             ?.map((celle) => Celle(
                   mostraAula: celle.mostraAula,
                   tipologia: celle.tipologia,
-                  linkLezioneOnline: celle.linkLezioneOnline,
+                  //linkLezioneOnline: celle.linkLezioneOnline,
                   codiceInsegnamento: celle.codiceInsegnamento,
                   nomeInsegnamento: celle.nomeInsegnamento,
                   nome: celle.nome,
@@ -81,7 +81,7 @@ class TimeTableMapper extends DTOMapper<TimeTableDTO, TimeTable> {
                   insegnamentoTipo: celle.insegnamentoTipo,
                 ))
             .toList(),
-        dateInizioFineCurriculum: dto.dateInizioFineCurriculum,
+        //dateInizioFineCurriculum: dto.dateInizioFineCurriculum,
         curriculaCourse: dto.curriculaCourse,
         nowTimestamp: dto.nowTimestamp,
         fileTimestamp: dto.fileTimestamp,

@@ -20,6 +20,7 @@ import 'package:school_timetable/repositories/courses_repository.dart';
 import 'package:school_timetable/repositories/mappers/accademic_year_mapper.dart';
 import 'package:school_timetable/repositories/mappers/courses_mapper.dart';
 import 'package:school_timetable/repositories/mappers/timetable_mapper.dto.dart';
+import 'package:school_timetable/repositories/mappers/years_mapper.dart';
 import 'package:school_timetable/services/network/university_information_service.dart';
 import 'package:school_timetable/theme/cubits/theme_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';

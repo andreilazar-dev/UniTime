@@ -18,5 +18,8 @@ class CoursesState with _$CoursesState {
           List<AcademicYear> accademicYears, Courses courses) =
       _FetchedCoursesState;
 
+  const factory CoursesState.fetchedYears(List<Year> years) =
+      _FetchedYearsCoursesState;
+
   const factory CoursesState.error() = _CoursesState;
 }
