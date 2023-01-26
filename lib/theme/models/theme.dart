@@ -99,8 +99,8 @@ class LightTheme {
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
           shape: const CircleBorder(),
+          backgroundColor: const Color(0xFF3E3E70),
           padding: const EdgeInsets.all(10),
-          primary: const Color(0xFF3E3E70),
         )),
         textTheme: const TextTheme(
           headline1: TextStyle(
@@ -140,9 +140,9 @@ class LightTheme {
         appBarTheme: const AppBarTheme(color: Color(0xFF3E3E70)),
         // elevatedButtonTheme: ElevatedButtonThemeData
         dialogTheme: DialogTheme(
-          titleTextStyle: TextStyle(color: Color(0xFFFFFFFC)),
-          contentTextStyle: TextStyle(color: Color(0xFFFFFFFC)),
-          backgroundColor: Color.fromRGBO(62, 62, 112, 1),
+          titleTextStyle: const TextStyle(color: Color(0xFFFFFFFC)),
+          contentTextStyle: const TextStyle(color: Color(0xFFFFFFFC)),
+          backgroundColor: const Color.fromRGBO(62, 62, 112, 1),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
           elevation: 0,
@@ -154,7 +154,7 @@ class LightTheme {
           ),
         ),
         inputDecorationTheme:
-            InputDecorationTheme(fillColor: const Color(0xFFFFFFFC)),
+            const InputDecorationTheme(fillColor: Color(0xFFFFFFFC)),
       );
 }
 
@@ -248,8 +248,8 @@ class DarkTheme {
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
           shape: const CircleBorder(),
+          backgroundColor: const Color.fromRGBO(97, 97, 168, 1),
           padding: const EdgeInsets.all(10),
-          primary: const Color.fromRGBO(97, 97, 168, 1),
         )),
         textTheme: const TextTheme(
           headline1: TextStyle(
@@ -287,9 +287,9 @@ class DarkTheme {
           backgroundColor: Color.fromRGBO(97, 97, 168, 0.6),
         ),
         dialogTheme: DialogTheme(
-          titleTextStyle: TextStyle(color: Color(0xFFFFFFFC)),
-          contentTextStyle: TextStyle(color: Color(0xFFFFFFFC)),
-          backgroundColor: Color.fromRGBO(97, 97, 168, 0.7),
+          titleTextStyle: const TextStyle(color: Color(0xFFFFFFFC)),
+          contentTextStyle: const TextStyle(color: Color(0xFFFFFFFC)),
+          backgroundColor: const Color.fromRGBO(97, 97, 168, 0.7),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
           elevation: 0,
@@ -300,14 +300,14 @@ class DarkTheme {
                 const Color(0xFFFFFFFC), // This is a custom color variable
           ),
         ),
-        inputDecorationTheme: InputDecorationTheme(
-          fillColor: const Color(0xFF3E3E70),
-          enabledBorder: const OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(25)),
-              borderSide: const BorderSide(color: Colors.black)),
-          focusedBorder: const OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(25)),
-              borderSide: const BorderSide(color: Colors.black)),
+        inputDecorationTheme: const InputDecorationTheme(
+          fillColor: Color(0xFF3E3E70),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(25)),
+              borderSide: BorderSide(color: Colors.black)),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(25)),
+              borderSide: BorderSide(color: Colors.black)),
         ),
         popupMenuTheme: PopupMenuThemeData(
           color: const Color(0xFF3E3E70),

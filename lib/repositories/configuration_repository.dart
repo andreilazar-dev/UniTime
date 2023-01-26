@@ -24,7 +24,7 @@ class ConfigurationRepository {
 
   ConfigurationRepository({required this.sharedPreferences});
 
-  Future<Configuration?> get ConfigurationData async {
+  Future<Configuration?> get configurationData async {
     final prefs = (await sharedPreferences).getString(_kAppConfiguration);
     if (prefs != null) {
       return Configuration.fromJson(json.decode(prefs));
@@ -43,17 +43,17 @@ class ConfigurationRepository {
   }
 
   Future<void> setAcademic(AcademicYear academicYear) async =>
-      this._academicYear = academicYear;
+      _academicYear = academicYear;
 
-  Future<void> setServer(Server server) async => this._serverCode = server.code;
+  Future<void> setServer(Server server) async => _serverCode = server.code;
 
-  Future<String> getServer() async => this._serverCode ?? "";
+  Future<String> getServer() async => _serverCode ?? "";
 
   Future<bool> setCourse(Course config) async {
-    var configurationData = await ConfigurationData;
-    if (configurationData != null) {
+    var configData = await configurationData;
+    if (configData != null) {
       return (await sharedPreferences).setString(_kAppConfiguration,
-          json.encode(_mergeConfiguration(configurationData, config)));
+          json.encode(_mergeConfiguration(configData, config)));
     } else {
       var data = Configuration(university: _serverCode ?? '', selectedCourses: [
         SelectedCourse(

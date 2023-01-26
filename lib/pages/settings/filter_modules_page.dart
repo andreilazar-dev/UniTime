@@ -19,6 +19,7 @@ import 'package:school_timetable/routers/app_router.gr.dart';
 import 'package:school_timetable/widgets/background_card.dart';
 import 'package:school_timetable/widgets/custom_checbox_list_tile.dart';
 import 'package:school_timetable/widgets/custon_floating_action_button.dart';
+import 'package:school_timetable/widgets/loading_widget.dart';
 
 class FilterModulesPage extends StatefulWidget with AutoRouteWrapper {
   const FilterModulesPage({Key? key}) : super(key: key);
@@ -67,10 +68,9 @@ class _FilterModulesPageState extends State<FilterModulesPage> {
           ),
           builder: (ctx, state) {
             return state.maybeWhen(
-                fetched: (data) => _body(ctx, data),
-                orElse: () => Center(
-                      child: CircularProgressIndicator(),
-                    ));
+              fetched: (data) => _body(ctx, data),
+              orElse: () => const LoadingWidget(),
+            );
           },
         ),
       ),
@@ -84,7 +84,7 @@ class _FilterModulesPageState extends State<FilterModulesPage> {
       alignment: Alignment.center,
       children: [
         SingleChildScrollView(
-          physics: ScrollPhysics(),
+          physics: const ScrollPhysics(),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,11 +99,11 @@ class _FilterModulesPageState extends State<FilterModulesPage> {
               // ),
               ListView.builder(
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: data.selectedCourses.length,
                   itemBuilder: (context, index) {
                     return ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: data.selectedCourses[index].years.length,
                         itemBuilder: (_, indexYears) {
@@ -123,7 +123,7 @@ class _FilterModulesPageState extends State<FilterModulesPage> {
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 8.0),
                                 child: Text(
-                                  data.selectedCourses[index].years![indexYears]
+                                  data.selectedCourses[index].years[indexYears]
                                       .label,
                                   style: const TextStyle(
                                     fontSize: 20,
@@ -134,10 +134,10 @@ class _FilterModulesPageState extends State<FilterModulesPage> {
                               ),
                               ListView.builder(
                                 shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 itemCount: data
                                     .selectedCourses[index]
-                                    .years![indexYears]
+                                    .years[indexYears]
                                     .elencoInsegnamenti
                                     .length,
                                 itemBuilder:
@@ -145,7 +145,7 @@ class _FilterModulesPageState extends State<FilterModulesPage> {
                                   return index <=
                                           data
                                                   .selectedCourses[index]
-                                                  .years![indexYears]
+                                                  .years[indexYears]
                                                   .elencoInsegnamenti
                                                   .length -
                                               1
@@ -162,7 +162,7 @@ class _FilterModulesPageState extends State<FilterModulesPage> {
                                               title: Text(
                                                 data
                                                     .selectedCourses[index]
-                                                    .years![indexYears]
+                                                    .years[indexYears]
                                                     .elencoInsegnamenti[
                                                         indexModule]
                                                     .label,
@@ -171,7 +171,7 @@ class _FilterModulesPageState extends State<FilterModulesPage> {
                                               ),
                                               value: data
                                                   .selectedCourses[index]
-                                                  .years![indexYears]
+                                                  .years[indexYears]
                                                   .elencoInsegnamenti[
                                                       indexModule]
                                                   .selected,
@@ -179,7 +179,7 @@ class _FilterModulesPageState extends State<FilterModulesPage> {
                                                 setState(() {
                                                   data
                                                       .selectedCourses[index]
-                                                      .years![indexYears]!
+                                                      .years[indexYears]
                                                       .elencoInsegnamenti[
                                                           indexModule]
                                                       .selected = value!;
@@ -196,7 +196,7 @@ class _FilterModulesPageState extends State<FilterModulesPage> {
                           );
                         });
                   }),
-              SizedBox(
+              const SizedBox(
                 height: 80,
               )
             ],
@@ -219,9 +219,9 @@ class _FilterModulesPageState extends State<FilterModulesPage> {
                     context.read<FilterModulesBloc>().saveChanges(data);
                   },
                   backgroundColor: const Color.fromRGBO(62, 62, 112, 1),
-                  label: Text(
+                  label: const Text(
                     'confirm',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.white,
                       fontSize: 15,
                     ),
@@ -246,7 +246,7 @@ class _FilterModulesPageState extends State<FilterModulesPage> {
           AppLocalizations.of(context)?.modules_saved_dialog ?? '',
           textAlign: TextAlign.center,
         ),
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
         duration: const Duration(milliseconds: 1000),
@@ -274,7 +274,7 @@ class _FilterModulesPageState extends State<FilterModulesPage> {
               TextButton(
                 onPressed: () {
                   //context.router.removeLast();
-                  context.router.replace(HomeRoute());
+                  context.router.replace(const HomeRoute());
                 },
                 child: Text(AppLocalizations.of(context)?.confirm_dialog ?? ''),
               ),

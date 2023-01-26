@@ -11,12 +11,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_essentials_kit/flutter_essentials_kit.dart';
 import 'package:intl/intl.dart';
 import 'package:school_timetable/blocs/daily_timetable/daily_timetable_bloc.dart';
 import 'package:school_timetable/models/timetable/celle.dart';
 import 'package:school_timetable/models/timetable/time_table.dart';
 import 'package:school_timetable/widgets/event_card.dart';
-import 'package:school_timetable/widgets/event_label.dart';
+import 'package:school_timetable/widgets/loading_widget.dart';
 
 class DailyLessonsPage extends StatelessWidget with AutoRouteWrapper {
   const DailyLessonsPage({Key? key}) : super(key: key);
@@ -32,22 +33,62 @@ class DailyLessonsPage extends StatelessWidget with AutoRouteWrapper {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        physics: ScrollPhysics(),
-        child: BlocBuilder<DailyTimetableBloc, DailyTimetableState>(
-          builder: (context, state) {
-            return Column(
-              children: [
-                SafeArea(bottom: false, child: _header()),
-                state.when(
-                  fetching: () => Center(child: CircularProgressIndicator()),
-                  fetched: (timeTable) => _body(context, timeTable),
-                  error: () => Container(),
-                ),
-              ],
-            );
+      body: LayoutBuilder(builder: (context, constraints) {
+        return RefreshIndicator(
+          onRefresh: () async {
+            context.read<DailyTimetableBloc>().loadTimetable(DateTime.now());
           },
-        ),
+          child: SingleChildScrollView(
+            // To make RefreshIndicator work, it child widget should scroll, thats why I added [AlwaysScrollableScrollPhysics]
+            physics: const AlwaysScrollableScrollPhysics(
+                parent: BouncingScrollPhysics()),
+            child: BlocConsumer<DailyTimetableBloc, DailyTimetableState>(
+              listener: (context, state) =>
+                  state.whenOrNull(error: (error) => showError(context, error)),
+              builder: (context, state) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SafeArea(bottom: false, child: _header()),
+                    state.when(
+                      fetching: () => const LoadingWidget(),
+                      fetched: (timeTable) => _body(context, timeTable),
+                      error: (_) => _error(context),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+        );
+      }),
+    );
+  }
+
+  void showError(BuildContext context, LocalizedError error) {
+    showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+              title: const Center(child: Text("Error")),
+              content: Text(
+                error.localizedString(context) ?? "",
+                textAlign: TextAlign.center,
+              ),
+            ),
+        barrierDismissible: true);
+  }
+
+  Widget _error(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    return SizedBox(
+      height: mediaQuery.size.height * .7,
+      child: Center(
+        child: SizedBox(
+            height: mediaQuery.size.height * .3,
+            child: Image.asset(
+              'assets/images/notices/error.png',
+              fit: BoxFit.contain,
+            )),
       ),
     );
   }
@@ -56,7 +97,7 @@ class DailyLessonsPage extends StatelessWidget with AutoRouteWrapper {
     return Column(
       children: [
         ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: timeTable.celle?.length,
             itemBuilder: (context, index) {
@@ -64,15 +105,14 @@ class DailyLessonsPage extends StatelessWidget with AutoRouteWrapper {
                 padding:
                     const EdgeInsets.symmetric(vertical: 12.0, horizontal: 14),
                 child: EventCard<Celle>(
-                  event: timeTable!.celle![index],
-                  eventName: timeTable!.celle![index]?.nomeInsegnamento ??
-                      timeTable!.celle![index]?.nome,
-                  eventTimeInterval: timeTable!.celle![index]!.oraInizio! +
-                      "- " +
-                      timeTable!.celle![index]!.oraFine!,
-                  eventPlace: timeTable!.celle![index]?.aula ?? "",
+                  event: timeTable.celle![index],
+                  eventName: timeTable.celle![index].nomeInsegnamento ??
+                      timeTable.celle![index].nome,
+                  eventTimeInterval:
+                      "${timeTable.celle![index].oraInizio!}- ${timeTable.celle![index].oraFine!}",
+                  eventPlace: timeTable.celle![index].aula ?? "",
                   onEventTap: (event) {
-                    print(event.nomeInsegnamento);
+                    //TODO: POPUP
                   },
                 ),
               );
@@ -89,7 +129,7 @@ class DailyLessonsPage extends StatelessWidget with AutoRouteWrapper {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
+          const SizedBox(
             //width: 120.0,
             child: Text(
               "Today",
@@ -103,7 +143,8 @@ class DailyLessonsPage extends StatelessWidget with AutoRouteWrapper {
                 //width: 120.0,
                 child: Text(
                   headerText,
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
+                  style: const TextStyle(
+                      fontSize: 20.0, fontWeight: FontWeight.w400),
                 ),
               ),
             ],

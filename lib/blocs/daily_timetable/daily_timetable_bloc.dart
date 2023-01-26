@@ -1,6 +1,10 @@
 import 'dart:async';
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_essentials_kit/errors/localized_error.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:school_timetable/errors/connection_errors.dart';
+import 'package:school_timetable/errors/generic_error.dart';
+import 'package:school_timetable/errors/repository_error.dart';
 import 'package:school_timetable/models/timetable/time_table.dart';
 import 'package:school_timetable/repositories/courses_repository.dart';
 
@@ -15,21 +19,20 @@ class DailyTimetableBloc
   final CoursesRepository coursesRepository;
 
   DailyTimetableBloc({required this.coursesRepository})
-      : super(DailyTimetableState.fetching()) {
+      : super(const DailyTimetableState.fetching()) {
     on<_LoadDailyTimetableEvent>(_onLoading);
   }
 
   Future<void> _onLoading(
       _LoadDailyTimetableEvent event, Emitter<DailyTimetableState> emit) async {
+    emit(const DailyTimetableState.fetching());
     try {
       final timetable = await coursesRepository.dailyLessons(event.date);
-
       emit(DailyTimetableState.fetched(timetable));
-      //emit(DailyTimetableState.fetched());
-
+    } on RepositoryError catch (_) {
+      emit(DailyTimetableState.error(ConnectionError()));
     } catch (error) {
-      //TODO : EXCEPTION
-      throw Exception(error);
+      emit(DailyTimetableState.error(GenericError()));
     }
   }
 

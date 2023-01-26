@@ -9,7 +9,6 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:school_timetable/widgets/round_check_box.dart';
 
 // Examples can assume:
@@ -144,13 +143,8 @@ class CustomCheckboxListTile extends StatelessWidget {
     this.visualDensity,
     this.focusNode,
     this.enableFeedback,
-  })  : assert(tristate != null),
-        assert(tristate || value != null),
-        assert(isThreeLine != null),
+  })  : assert(tristate || value != null),
         assert(!isThreeLine || subtitle != null),
-        assert(selected != null),
-        assert(controlAffinity != null),
-        assert(autofocus != null),
         super(key: key);
 
   /// Whether this checkbox is checked.

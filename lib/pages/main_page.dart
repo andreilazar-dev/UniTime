@@ -14,6 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_timetable/blocs/registration/registration_bloc.dart';
 import 'package:school_timetable/repositories/courses_repository.dart';
 import 'package:school_timetable/routers/app_router.gr.dart';
+import 'package:school_timetable/widgets/loading_widget.dart';
 
 import '../services/network/university_information_service.dart';
 
@@ -30,15 +31,15 @@ class MainPage extends StatelessWidget {
                   .read<UniversityInformationService>()
                   .setServer(server: baseUrl);
               context.read<CoursesRepository>().setConfiguration(config);
-              _goToPage(context, HomeRoute());
+              _goToPage(context, const HomeRoute());
+              return null;
             },
-            notRegistered: () => _goToPage(context, RegistrationHomeRoute()),
-            reset: () {},
+            notRegistered: () => _goToPage(context, const RegistrationHomeRoute()),
           ),
           builder: (context, state) => Scaffold(
             body: state.whenOrNull(
-                checking: () =>
-                    Center(child: const CircularProgressIndicator())),
+              checking: () => const LoadingWidget(),
+            ),
           ),
         ),
       );

@@ -74,12 +74,10 @@ class CoursesMapper extends DTOMapper<CourseListResponse, Courses> {
                   facoltaCode: corso.facoltaCode),
             )
             .toList(),
-        elencoScuole: dto.elencoScuole != null
-            ? dto.elencoScuole
-                ?.map((scuola) =>
-                    School(label: scuola.label, valore: scuola.valore))
-                .toList()
-            : null,
+        elencoScuole: dto.elencoScuole
+            ?.map(
+                (scuola) => School(label: scuola.label, valore: scuola.valore))
+            .toList(),
       );
 
   @override

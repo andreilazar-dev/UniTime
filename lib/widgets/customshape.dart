@@ -12,9 +12,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class CustomShape extends StatelessWidget {
-  Widget child;
+  final Widget child;
 
-  CustomShape({required this.child});
+  const CustomShape({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class CustomShape extends StatelessWidget {
     return ColoredBox(
       color: theme.backgroundColor,
       child: CustomPaint(
-        size: new Size(0, 0),
+        size: const Size(0, 0),
         //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
         painter: OrangeShape(),
         child: CustomPaint(
@@ -37,7 +37,7 @@ class CustomShape extends StatelessWidget {
 //Copy this CustomPainter code to the Bottom of the File
 class OrangeShape extends CustomPainter {
   @override
-  void paint(Canvas canvas1, Size size1) {
+  void paint(Canvas canvas, Size size) {
     // calculated by find what percentage of Pixel 5 width is 150
     // double weightRatio = (100*150)/size1.width;
     double widthRatio = 0.3819444444444444;
@@ -45,61 +45,61 @@ class OrangeShape extends CustomPainter {
     // double heightRatio = (100*450)/size1.height;
     double heightRatio = 0.5777310924369748;
 
-    Size size = Size(size1.width - (size1.width * widthRatio),
-        size1.height - (size1.height * heightRatio));
-    Canvas canvas = canvas1;
+    Size size2 = Size(size.width - (size.width * widthRatio),
+        size.height - (size.height * heightRatio));
+    Canvas canvas1 = canvas;
     // print('this is passed size -> ${size.width} --> ${size.height}');
     Path shape1 = Path();
-    shape1.moveTo(size.width * 0.1232759, size.height * 0.3171378);
+    shape1.moveTo(size2.width * 0.1232759, size2.height * 0.3171378);
     shape1.cubicTo(
-        size.width * -0.01034483,
-        size.height * 0.2729682,
-        size.width * -0.005172431,
-        size.height * 0.1201413,
-        size.width * 0.2189655,
-        size.height * 0.01060072);
+        size2.width * -0.01034483,
+        size2.height * 0.2729682,
+        size2.width * -0.005172431,
+        size2.height * 0.1201413,
+        size2.width * 0.2189655,
+        size2.height * 0.01060072);
     shape1.cubicTo(
-        size.width * 0.4913793,
-        size.height * -0.08303887,
-        size.width * 1.014655,
-        size.height * 0.5088339,
-        size.width * 0.9991379,
-        size.height * 0.6678445);
+        size2.width * 0.4913793,
+        size2.height * -0.08303887,
+        size2.width * 1.014655,
+        size2.height * 0.5088339,
+        size2.width * 0.9991379,
+        size2.height * 0.6678445);
     shape1.cubicTo(
-        size.width * 0.9836207,
-        size.height * 0.8268551,
-        size.width * 0.5396552,
-        size.height * 0.5689046,
-        size.width * 0.4224138,
-        size.height * 0.5636042);
+        size2.width * 0.9836207,
+        size2.height * 0.8268551,
+        size2.width * 0.5396552,
+        size2.height * 0.5689046,
+        size2.width * 0.4224138,
+        size2.height * 0.5636042);
     shape1.cubicTo(
-        size.width * 0.3051724,
-        size.height * 0.5583039,
-        size.width * 0.2568966,
-        size.height * 0.8595406,
-        size.width * 0.1232759,
-        size.height * 0.9743816);
+        size2.width * 0.3051724,
+        size2.height * 0.5583039,
+        size2.width * 0.2568966,
+        size2.height * 0.8595406,
+        size2.width * 0.1232759,
+        size2.height * 0.9743816);
     shape1.cubicTo(
-        size.width * -0.01034502,
-        size.height * 1.089223,
-        size.width * -0.06896534,
-        size.height * 0.7720848,
-        size.width * 0.1232759,
-        size.height * 0.6678445);
+        size2.width * -0.01034502,
+        size2.height * 1.089223,
+        size2.width * -0.06896534,
+        size2.height * 0.7720848,
+        size2.width * 0.1232759,
+        size2.height * 0.6678445);
     shape1.cubicTo(
-        size.width * 0.3155172,
-        size.height * 0.5636042,
-        size.width * 0.2568966,
-        size.height * 0.3613074,
-        size.width * 0.1232759,
-        size.height * 0.3171378);
+        size2.width * 0.3155172,
+        size2.height * 0.5636042,
+        size2.width * 0.2568966,
+        size2.height * 0.3613074,
+        size2.width * 0.1232759,
+        size2.height * 0.3171378);
     shape1.close();
 
-    Paint shape1_fill = Paint()..style = PaintingStyle.fill;
-    shape1_fill.color = Color(0xffFB7750).withOpacity(1.0);
-    rotate(canvas, size, 5);
-    canvas.translate(10, -30);
-    canvas.drawPath(shape1, shape1_fill);
+    Paint shape1Fill = Paint()..style = PaintingStyle.fill;
+    shape1Fill.color = const Color(0xffFB7750).withOpacity(1.0);
+    rotate(canvas1, size2, 5);
+    canvas1.translate(10, -30);
+    canvas1.drawPath(shape1, shape1Fill);
   }
 
   @override
@@ -115,7 +115,7 @@ class OrangeShape extends CustomPainter {
 
 class YellowShape extends CustomPainter {
   @override
-  void paint(Canvas canvas1, Size size1) {
+  void paint(Canvas canvas, Size size) {
     // calculated by find what percentage of Pixel 5 width is 150
     // double weightRatio = (100*120)/size1.width;
     double widthRatio = 0.30555555555555554;
@@ -123,54 +123,54 @@ class YellowShape extends CustomPainter {
     // double heightRatio = (100*530)/size1.height;
     double heightRatio = 0.6804388422035481;
 
-    Size size = Size(size1.width - (size1.width * widthRatio),
-        size1.height - (size1.height * heightRatio));
-    Canvas canvas = canvas1;
+    Size size2 = Size(size.width - (size.width * widthRatio),
+        size.height - (size.height * heightRatio));
+    Canvas canvas1 = canvas;
     // print('this is passed size -> ${size.width} --> ${size.height}');
     Path shape = Path();
-    shape.moveTo(size.width * 0.4427350, size.height * 0.7713287);
+    shape.moveTo(size2.width * 0.4427350, size2.height * 0.7713287);
     shape.cubicTo(
-        size.width * 0.8817009,
-        size.height * 0.2853147,
-        size.width * 0.1128205,
-        size.height * 0.2734266,
-        size.width * 0.01965795,
-        size.height * 0.1951049);
+        size2.width * 0.8817009,
+        size2.height * 0.2853147,
+        size2.width * 0.1128205,
+        size2.height * 0.2734266,
+        size2.width * 0.01965795,
+        size2.height * 0.1951049);
     shape.cubicTo(
-        size.width * -0.008547282,
-        size.height * 0.1454545,
-        size.width * -0.003743658,
-        size.height * 0.08741259,
-        size.width * 0.02905915,
-        size.height * 0.04335664);
+        size2.width * -0.008547282,
+        size2.height * 0.1454545,
+        size2.width * -0.003743658,
+        size2.height * 0.08741259,
+        size2.width * 0.02905915,
+        size2.height * 0.04335664);
     shape.cubicTo(
-        size.width * 0.1196568,
-        size.height * -0.07832168,
-        size.width * 0.4427350,
-        size.height * 0.08671329,
-        size.width * 0.7333333,
-        size.height * 0.1951049);
+        size2.width * 0.1196568,
+        size2.height * -0.07832168,
+        size2.width * 0.4427350,
+        size2.height * 0.08671329,
+        size2.width * 0.7333333,
+        size2.height * 0.1951049);
     shape.cubicTo(
-        size.width * 1.023930,
-        size.height * 0.3034965,
-        size.width * 1.046152,
-        size.height * 0.5979021,
-        size.width * 0.9452974,
-        size.height * 0.8447552);
+        size2.width * 1.023930,
+        size2.height * 0.3034965,
+        size2.width * 1.046152,
+        size2.height * 0.5979021,
+        size2.width * 0.9452974,
+        size2.height * 0.8447552);
     shape.cubicTo(
-        size.width * 0.8444427,
-        size.height * 1.091608,
-        size.width * 0.1829043,
-        size.height * 1.026573,
-        size.width * 0.4427350,
-        size.height * 0.7713287);
+        size2.width * 0.8444427,
+        size2.height * 1.091608,
+        size2.width * 0.1829043,
+        size2.height * 1.026573,
+        size2.width * 0.4427350,
+        size2.height * 0.7713287);
     shape.close();
 
-    Paint shape_fill = Paint()..style = PaintingStyle.fill;
-    shape_fill.color = Color(0xffFDB914).withOpacity(1.0);
-    rotate(canvas, size, 6);
-    canvas.translate(150, 350);
-    canvas.drawPath(shape, shape_fill);
+    Paint shapeFill = Paint()..style = PaintingStyle.fill;
+    shapeFill.color = const Color(0xffFDB914).withOpacity(1.0);
+    rotate(canvas1, size2, 6);
+    canvas1.translate(150, 350);
+    canvas1.drawPath(shape, shapeFill);
   }
 
   @override
@@ -186,7 +186,7 @@ class YellowShape extends CustomPainter {
 
 class RedShape extends CustomPainter {
   @override
-  void paint(Canvas canvas1, Size size1) {
+  void paint(Canvas canvas, Size size) {
     // calculated by find what percentage of Pixel 5 width is 150
     // double weightRatio = (100*120)/size1.width;
     double widthRatio = 0.30555555555555554;
@@ -194,61 +194,61 @@ class RedShape extends CustomPainter {
     // double heightRatio = (100*530)/size1.height;
     double heightRatio = 0.6804388422035481;
 
-    Size size = Size(size1.width - (size1.width * widthRatio),
-        size1.height - (size1.height * heightRatio));
-    Canvas canvas = canvas1;
+    Size size2 = Size(size.width - (size.width * widthRatio),
+        size.height - (size.height * heightRatio));
+    Canvas canvas1 = canvas;
     // print('this is passed size -> ${size.width} --> ${size.height}');
     Path shape = Path();
-    shape.moveTo(size.width * 0.1752490, size.height * 0.007952441);
+    shape.moveTo(size2.width * 0.1752490, size2.height * 0.007952441);
     shape.cubicTo(
-        size.width * -0.3000606,
-        size.height * -0.06807793,
-        size.width * -0.2333317,
-        size.height * 0.4197826,
-        size.width * -0.1405538,
-        size.height * 0.6732160);
+        size2.width * -0.3000606,
+        size2.height * -0.06807793,
+        size2.width * -0.2333317,
+        size2.height * 0.4197826,
+        size2.width * -0.1405538,
+        size2.height * 0.6732160);
     shape.cubicTo(
-        size.width * -0.1001418,
-        size.height * 0.7836056,
-        size.width * 0.08982163,
-        size.height * 0.9099343,
-        size.width * 0.2191399,
-        size.height * 0.9736808);
+        size2.width * -0.1001418,
+        size2.height * 0.7836056,
+        size2.width * 0.08982163,
+        size2.height * 0.9099343,
+        size2.width * 0.2191399,
+        size2.height * 0.9736808);
     shape.cubicTo(
-        size.width * 0.3807880,
-        size.height * 1.053366,
-        size.width * 0.2266337,
-        size.height * 0.6732160,
-        size.width * 0.3583072,
-        size.height * 0.4984930);
+        size2.width * 0.3807880,
+        size2.height * 1.053366,
+        size2.width * 0.2266337,
+        size2.height * 0.6732160,
+        size2.width * 0.3583072,
+        size2.height * 0.4984930);
     shape.cubicTo(
-        size.width * 0.4899808,
-        size.height * 0.3237700,
-        size.width * 0.5927500,
-        size.height * 0.7485164,
-        size.width * 0.8496731,
-        size.height * 0.9488263);
+        size2.width * 0.4899808,
+        size2.height * 0.3237700,
+        size2.width * 0.5927500,
+        size2.height * 0.7485164,
+        size2.width * 0.8496731,
+        size2.height * 0.9488263);
     shape.cubicTo(
-        size.width * 1.106601,
-        size.height * 1.149136,
-        size.width * 0.9674327,
-        size.height * 0.7134272,
-        size.width * 0.9160481,
-        size.height * 0.4685202);
+        size2.width * 1.106601,
+        size2.height * 1.149136,
+        size2.width * 0.9674327,
+        size2.height * 0.7134272,
+        size2.width * 0.9160481,
+        size2.height * 0.4685202);
     shape.cubicTo(
-        size.width * 0.8646635,
-        size.height * 0.2236150,
-        size.width * 0.7693846,
-        size.height * 0.1029901,
-        size.width * 0.1752490,
-        size.height * 0.007952441);
+        size2.width * 0.8646635,
+        size2.height * 0.2236150,
+        size2.width * 0.7693846,
+        size2.height * 0.1029901,
+        size2.width * 0.1752490,
+        size2.height * 0.007952441);
     shape.close();
 
-    Paint shape_fill = Paint()..style = PaintingStyle.fill;
-    shape_fill.color = Color(0xffFC3637).withOpacity(1.0);
-    rotate(canvas, size, 6);
-    canvas.translate(-150, 350);
-    canvas.drawPath(shape, shape_fill);
+    Paint shapeFill = Paint()..style = PaintingStyle.fill;
+    shapeFill.color = const Color(0xffFC3637).withOpacity(1.0);
+    rotate(canvas1, size2, 6);
+    canvas1.translate(-150, 350);
+    canvas1.drawPath(shape, shapeFill);
   }
 
   @override

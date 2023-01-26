@@ -44,7 +44,7 @@ class EventCard<T> extends StatelessWidget {
       borderRadius: BorderRadius.circular(25),
       onTap: () {
         if (event != null && onEventTap != null) {
-          onEventTap!(event!);
+          onEventTap!(event as T);
         }
       },
       child: SizedBox(

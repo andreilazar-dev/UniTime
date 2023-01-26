@@ -9,11 +9,8 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/editable_text.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:school_timetable/widgets/autocomplete_field/field_props.dart';
 import 'package:school_timetable/models/courses/course.dart';
-import 'package:school_timetable/models/courses/courses.dart';
 
 class CoursesProps extends FieldProps<Course> {
   List<Course> courses;
@@ -24,6 +21,7 @@ class CoursesProps extends FieldProps<Course> {
       super.suffixIcon,
       super.labelText});
 
+  @override
   List<Course> getSuggestions(String pattern) {
     final suggestions = courses.where((Course element) {
       final elementLower = element.label.toLowerCase();

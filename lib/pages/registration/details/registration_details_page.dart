@@ -36,16 +36,18 @@ class RegistrationDetailsPage extends StatelessWidget with AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) {
-    MediaQueryData mediaQuery = MediaQuery.of(context);
-    final pages = [CoursesSelectPage(), FilterConfigPage()];
+    final pages = [const CoursesSelectPage(), const FilterConfigPage()];
     return BlocConsumer<CourseSettingBloc, CourseSettingState>(
         listener: (context, coursesState) =>
             coursesState.whenOrNull(initial: () {
               _animateTo(0);
+              return null;
             }, teachings: (_) {
               _animateTo(1);
+              return null;
             }, saved: () {
-              context.read<RegistrationBloc>()..checkRegistration();
+              context.read<RegistrationBloc>().checkRegistration();
+              return null;
             }),
         builder: (context, coursesState) {
           return Scaffold(
@@ -59,7 +61,7 @@ class RegistrationDetailsPage extends StatelessWidget with AutoRouteWrapper {
                       child: SmoothPageIndicator(
                         controller: _pageController,
                         count: pages.length,
-                        effect: ExpandingDotsEffect(
+                        effect: const ExpandingDotsEffect(
                           dotHeight: 16,
                           dotWidth: 16,
                           //type: WormType.thin,
@@ -72,7 +74,7 @@ class RegistrationDetailsPage extends StatelessWidget with AutoRouteWrapper {
                     physics: const NeverScrollableScrollPhysics(),
                     controller: _pageController,
                     onPageChanged: (page) {
-                      debugPrint("Page Number:" + page.toString());
+                      debugPrint("Page Number:$page");
                     },
                     itemCount: pages.length,
                     itemBuilder: (_, index) {
@@ -86,9 +88,9 @@ class RegistrationDetailsPage extends StatelessWidget with AutoRouteWrapper {
         });
   }
 
-  Future<void> _animateTo(int _page) async {
+  Future<void> _animateTo(int page) async {
     _pageController.animateToPage(
-      _page,
+      page,
       duration: const Duration(milliseconds: 400),
       curve: Curves.easeIn,
     );

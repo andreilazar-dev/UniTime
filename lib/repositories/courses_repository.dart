@@ -8,9 +8,9 @@
  *
  */
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/rendering.dart';
+import 'dart:developer';
 import 'package:intl/intl.dart';
+import 'package:school_timetable/errors/generic_error.dart';
 import 'package:school_timetable/errors/network_error.dart';
 import 'package:school_timetable/errors/repository_error.dart';
 import 'package:school_timetable/models/academic_year.dart';
@@ -43,7 +43,7 @@ class CoursesRepository {
       required this.yearsMapper});
 
   void setConfiguration(Configuration configuration) =>
-      this._configuration = configuration;
+      _configuration = configuration;
 
   Future<List<AcademicYear>> academicYears() async {
     try {
@@ -51,6 +51,9 @@ class CoursesRepository {
       return response.map(academicYearMapper.toModel).toList(growable: false);
     } on NetworkError catch (error) {
       throw RepositoryError(error);
+    } catch (e) {
+      log("Generic RepositoryError", name: "Course_Repository academicYears");
+      throw RepositoryError(e);
     }
   }
 
@@ -61,6 +64,9 @@ class CoursesRepository {
       return coursesMapper.toModel(response);
     } on NetworkError catch (error) {
       throw RepositoryError(error);
+    } catch (e) {
+      log("Generic RepositoryError", name: "Course_Repository courses");
+      throw RepositoryError(e);
     }
   }
 
@@ -74,6 +80,9 @@ class CoursesRepository {
       return yearsMapper.toModel(response);
     } on NetworkError catch (error) {
       throw RepositoryError(error);
+    } catch (e) {
+      log("Generic RepositoryError", name: "Course_Repository courseYears");
+      throw RepositoryError(e);
     }
   }
 
@@ -93,13 +102,14 @@ class CoursesRepository {
         final obj = await Future.wait(responses);
         return _filtering(obj.map(timeTableMapper.toModel).toList());
       } on NetworkError catch (error) {
-        debugPrintStack(stackTrace: error.stackTrace);
+        //TODO: ADDED CACHE
         throw RepositoryError(error);
-      } on Exception catch (error) {
-        throw Exception(error);
+      } catch (e) {
+        log("Generic RepositoryError", name: "Course_Repository lessons");
+        throw RepositoryError(e);
       }
     } else {
-      throw Exception();
+      throw GenericError();
     }
   }
 
@@ -145,13 +155,13 @@ class CoursesRepository {
     return filtered;
   }
 
-  bool _timeCompare(String time, String time2) {
-    double first = double.parse(time.split(":")[0]) * 60 +
-        double.parse(time.split(":")[1]);
-    double second = double.parse(time2.split(":")[0]) * 60 +
-        double.parse(time2.split(":")[1]);
-    return first < second;
-  }
+  // bool _timeCompare(String time, String time2) {
+  //   double first = double.parse(time.split(":")[0]) * 60 +
+  //       double.parse(time.split(":")[1]);
+  //   double second = double.parse(time2.split(":")[0]) * 60 +
+  //       double.parse(time2.split(":")[1]);
+  //   return first < second;
+  // }
 
   bool _sameDate(String date1, String date2) {
     return date1 == date2;

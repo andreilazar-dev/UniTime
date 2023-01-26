@@ -10,17 +10,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:school_timetable/models/courses/course.dart';
-import 'package:school_timetable/widgets/autocomplete_field/courses_props.dart';
 
 import 'field_props.dart';
 
 class AutoCompleteField extends StatelessWidget {
   final TextEditingController textEditingController;
   final FieldProps fieldProps;
-  FocusNode? focusNode;
+  final FocusNode? focusNode;
 
-  AutoCompleteField({
+  const AutoCompleteField({
     Key? key,
     required this.textEditingController,
     required this.fieldProps,
@@ -47,7 +45,7 @@ class AutoCompleteField extends StatelessWidget {
             border: InputBorder.none,
             filled: true,
             labelText: fieldProps.labelText,
-            labelStyle: TextStyle(
+            labelStyle: const TextStyle(
               color: Color.fromRGBO(255, 255, 252, 0.5),
               fontFamily: 'Roboto',
               fontSize: 16,

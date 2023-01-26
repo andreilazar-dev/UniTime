@@ -18,3 +18,7 @@ If you want, you can use the watcher to generate code during development:
 ```bash
 fvm flutter pub run build_runner watch --delete-conflicting-outputs
 ```
+
+flutter pub run flutter_native_splash:create
+flutter pub run flutter_launcher_icons
+

@@ -22,6 +22,7 @@ import 'package:school_timetable/blocs/courses/courses_bloc.dart';
 import 'package:school_timetable/models/academic_year.dart';
 import 'package:school_timetable/models/courses/courses.dart';
 import 'package:school_timetable/models/courses/course.dart';
+import 'package:school_timetable/widgets/loading_widget.dart';
 import 'package:school_timetable/widgets/round_check_box.dart';
 
 class CoursesSelectPage extends StatefulWidget {
@@ -32,20 +33,21 @@ class CoursesSelectPage extends StatefulWidget {
 }
 
 class _CoursesSelectPageState extends State<CoursesSelectPage> {
-  TextEditingController _courseEditingController = TextEditingController();
+  final TextEditingController _courseEditingController =
+      TextEditingController();
   final _openDropDownProgKeyYears = GlobalKey<DropdownSearchState<Year>>();
-  FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
 
   Course? selectedCourse;
   AcademicYear? selectedAcademicYear;
   Course? finalChoice;
-  bool _yearsFieldrequired = false;
+  bool _yearsFieldRequired = false;
 
   //Menu
   List<AcademicYear> academicYears = [];
-  Courses courses = Courses(elencoCorsi: []);
+  Courses courses = const Courses(elencoCorsi: []);
   List<Course> studyCourses = [];
-  List<Year>? years = null;
+  List<Year>? years;
 
   @override
   void initState() {
@@ -67,7 +69,7 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
     _openDropDownProgKeyYears.currentState?.changeSelectedItems([]);
     selectedCourse = null;
     finalChoice = null;
-    _yearsFieldrequired = false;
+    _yearsFieldRequired = false;
     // Call setState to update the UI
     setState(() {});
   }
@@ -75,7 +77,7 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
   void _focusListener() {
     if (_focusNode.hasFocus) {
       Future.delayed(
-        Duration(microseconds: 400),
+        const Duration(microseconds: 400),
         () => _liftMeUp(),
       );
     }
@@ -96,7 +98,7 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
   void onNext(BuildContext context) {
     if (finalChoice == null) {
       setState(() {
-        _yearsFieldrequired = true;
+        _yearsFieldRequired = true;
       });
     } else {
       context
@@ -107,9 +109,10 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
 
   Future<void> _onGetYears(BuildContext context, String courseValue) async {
     final code = await context.read<ConfigurationRepository>().getServer();
-    context
-        .read<CoursesBloc>()
-        .getYears(courseValue, selectedAcademicYear!.value, code.toUpperCase());
+    if (mounted) {
+      context.read<CoursesBloc>().getYears(
+          courseValue, selectedAcademicYear!.value, code.toUpperCase());
+    }
   }
 
   void _filterStudyCourses(School? school) {
@@ -124,8 +127,6 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
 
   @override
   Widget build(BuildContext context) {
-    MediaQueryData mediaQuery = MediaQuery.of(context);
-    //return Container();
     return MultiBlocProvider(
       providers: [
         BlocProvider<CoursesBloc>(
@@ -138,9 +139,11 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
             state.whenOrNull(fetched: (academicYears, courses) {
           this.academicYears = academicYears;
           this.courses = courses;
-          this.studyCourses = courses.elencoCorsi;
+          studyCourses = courses.elencoCorsi;
+          return null;
         }, fetchedYears: (years) {
           this.years = years;
+          return null;
         }),
         builder: (ctx, state) {
           // return state.when(
@@ -150,8 +153,7 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
           //   error: () => Container(),
           // );
           return state.maybeWhen(
-              fetching: () => Center(child: CircularProgressIndicator()),
-              orElse: () => _body(ctx));
+              fetching: () => const LoadingWidget(), orElse: () => _body(ctx));
         },
       ),
     );
@@ -159,7 +161,7 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
 
   Widget _body(BuildContext ctx) {
     MediaQueryData mediaQuery = MediaQuery.of(ctx);
-    this.selectedAcademicYear = academicYears[0];
+    selectedAcademicYear = academicYears[0];
     return SizedBox(
       height: mediaQuery.size.height,
       child: SafeArea(
@@ -194,15 +196,14 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
                     compareFn: (i, s) => i == s,
                     itemAsString: (server) => server.label,
                     selectedItem: academicYears[0],
-                    dropdownDecoratorProps: DropDownDecoratorProps(
+                    dropdownDecoratorProps: const DropDownDecoratorProps(
                       baseStyle: TextStyle(fontSize: 16),
                       dropdownSearchDecoration: InputDecoration(
                         filled: true,
-                        contentPadding:
-                            const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                        contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 20),
                       ),
                     ),
-                    popupProps: PopupProps.menu(
+                    popupProps: const PopupProps.menu(
                       fit: FlexFit.loose,
                       showSelectedItems: true,
                       //showSearchBox: true,
@@ -210,16 +211,15 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
                         elevation: 0,
                       ),
                       searchFieldProps: TextFieldProps(
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                             border: OutlineInputBorder(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(25)),
+                          borderRadius: BorderRadius.all(Radius.circular(25)),
                         )),
                       ),
                     ),
-                    clearButtonProps: ClearButtonProps(isVisible: false),
+                    clearButtonProps: const ClearButtonProps(isVisible: false),
                     onChanged: (academicYear) {
-                      this.selectedAcademicYear = academicYear;
+                      selectedAcademicYear = academicYear;
                     },
                   ),
                 ),
@@ -246,10 +246,11 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
                               '',
                       courses: studyCourses,
                       onSelected: (Course value) {
-                        this.selectedCourse = value;
-                        this.years = value.years;
-                        if (courses.elencoScuole != null)
+                        selectedCourse = value;
+                        years = value.years;
+                        if (courses.elencoScuole != null) {
                           _onGetYears(ctx, value.valore);
+                        }
                       },
                       suffixIcon: _courseEditingController.text.isEmpty
                           ? null // Show nothing if the text field is empty
@@ -280,7 +281,7 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
                     compareFn: (i, s) => i == s,
                     itemAsString: (year) => year.label,
                     dropdownDecoratorProps: DropDownDecoratorProps(
-                        baseStyle: TextStyle(fontSize: 16),
+                        baseStyle: const TextStyle(fontSize: 16),
                         dropdownSearchDecoration: InputDecoration(
                           filled: true,
                           labelText: selectedCourse?.years != null
@@ -306,7 +307,7 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
                                   Theme.of(context).unselectedWidgetColor,
                               checkedColor: Theme.of(context).selectedRowColor,
                               onChanged: (bool? v) {
-                                if (v == null) v = false;
+                                v ??= false;
                                 setState(() {
                                   isSelected = v!;
                                 });
@@ -323,12 +324,11 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
                           borderRadius: BorderRadius.circular(25.0),
                         ),
                       ),
-                      searchFieldProps: TextFieldProps(
-                        decoration: const InputDecoration(
+                      searchFieldProps: const TextFieldProps(
+                        decoration: InputDecoration(
                             //iconColor: Colors.white,
                             border: OutlineInputBorder(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(25)),
+                          borderRadius: BorderRadius.all(Radius.circular(25)),
                         )),
                       ),
                       //itemBuilder: _universityBuilder,
@@ -344,14 +344,14 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
                         }),
                     autoValidateMode: AutovalidateMode.always,
                     validator: (years) {
-                      if (_yearsFieldrequired) {
+                      if (_yearsFieldRequired) {
                         return 'required filed';
                       }
                       return null;
                     },
                     onChanged: (years) {
                       if (years.isNotEmpty) {
-                        _yearsFieldrequired = false;
+                        _yearsFieldRequired = false;
                         finalChoice = Course(
                             years: years,
                             label: selectedCourse?.label ?? "",
@@ -403,14 +403,14 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
             items: courses.elencoScuole ?? [],
             compareFn: (i, s) => i == s,
             itemAsString: (server) => server.label,
-            dropdownDecoratorProps: DropDownDecoratorProps(
+            dropdownDecoratorProps: const DropDownDecoratorProps(
               baseStyle: TextStyle(fontSize: 16),
               dropdownSearchDecoration: InputDecoration(
                 filled: true,
-                contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 20),
               ),
             ),
-            popupProps: PopupProps.menu(
+            popupProps: const PopupProps.menu(
               fit: FlexFit.loose,
               showSelectedItems: true,
               //showSearchBox: true,
@@ -418,13 +418,13 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
                 elevation: 0,
               ),
               searchFieldProps: TextFieldProps(
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                     border: OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(25)),
+                  borderRadius: BorderRadius.all(Radius.circular(25)),
                 )),
               ),
             ),
-            clearButtonProps: ClearButtonProps(isVisible: false),
+            clearButtonProps: const ClearButtonProps(isVisible: false),
             onChanged: (school) {
               _filterStudyCourses(school);
             },

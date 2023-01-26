@@ -10,9 +10,8 @@
 
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:meta/meta.dart';
 import 'package:school_timetable/models/preferences/configuration.dart';
 import 'package:school_timetable/repositories/configuration_repository.dart';
 
@@ -26,16 +25,16 @@ class FilterModulesBloc extends Bloc<FilterModulesEvent, FilterModulesState> {
   final ConfigurationRepository repository;
 
   FilterModulesBloc({required this.repository})
-      : super(FilterModulesState.fetching()) {
+      : super(const FilterModulesState.fetching()) {
     on<_LoadFilterModulesEvent>(_onLoading);
     on<_SaveFilterModulesEvent>(_onSaveChanges);
   }
 
   Future<void> _onLoading(
       _LoadFilterModulesEvent event, Emitter<FilterModulesState> emit) async {
-    emit(FilterModulesState.fetching());
+    emit(const FilterModulesState.fetching());
     try {
-      final data = await repository.ConfigurationData;
+      final data = await repository.configurationData;
       if (data != null) {
         emit(FilterModulesState.fetched(data));
       }
@@ -47,10 +46,10 @@ class FilterModulesBloc extends Bloc<FilterModulesEvent, FilterModulesState> {
 
   Future<void> _onSaveChanges(
       _SaveFilterModulesEvent event, Emitter<FilterModulesState> emit) async {
-    emit(FilterModulesState.fetching());
+    emit(const FilterModulesState.fetching());
     try {
       if (await repository.setConfigurationData(event.data)) {
-        emit(FilterModulesState.saved());
+        emit(const FilterModulesState.saved());
       }
     } catch (error) {
       //TODO : EXCEPTION
@@ -58,7 +57,7 @@ class FilterModulesBloc extends Bloc<FilterModulesEvent, FilterModulesState> {
     }
   }
 
-  void loadData() => add(_LoadFilterModulesEvent());
+  void loadData() => add(const _LoadFilterModulesEvent());
 
   void saveChanges(Configuration data) => add(_SaveFilterModulesEvent(data));
 }

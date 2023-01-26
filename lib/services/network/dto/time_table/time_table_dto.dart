@@ -9,10 +9,8 @@
  */
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:intl/intl.dart';
 
 import 'celle_dto.dart';
-import 'date_inizio_fine_curriculum_dto.dart';
 import 'fasce_dto.dart';
 import 'giorno_dto.dart';
 import 'legenda_dto.dart';
@@ -27,12 +25,12 @@ class TimeTableDTO with _$TimeTableDTO {
     @JsonKey(name: 'day') required String day,
     @JsonKey(name: 'data') required String data,
     @JsonKey(name: 'giorni') required List<GiornoDTO> giorni,
-    @JsonKey(name: 'first_day') required String first_day,
-    @JsonKey(name: 'last_day') required String last_day,
-    @JsonKey(name: 'first_day_label') required String first_day_label,
-    @JsonKey(name: 'last_day_label') required String last_day_label,
-    @JsonKey(name: 'first_day_timestamp') required double first_day_timestamp,
-    @JsonKey(name: 'last_day_timestamp') required double last_day_timestamp,
+    @JsonKey(name: 'first_day') required String firstDay,
+    @JsonKey(name: 'last_day') required String lastDay,
+    @JsonKey(name: 'first_day_label') required String firstDayLabel,
+    @JsonKey(name: 'last_day_label') required String lastDayLabel,
+    @JsonKey(name: 'first_day_timestamp') required double firstDayTimestamp,
+    @JsonKey(name: 'last_day_timestamp') required double lastDayTimestamp,
     @JsonKey(name: 'anno') required String anno,
     @JsonKey(name: 'fasce') List<FasceDTO>? fasce,
     @JsonKey(name: 'granularita') String? granularita,

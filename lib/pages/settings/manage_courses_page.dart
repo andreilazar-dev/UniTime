@@ -17,6 +17,7 @@ import 'package:school_timetable/blocs/settings/manage_courses/manage_courses_bl
 import 'package:school_timetable/models/preferences/configuration.dart';
 import 'package:school_timetable/routers/app_router.gr.dart';
 import 'package:school_timetable/widgets/course_label.dart';
+import 'package:school_timetable/widgets/loading_widget.dart';
 
 class ManageCoursesPage extends StatefulWidget with AutoRouteWrapper {
   const ManageCoursesPage({Key? key}) : super(key: key);
@@ -33,7 +34,7 @@ class ManageCoursesPage extends StatefulWidget with AutoRouteWrapper {
 }
 
 class _ManageCoursesPageState extends State<ManageCoursesPage> {
-  Configuration data = Configuration(university: "", selectedCourses: []);
+  Configuration data = const Configuration(university: "", selectedCourses: []);
 
   @override
   Widget build(BuildContext context) {
@@ -68,13 +69,12 @@ class _ManageCoursesPageState extends State<ManageCoursesPage> {
                 setState(() {
                   this.data = data;
                 });
+                return null;
               }),
           builder: (ctx, state) {
             return state.maybeWhen(
               // fetched: (data) => _body(ctx, data),
-              fetching: () => Center(
-                child: CircularProgressIndicator(),
-              ),
+              fetching: () => const LoadingWidget(),
               orElse: () => _body(ctx, data),
             );
           },
@@ -89,7 +89,7 @@ class _ManageCoursesPageState extends State<ManageCoursesPage> {
                   context.router.replace(RegistrationDetailsRoute());
                 },
                 backgroundColor: const Color.fromRGBO(114, 114, 186, 1),
-                label: Text('Course'),
+                label: const Text('Course'),
                 icon: const Icon(Icons.add),
               ),
             ),
@@ -112,7 +112,7 @@ class _ManageCoursesPageState extends State<ManageCoursesPage> {
           AppLocalizations.of(context)?.modules_saved_dialog ?? '',
           textAlign: TextAlign.center,
         ),
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
         duration: const Duration(milliseconds: 1000),
@@ -125,7 +125,7 @@ class _ManageCoursesPageState extends State<ManageCoursesPage> {
         itemCount: data.selectedCourses.length,
         itemBuilder: (context, index) {
           return ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: data.selectedCourses[index].years.length,
               itemBuilder: (_, indexYears) {
@@ -140,7 +140,7 @@ class _ManageCoursesPageState extends State<ManageCoursesPage> {
                   ),
                   key: Key(data.selectedCourses[index].corso),
                   direction: DismissDirection.startToEnd,
-                  onDismissed: (DismissDirection) {
+                  onDismissed: (dismissDirection) {
                     data.selectedCourses[index].years.removeAt(indexYears);
                     context.read<ManageCoursesBloc>().saveChanges(data);
                   },
@@ -149,7 +149,7 @@ class _ManageCoursesPageState extends State<ManageCoursesPage> {
                     child: CourseLabel(
                       courseName: data.selectedCourses[index].label,
                       studyYear:
-                          data.selectedCourses[index].years![indexYears].label,
+                          data.selectedCourses[index].years[indexYears].label,
                       year: data.selectedCourses[index].anno.label,
                     ),
                   ),

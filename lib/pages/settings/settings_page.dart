@@ -17,7 +17,6 @@ import 'package:school_timetable/routers/app_router.gr.dart';
 import 'package:school_timetable/theme/cubits/theme_cubit.dart';
 import 'package:school_timetable/theme/models/theme.dart' as theme;
 import 'package:school_timetable/widgets/custom_button.dart';
-import 'package:school_timetable/widgets/customshape.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -25,13 +24,8 @@ class SettingsPage extends StatelessWidget {
   final buttonwidth = 300.00;
   final buttonheight = 55.00;
 
-  void _resetApp(BuildContext context) {
-    context.read<RegistrationBloc>()..resetApp;
-  }
-
   @override
   Widget build(BuildContext context) {
-    MediaQueryData mediaQuery = MediaQuery.of(context);
     return Scaffold(
         body: SafeArea(
       child: Align(
@@ -53,7 +47,7 @@ class SettingsPage extends StatelessWidget {
               width: buttonwidth,
               height: buttonheight,
               onPressed: () {
-                context.router.replace(ManageCoursesRoute());
+                context.router.replace(const ManageCoursesRoute());
               },
               borderRadius: BorderRadius.circular(20),
               child: Text(
@@ -64,7 +58,7 @@ class SettingsPage extends StatelessWidget {
               width: buttonwidth,
               height: buttonheight,
               onPressed: () {
-                context.router.replace(FilterModulesRoute());
+                context.router.replace(const FilterModulesRoute());
               },
               borderRadius: BorderRadius.circular(20),
               child: Text(AppLocalizations.of(context)?.settings_filter ?? ''),
@@ -92,7 +86,8 @@ class SettingsPage extends StatelessWidget {
                 child: Text(
                   AppLocalizations.of(context)?.settings_theme ?? '',
                   //style: Theme.of(context).textTheme.headline3,
-                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w700, fontSize: 20),
                 ),
               ),
               DropdownSearch<theme.Theme>(
@@ -100,12 +95,12 @@ class SettingsPage extends StatelessWidget {
                 compareFn: (i, s) => i.name == s.name,
                 itemAsString: (theme) => theme.localize(context) ?? "",
                 selectedItem: state.theme,
-                dropdownDecoratorProps: DropDownDecoratorProps(
+                dropdownDecoratorProps: const DropDownDecoratorProps(
                   textAlign: TextAlign.end,
                   baseStyle: TextStyle(fontWeight: FontWeight.w700),
                   dropdownSearchDecoration: InputDecoration(
                     filled: true,
-                    contentPadding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                    contentPadding: EdgeInsets.fromLTRB(0, 0, 20, 0),
                   ),
                 ),
                 popupProps: PopupProps.menu(
@@ -117,8 +112,9 @@ class SettingsPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                clearButtonProps: ClearButtonProps(isVisible: false),
-                dropdownButtonProps: DropdownButtonProps(isVisible: false),
+                clearButtonProps: const ClearButtonProps(isVisible: false),
+                dropdownButtonProps:
+                    const DropdownButtonProps(isVisible: false),
                 onChanged: context.read<ThemeCubit>().setTheme,
               ),
             ],

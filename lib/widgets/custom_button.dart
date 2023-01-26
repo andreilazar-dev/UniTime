@@ -8,7 +8,6 @@
  *
  */
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 
@@ -34,8 +33,6 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final borderRadius = this.borderRadius ?? BorderRadius.circular(0);
     final theme = Theme.of(context);
-    final Color background = (theme.bottomNavigationBarTheme.backgroundColor ??
-        backgroundColor) as Color;
     var brightness = theme.brightness;
     bool isDarkMode = brightness == Brightness.dark;
 
@@ -86,7 +83,7 @@ class CustomButton extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
             padding: EdgeInsets.zero,
-            primary: Colors.transparent,
+            backgroundColor: Colors.transparent,
             shadowColor: Colors.white.withOpacity(0.1),
             shape: RoundedRectangleBorder(borderRadius: borderRadius)),
         child: label);

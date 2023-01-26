@@ -17,6 +17,7 @@
 
 
   "error_generic": "Something went wrong!",
+  "error_connection": "It is not possible to connect to the server at this time.\nThe connection was lost",
   "hello_world": "Hello world!",
   "@hello_world": {
     "description": "The hello world label"

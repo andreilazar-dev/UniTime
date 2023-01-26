@@ -9,7 +9,7 @@
  */
 
 import 'dart:async';
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:school_timetable/models/courses/year.dart';
 import 'package:school_timetable/repositories/courses_repository.dart';
@@ -26,7 +26,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
   CoursesRepository coursesRepository;
 
   CoursesBloc({required this.coursesRepository})
-      : super(CoursesState.fetching()) {
+      : super(const CoursesState.fetching()) {
     on<_LoadCoursesEvent>(_onLoad);
     on<_GetYearsCoursesEvent>(_onGetYears);
   }
@@ -34,17 +34,13 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
   Future<void> _onLoad(
       _LoadCoursesEvent event, Emitter<CoursesState> emit) async {
     try {
-      emit(CoursesState.fetching());
+      emit(const CoursesState.fetching());
       final academicYears = await coursesRepository.academicYears();
       final courses =
           await coursesRepository.courses(academicYear: academicYears[0].value);
-      if (courses != null) {
-        emit(CoursesState.fetched(academicYears, courses));
-      } else {
-        emit(CoursesState.error());
-      }
+      emit(CoursesState.fetched(academicYears, courses));
     } catch (error) {
-      emit(CoursesState.error());
+      emit(const CoursesState.error());
     }
   }
 
@@ -55,17 +51,13 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
           courseValue: event.courseValue,
           academicYear: event.academicYear,
           code: event.code);
-      if (years != null) {
-        emit(CoursesState.fetchedYears(years));
-      } else {
-        emit(CoursesState.error());
-      }
+      emit(CoursesState.fetchedYears(years));
     } catch (error) {
-      emit(CoursesState.error());
+      emit(const CoursesState.error());
     }
   }
 
-  void load() => add(_LoadCoursesEvent());
+  void load() => add(const _LoadCoursesEvent());
 
   //void courseSelected(Course course) => add(_CourseSaveCoursesEvent(course));
 

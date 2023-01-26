@@ -24,12 +24,12 @@ class TimeTableMapper extends DTOMapper<TimeTableDTO, TimeTable> {
             .map((giorno) => Giorno(
                 label: giorno.label, valore: giorno.valore, data: giorno.data))
             .toList(),
-        first_day: dto.first_day,
-        last_day: dto.last_day,
-        first_day_label: dto.first_day_label,
-        last_day_label: dto.last_day_label,
-        first_day_timestamp: dto.first_day_timestamp,
-        last_day_timestamp: dto.last_day_timestamp,
+        firstDay: dto.firstDay,
+        lastDay: dto.lastDay,
+        firstDayLabel: dto.firstDayLabel,
+        lastDayLabel: dto.lastDayLabel,
+        firstDayTimestamp: dto.firstDayTimestamp,
+        lastDayTimestamp: dto.lastDayTimestamp,
         anno: dto.anno,
         fasce: dto.fasce
             ?.map((fasce) => Fasce(label: fasce.label, valore: fasce.valore))

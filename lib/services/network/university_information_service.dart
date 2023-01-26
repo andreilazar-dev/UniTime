@@ -8,7 +8,10 @@
  *
  */
 
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
+import 'package:school_timetable/errors/network_error.dart';
 import 'package:school_timetable/services/network/dto/courses/course_list_response.dart';
 import 'package:school_timetable/services/network/dto/courses/year_dto.dart';
 import 'package:school_timetable/services/network/dto/courses/years_response.dart';
@@ -25,73 +28,97 @@ class UniversityInformationService {
 
   setServer({required String server}) {
     if (server.isNotEmpty) {
-      this._baseUrl = server;
+      _baseUrl = server;
     }
   }
 
   Future<List<AcademicYearDTO>> academicYear({
     String sw = 'ec_',
     String aa = '1',
-    String code = '1671565561577',
   }) async {
     // const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'sw': sw,
       r'aa': aa,
-      r'_': code,
     };
     //final _headers = <String, dynamic>{};
     // final _data = <String, dynamic>{};
-    final _result =
-        await dio.fetch<String>(_setStreamType<AcademicYearDTO>(Options(
-      method: 'GET',
-      // headers: _headers,
-      // extra: _extra,
-    )
-            .compose(
-              dio.options,
-              '/combo.php',
-              queryParameters: queryParameters,
-              //data: _data,
-            )
-            .copyWith(baseUrl: _baseUrl)));
+    try {
+      final result =
+          await dio.fetch<String>(_setStreamType<AcademicYearDTO>(Options(
+        method: 'GET',
+        // headers: _headers,
+        // extra: _extra,
+      )
+              .compose(
+                dio.options,
+                '/combo.php',
+                queryParameters: queryParameters,
+                //data: _data,
+              )
+              .copyWith(baseUrl: _baseUrl)));
 
-    final value = List<AcademicYearDTO>.from(
-        JsonScrubber.academicYear(_result.data!)
-            .map((dto) => AcademicYearDTO.fromJson(dto)));
-    return value;
+      final value = List<AcademicYearDTO>.from(
+          JsonScrubber.academicYear(result.data!)
+              .map((dto) => AcademicYearDTO.fromJson(dto)));
+      return value;
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.connectTimeout ||
+          e.type == DioErrorType.receiveTimeout ||
+          e.response == null) {
+        log("Connection NetworkError",
+            name: "UniversityInformationService academicYear");
+      } else {
+        log("Generic NetworkError",
+            name: "UniversityInformationService academicYear",
+            stackTrace: e.stackTrace);
+      }
+      throw NetworkError(e.response.hashCode, e.response?.statusMessage ?? "");
+    }
   }
 
   Future<CourseListResponse> courseList({
     String sw = 'ec_',
     required String aa, //year
     String page = 'corsi',
-    String code = '1671565561577',
   }) async {
     // const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'sw': sw,
       r'aa': aa,
       r'page': page,
-      r'_': code,
     };
     //final _headers = <String, dynamic>{};
     // final _data = <String, dynamic>{};
-    final _result =
-        await dio.fetch<String>(_setStreamType<CourseListResponse>(Options(
-      method: 'GET',
-      // headers: _headers,
-      // extra: _extra,
-    )
-            .compose(
-              dio.options,
-              '/combo.php',
-              queryParameters: queryParameters,
-              //data: _data,
-            )
-            .copyWith(baseUrl: _baseUrl)));
-    final value = JsonScrubber.courses(_result.data!);
-    return CourseListResponse.fromJson(value);
+    try {
+      final result =
+          await dio.fetch<String>(_setStreamType<CourseListResponse>(Options(
+        method: 'GET',
+        // headers: _headers,
+        // extra: _extra,
+      )
+              .compose(
+                dio.options,
+                '/combo.php',
+                queryParameters: queryParameters,
+                //data: _data,
+              )
+              .copyWith(baseUrl: _baseUrl)));
+      final value = JsonScrubber.courses(result.data!);
+      return CourseListResponse.fromJson(value);
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.connectTimeout ||
+          e.type == DioErrorType.receiveTimeout ||
+          e.response == null) {
+        log("Connection NetworkError",
+            name: "UniversityInformationService courseList");
+      } else {
+        log("Generic NetworkError",
+            name: "UniversityInformationService courseList",
+            stackTrace: e.stackTrace);
+      }
+      throw NetworkError(e.response.hashCode, e.response?.statusMessage ?? "");
+    }
   }
 
   Future<List<YearDTO>> yearList({
@@ -102,27 +129,41 @@ class UniversityInformationService {
   }) async {
     // const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
-      r'key': code + '_' + academicYear + key + courseValue,
+      r'key': '${code}_$academicYear$key$courseValue',
     };
     //final _headers = <String, dynamic>{};
     // final _data = <String, dynamic>{};
-    final _result =
-        await dio.fetch<String>(_setStreamType<CourseListResponse>(Options(
-      method: 'GET',
-      // headers: _headers,
-      // extra: _extra,
-    )
-            .compose(
-              dio.options,
-              '/call_redis.php',
-              queryParameters: queryParameters,
-              //data: _data,
-            )
-            .copyWith(baseUrl: _baseUrl)));
-    // final value = List<YearDTO>.from(
-    //     JsonScrubber.years(_result.data!).map((dto) => YearDTO.fromJson(dto)));
-    final value = YearsResponse.fromJson(JsonScrubber.years(_result.data!));
-    return value.elencoAnni;
+    try {
+      final result =
+          await dio.fetch<String>(_setStreamType<CourseListResponse>(Options(
+        method: 'GET',
+        // headers: _headers,
+        // extra: _extra,
+      )
+              .compose(
+                dio.options,
+                '/call_redis.php',
+                queryParameters: queryParameters,
+                //data: _data,
+              )
+              .copyWith(baseUrl: _baseUrl)));
+      // final value = List<YearDTO>.from(
+      //     JsonScrubber.years(_result.data!).map((dto) => YearDTO.fromJson(dto)));
+      final value = YearsResponse.fromJson(JsonScrubber.years(result.data!));
+      return value.elencoAnni;
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.connectTimeout ||
+          e.type == DioErrorType.receiveTimeout ||
+          e.response == null) {
+        log("Connection NetworkError",
+            name: "UniversityInformationService yearList");
+      } else {
+        log("Generic NetworkError",
+            name: "UniversityInformationService yearList",
+            stackTrace: e.stackTrace);
+      }
+      throw NetworkError(e.response.hashCode, e.response?.statusMessage ?? "");
+    }
   }
 
   Future<TimeTableDTO> timetable({
@@ -137,7 +178,7 @@ class UniversityInformationService {
     String highlightedDate = '0',
     String allEvents = '1',
   }) async {
-    const _extra = <String, dynamic>{};
+    const extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'view': view,
       r'include': include,
@@ -153,22 +194,39 @@ class UniversityInformationService {
     // anno2.forEach((element) {
     //   queryParameters["r'anno2'"] = element;
     // });
-    final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final _result = await dio
-        .fetch<Map<String, dynamic>>(_setStreamType<TimeTableDTO>(Options(
-      method: 'POST',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              dio.options,
-              '/grid_call.php',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: _baseUrl ?? dio.options.baseUrl)));
-    return TimeTableDTO.fromJson(_result.data!);
+    final headers = <String, dynamic>{};
+    final data = <String, dynamic>{};
+    try {
+      final response = await dio
+          .fetch<Map<String, dynamic>>(_setStreamType<TimeTableDTO>(Options(
+        method: 'POST',
+        headers: headers,
+        extra: extra,
+      )
+              .compose(
+                dio.options,
+                '/grid_call.php',
+                queryParameters: queryParameters,
+                data: data,
+              )
+              .copyWith(baseUrl: _baseUrl ?? dio.options.baseUrl)));
+      if (response.statusCode! < 200 || response.statusCode! > 299) {
+        throw NetworkError(response.statusCode!, response.statusMessage);
+      }
+      return TimeTableDTO.fromJson(response.data!);
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.connectTimeout ||
+          e.type == DioErrorType.receiveTimeout ||
+          e.response == null) {
+        log("Connection NetworkError",
+            name: "UniversityInformationService Timetable");
+      } else {
+        log("Generic NetworkError",
+            name: "UniversityInformationService Timetable",
+            stackTrace: e.stackTrace);
+      }
+      throw NetworkError(e.response.hashCode, e.response?.statusMessage ?? "");
+    }
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

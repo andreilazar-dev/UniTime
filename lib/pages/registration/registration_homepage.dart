@@ -41,7 +41,7 @@ class RegistrationHomePage extends StatelessWidget {
                   SizedBox(
                     height: (mediaQuery.size.height - mediaQuery.padding.top) *
                         0.30,
-                    child: Image(
+                    child: const Image(
                       image: AssetImage('assets/images/UniTime.png'),
                       fit: BoxFit.cover,
                     ),
@@ -68,7 +68,7 @@ class RegistrationHomePage extends StatelessWidget {
                       height:
                           (mediaQuery.size.height - mediaQuery.padding.top) *
                               0.05),
-                  Container(
+                  SizedBox(
                     width: mediaQuery.size.width * 0.8,
                     child: DropdownSearch<Server>(
                       items: serversUny,
@@ -77,7 +77,7 @@ class RegistrationHomePage extends StatelessWidget {
                           (AppLocalizations.of(context)?.uni_of ?? '') +
                           server.label,
                       dropdownDecoratorProps: DropDownDecoratorProps(
-                          baseStyle: TextStyle(fontSize: 16),
+                          baseStyle: const TextStyle(fontSize: 16),
                           dropdownSearchDecoration: InputDecoration(
                             labelText:
                                 AppLocalizations.of(context)?.tap_uni ?? '',
@@ -88,7 +88,7 @@ class RegistrationHomePage extends StatelessWidget {
                       popupProps: PopupProps.menu(
                         fit: FlexFit.loose,
                         showSelectedItems: true,
-                        showSearchBox: true,
+                        showSearchBox: false,
                         menuProps: MenuProps(
                           //backgroundColor: Colors.green,
                           elevation: 0,
@@ -99,17 +99,17 @@ class RegistrationHomePage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(25.0),
                           ),
                         ),
-                        searchFieldProps: TextFieldProps(
-                          decoration: const InputDecoration(
+                        searchFieldProps: const TextFieldProps(
+                          decoration: InputDecoration(
                               border: OutlineInputBorder(
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(25)),
+                                BorderRadius.all(Radius.circular(25)),
                           )),
                         ),
                         itemBuilder: _universityBuilder,
                       ),
                       // items: serversUny.keys.toList(),
-                      clearButtonProps: ClearButtonProps(isVisible: false),
+                      clearButtonProps: const ClearButtonProps(isVisible: false),
                       onChanged: (server) {
                         selectedServer = server!;
                       },
@@ -153,7 +153,7 @@ class RegistrationHomePage extends StatelessWidget {
   ) {
     return Container(
       width: 20,
-      margin: EdgeInsets.symmetric(horizontal: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 8),
       decoration: !isSelected
           ? null
           : BoxDecoration(

@@ -18,7 +18,7 @@ import 'package:school_timetable/widgets/custom_checbox_list_tile.dart';
 import 'package:school_timetable/widgets/custon_floating_action_button.dart';
 
 class FilterConfigPage extends StatefulWidget {
-  FilterConfigPage({Key? key}) : super(key: key);
+  const FilterConfigPage({Key? key}) : super(key: key);
 
   @override
   State<FilterConfigPage> createState() => _FilterConfigPageState();
@@ -44,7 +44,7 @@ class _FilterConfigPageState extends State<FilterConfigPage> {
       alignment: Alignment.center,
       children: [
         SingleChildScrollView(
-          physics: ScrollPhysics(),
+          physics: const ScrollPhysics(),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,7 +67,7 @@ class _FilterConfigPageState extends State<FilterConfigPage> {
                 ),
               ),
               ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: course.years!.length,
                   itemBuilder: (_, indexYears) {
@@ -82,7 +82,7 @@ class _FilterConfigPageState extends State<FilterConfigPage> {
                         ),
                         ListView.builder(
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: course
                               .years![indexYears].elencoInsegnamenti.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -111,7 +111,7 @@ class _FilterConfigPageState extends State<FilterConfigPage> {
                                         onChanged: (bool? value) {
                                           setState(() {
                                             course
-                                                .years![indexYears]!
+                                                .years![indexYears]
                                                 .elencoInsegnamenti[index]
                                                 .selected = value!;
                                           });
@@ -125,7 +125,7 @@ class _FilterConfigPageState extends State<FilterConfigPage> {
                       ],
                     );
                   }),
-              SizedBox(
+              const SizedBox(
                 height: 80,
               )
             ],
@@ -147,9 +147,9 @@ class _FilterConfigPageState extends State<FilterConfigPage> {
                     context.read<CourseSettingBloc>().savingCourse(course);
                   },
                   backgroundColor: const Color.fromRGBO(62, 62, 112, 1),
-                  label: Text(
+                  label: const Text(
                     'confirm',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.white,
                       fontSize: 15,
                     ),

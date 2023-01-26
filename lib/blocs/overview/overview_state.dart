@@ -17,5 +17,5 @@ class OverviewState with _$OverviewState {
   const factory OverviewState.fetched(TimeTable timeTable) =
       FetchedOverviewState;
 
-  const factory OverviewState.error() = ErrorOverviewState;
+  const factory OverviewState.error(LocalizedError error) = ErrorOverviewState;
 }

@@ -10,12 +10,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_essentials_kit/errors/localized_error.dart';
 import 'package:intl/intl.dart';
 import 'package:school_timetable/blocs/overview/overview_bloc.dart';
 import 'package:school_timetable/misc/date_util.dart';
 import 'package:school_timetable/models/celle_data_source.dart';
 import 'package:school_timetable/models/timetable/time_table.dart';
 import 'package:school_timetable/widgets/header_calendar.dart';
+import 'package:school_timetable/widgets/loading_widget.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -35,16 +37,16 @@ class OverviewPage extends StatefulWidget with AutoRouteWrapper {
 
 class _OverviewPageState extends State<OverviewPage> {
   final _kToday = DateTime.now();
-  late var _kFirstDay;
-  late var _kLastDay;
+  late DateTime _kFirstDay;
+  late DateTime _kLastDay;
   CalendarFormat _calendarFormat = CalendarFormat.week;
   DateTime? _selectedDay;
   late PageController _pageController;
   final ValueNotifier<DateTime> _focusedDay = ValueNotifier(DateTime.now());
-  DateFormat _inputDateFormat = DateFormat('dd/MM/yyyy');
-  CalendarController _timeLineController = CalendarController();
+  final DateFormat _inputDateFormat = DateFormat('dd/MM/yyyy');
+  final CalendarController _timeLineController = CalendarController();
 
-  List<Color> _colors = [
+  final List<Color> _colors = [
     const Color(0xFF4B496A),
     const Color.fromRGBO(114, 114, 186, 1),
     const Color(0xFF54548E),
@@ -58,10 +60,26 @@ class _OverviewPageState extends State<OverviewPage> {
     super.initState();
   }
 
+  void showError(BuildContext context, LocalizedError error) {
+    showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+              title: const Center(child: Text("Error")),
+              content: Text(
+                error.localizedString(context) ?? "",
+                textAlign: TextAlign.center,
+              ),
+            ),
+        barrierDismissible: true);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<OverviewBloc, OverviewState>(
+      body: BlocConsumer<OverviewBloc, OverviewState>(
+        listener: (context, state) => state.whenOrNull(
+          error: (error) => showError(context, error),
+        ),
         builder: (context, overviewState) {
           // return state.when(
           //   fetching: () => Center(child: CircularProgressIndicator()),
@@ -79,13 +97,13 @@ class _OverviewPageState extends State<OverviewPage> {
                     focusedDay: value,
                     onLeftArrowTap: () {
                       _pageController.previousPage(
-                        duration: Duration(milliseconds: 300),
+                        duration: const Duration(milliseconds: 300),
                         curve: Curves.easeOut,
                       );
                     },
                     onRightArrowTap: () {
                       _pageController.nextPage(
-                        duration: Duration(milliseconds: 300),
+                        duration: const Duration(milliseconds: 300),
                         curve: Curves.easeOut,
                       );
                     },
@@ -111,9 +129,8 @@ class _OverviewPageState extends State<OverviewPage> {
                 },
                 onDaySelected: (selectedDay, focusedDay) {
                   if (!isSameDay(_selectedDay, selectedDay)) {
-                    if (_focusedDay.value != null &&
-                        !AppDateUtils.isSameWeek(
-                            _focusedDay.value!, selectedDay)) {
+                    if (!AppDateUtils.isSameWeek(
+                        _focusedDay.value, selectedDay)) {
                       context.read<OverviewBloc>().loadTimetable(selectedDay);
                     }
                     // Call `setState()` when updating the selected day
@@ -131,13 +148,27 @@ class _OverviewPageState extends State<OverviewPage> {
                   }
                 },
               ),
-              if (overviewState is FetchingOverviewState)
-                Expanded(child: Center(child: CircularProgressIndicator())),
+              if (overviewState is FetchingOverviewState) const LoadingWidget(),
               if (overviewState is FetchedOverviewState)
-                _timeline(overviewState.timeTable)
+                _timeline(overviewState.timeTable),
+              if (overviewState is ErrorOverviewState) _error(context),
             ],
           );
         },
+      ),
+    );
+  }
+
+  Widget _error(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    return Expanded(
+      child: Center(
+        child: SizedBox(
+            height: mediaQuery.size.height * 0.3,
+            child: Image.asset(
+              'assets/images/notices/error.png',
+              fit: BoxFit.contain,
+            )),
       ),
     );
   }
@@ -152,9 +183,9 @@ class _OverviewPageState extends State<OverviewPage> {
         viewHeaderHeight: 0,
         cellEndPadding: 5,
         showCurrentTimeIndicator: true,
-        minDate: _inputDateFormat.parse(timeTable.first_day_label),
-        maxDate: _inputDateFormat.parse(timeTable.last_day_label),
-        timeSlotViewSettings: TimeSlotViewSettings(
+        minDate: _inputDateFormat.parse(timeTable.firstDayLabel),
+        maxDate: _inputDateFormat.parse(timeTable.lastDayLabel),
+        timeSlotViewSettings: const TimeSlotViewSettings(
           startHour: 8,
           endHour: 23,
           timeInterval: Duration(minutes: 30),
@@ -170,10 +201,11 @@ class _OverviewPageState extends State<OverviewPage> {
           ),
         ),
         dataSource: CelleDataSource(timeTable.celle!, _colors),
-        onTap: (dettails) {
+        onTap: (details) {
           //TODO: POP UP
-          if (dettails.appointments != null) {
-            print(dettails.appointments![0]!.nomeInsegnamento);
+          if (details.appointments != null) {
+            //TODO: POP UP
+            //details.appointments![0]!.nomeInsegnamento
           }
         },
         // onSelectionChanged: (sel) {

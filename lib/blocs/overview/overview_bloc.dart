@@ -10,9 +10,12 @@
 
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_essentials_kit/errors/localized_error.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:meta/meta.dart';
+import 'package:school_timetable/errors/connection_errors.dart';
+import 'package:school_timetable/errors/generic_error.dart';
+import 'package:school_timetable/errors/repository_error.dart';
 import 'package:school_timetable/models/timetable/celle.dart';
 import 'package:school_timetable/models/timetable/time_table.dart';
 import 'package:school_timetable/repositories/courses_repository.dart';
@@ -27,27 +30,25 @@ class OverviewBloc extends Bloc<OverviewEvent, OverviewState> {
   final CoursesRepository coursesRepository;
 
   OverviewBloc({required this.coursesRepository})
-      : super(OverviewState.fetching()) {
+      : super(const OverviewState.fetching()) {
     on<_LoadOverviewEvent>(_onLoading);
   }
 
   Future<void> _onLoading(
       _LoadOverviewEvent event, Emitter<OverviewState> emit) async {
-    emit(OverviewState.fetching());
+    emit(const OverviewState.fetching());
     try {
       final timetable = await coursesRepository.lessons(event.date);
-
       //TODO: need refactor
       List<Celle> celle = [];
       for (TimeTable obj in timetable) {
         celle.addAll(obj.celle ?? []);
       }
       emit(OverviewState.fetched(timetable[0].copyWith(celle: celle)));
-      //emit(DailyTimetableState.fetched());
-
+    } on RepositoryError catch (_) {
+      emit(OverviewState.error(ConnectionError()));
     } catch (error) {
-      //TODO : EXCEPTION
-      throw Exception(error);
+      emit(OverviewState.error(GenericError()));
     }
   }
 

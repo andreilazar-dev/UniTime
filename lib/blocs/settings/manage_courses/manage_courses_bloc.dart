@@ -10,10 +10,8 @@
 
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:meta/meta.dart';
-import 'package:school_timetable/blocs/settings/filter_modules/filter_modules_bloc.dart';
 import 'package:school_timetable/models/preferences/configuration.dart';
 import 'package:school_timetable/repositories/configuration_repository.dart';
 
@@ -27,16 +25,16 @@ class ManageCoursesBloc extends Bloc<ManageCoursesEvent, ManageCoursesState> {
   final ConfigurationRepository repository;
 
   ManageCoursesBloc({required this.repository})
-      : super(ManageCoursesState.fetching()) {
+      : super(const ManageCoursesState.fetching()) {
     on<_LoadManageCoursesEvent>(_onLoading);
     on<_SaveManageCoursesEvent>(_onSaveChanges);
   }
 
   Future<void> _onLoading(
       _LoadManageCoursesEvent event, Emitter<ManageCoursesState> emit) async {
-    emit(ManageCoursesState.fetching());
+    emit(const ManageCoursesState.fetching());
     try {
-      final data = await repository.ConfigurationData;
+      final data = await repository.configurationData;
       if (data != null) {
         emit(ManageCoursesState.fetched(data));
       }
@@ -48,10 +46,10 @@ class ManageCoursesBloc extends Bloc<ManageCoursesEvent, ManageCoursesState> {
 
   Future<void> _onSaveChanges(
       _SaveManageCoursesEvent event, Emitter<ManageCoursesState> emit) async {
-    emit(ManageCoursesState.fetching());
+    emit(const ManageCoursesState.fetching());
     try {
       if (await repository.setConfigurationData(event.data)) {
-        emit(ManageCoursesState.saved());
+        emit(const ManageCoursesState.saved());
       }
     } catch (error) {
       //TODO : EXCEPTION
@@ -59,7 +57,7 @@ class ManageCoursesBloc extends Bloc<ManageCoursesEvent, ManageCoursesState> {
     }
   }
 
-  void loadData() => add(_LoadManageCoursesEvent());
+  void loadData() => add(const _LoadManageCoursesEvent());
 
   void saveChanges(Configuration data) => add(_SaveManageCoursesEvent(data));
 }

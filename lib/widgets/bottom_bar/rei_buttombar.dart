@@ -14,7 +14,7 @@
 import 'package:flutter/material.dart';
 
 class ReiBottomBar extends StatelessWidget {
-  ReiBottomBar(
+  const ReiBottomBar(
       {Key? key,
       required this.items,
       this.currentIndex = 0,
@@ -30,7 +30,7 @@ class ReiBottomBar extends StatelessWidget {
       this.curve = Curves.easeOutQuint,
       this.borderRadius = 60,
 
-        //TODO: This need for margin need dynamic
+      //TODO: This need for margin need dynamic
       this.marginR = const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
       this.paddingR = const EdgeInsets.only(bottom: 10, top: 10),
       this.backgroundColor = Colors.deepPurple,
@@ -95,10 +95,11 @@ class ReiBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final Color background = (theme.bottomNavigationBarTheme.backgroundColor ?? backgroundColor) as Color;
+    final Color background = (theme.bottomNavigationBarTheme.backgroundColor ??
+        backgroundColor) as Color;
     return BottomAppBar(
       color: Colors.transparent,
-      elevation:0,
+      elevation: 0,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -133,29 +134,29 @@ class ReiBottomBar extends StatelessWidget {
                         curve: curve,
                         duration: duration,
                         builder: (context, t, _) {
-                          final _selectedColor = item.selectedColor ??
+                          final selectedColor = item.selectedColor ??
                               selectedItemColor ??
                               theme.primaryColor;
 
-                          final _unselectedColor = item.unselectedColor ??
+                          final unselectedColor = item.unselectedColor ??
                               unselectedItemColor ??
-                              theme.bottomNavigationBarTheme.unselectedItemColor;
+                              theme
+                                  .bottomNavigationBarTheme.unselectedItemColor;
 
-                          print("theme"+theme.bottomNavigationBarTheme.unselectedItemColor.toString());
                           return Material(
                             color: Color.lerp(
-                                _selectedColor.withOpacity(0.0),
-                                _selectedColor
+                                selectedColor.withOpacity(0.0),
+                                selectedColor
                                     .withOpacity(selectedColorOpacity ?? 0.1),
                                 t),
                             shape: itemShape,
                             child: InkWell(
                               onTap: () => onTap?.call(items.indexOf(item)),
                               customBorder: itemShape,
-                              focusColor: _selectedColor.withOpacity(0.1),
-                              highlightColor: _selectedColor.withOpacity(0.1),
-                              splashColor: _selectedColor.withOpacity(0.1),
-                              hoverColor: _selectedColor.withOpacity(0.1),
+                              focusColor: selectedColor.withOpacity(0.1),
+                              highlightColor: selectedColor.withOpacity(0.1),
+                              splashColor: selectedColor.withOpacity(0.1),
+                              hoverColor: selectedColor.withOpacity(0.1),
                               child: Padding(
                                 padding: itemPadding -
                                     (Directionality.of(context) ==
@@ -168,8 +169,8 @@ class ReiBottomBar extends StatelessWidget {
                                   children: [
                                     IconTheme(
                                       data: IconThemeData(
-                                        color: Color.lerp(_unselectedColor,
-                                            _selectedColor, t),
+                                        color: Color.lerp(
+                                            unselectedColor, selectedColor, t),
                                         size: 24,
                                       ),
                                       child: items.indexOf(item) == currentIndex
@@ -184,7 +185,7 @@ class ReiBottomBar extends StatelessWidget {
                                         /// best to find a way to make it respond only to padding.
                                         height: 20,
                                         child: Align(
-                                          alignment: Alignment(-0.2, 0.0),
+                                          alignment: const Alignment(-0.2, 0.0),
                                           widthFactor: t,
                                           child: Padding(
                                             padding: Directionality.of(
@@ -200,9 +201,9 @@ class ReiBottomBar extends StatelessWidget {
                                             child: DefaultTextStyle(
                                               style: TextStyle(
                                                 color: Color.lerp(
-                                                    _selectedColor
+                                                    selectedColor
                                                         .withOpacity(0.0),
-                                                    _selectedColor,
+                                                    selectedColor,
                                                     t),
                                                 fontWeight: FontWeight.w600,
                                               ),

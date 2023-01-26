@@ -17,5 +17,6 @@ class DailyTimetableState with _$DailyTimetableState {
   const factory DailyTimetableState.fetched(TimeTable timeTable) =
       _FetchedDailyTimetableState;
 
-  const factory DailyTimetableState.error() = _ErrorDailyTimetableState;
+  const factory DailyTimetableState.error(LocalizedError error) =
+      _ErrorDailyTimetableState;
 }

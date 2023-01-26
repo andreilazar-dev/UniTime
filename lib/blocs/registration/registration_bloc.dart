@@ -10,13 +10,11 @@
 
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:meta/meta.dart';
 import 'package:school_timetable/misc/server/servers.dart';
 import 'package:school_timetable/models/preferences/configuration.dart';
-
-import '../../repositories/configuration_repository.dart';
+import 'package:school_timetable/repositories/configuration_repository.dart';
 
 part 'registration_bloc.freezed.dart';
 
@@ -29,7 +27,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
 
   RegistrationBloc({
     required this.repository,
-  }) : super(RegistrationState.checking()) {
+  }) : super(const RegistrationState.checking()) {
     on<_CheckRegistrationEvent>(_onCheck);
     on<_ResetRegistrationEvent>(_onReset);
   }
@@ -37,7 +35,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   Future<void> _onCheck(
       _CheckRegistrationEvent event, Emitter<RegistrationState> emit) async {
     try {
-      final config = await repository.ConfigurationData;
+      final config = await repository.configurationData;
       emit(config != null
           ? RegistrationState.registered(
               Servers.servers
@@ -46,7 +44,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
               config)
           : const RegistrationState.notRegistered());
     } catch (error) {
-      emit(RegistrationState.error());
+      emit(const RegistrationState.error());
     }
 
     //on LocalizedError catch (error) {}
@@ -57,10 +55,10 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     try {
       final removed = await repository.removeConfigurationData();
       emit(removed
-          ? RegistrationState.notRegistered()
-          : RegistrationState.error());
+          ? const RegistrationState.notRegistered()
+          : const RegistrationState.error());
     } catch (error) {
-      emit(RegistrationState.error());
+      emit(const RegistrationState.error());
     }
 
     //on LocalizedError catch (error) {}

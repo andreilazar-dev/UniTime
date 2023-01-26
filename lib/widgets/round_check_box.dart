@@ -62,6 +62,7 @@ class RoundCheckBox extends StatefulWidget {
   final Duration? animationDuration;
 
   @override
+  // ignore: library_private_types_in_public_api
   _RoundCheckBoxState createState() => _RoundCheckBoxState();
 }
 
@@ -76,19 +77,19 @@ class _RoundCheckBoxState extends State<RoundCheckBox> {
   Color? disabledColor;
   late Color borderColor;
 
-  @override
   ValueChanged<bool?>? get onChanged => widget.onChanged;
 
   @override
   void initState() {
     value = widget.value ?? false;
-    animationDuration = widget.animationDuration ?? Duration(milliseconds: 500);
+    animationDuration =
+        widget.animationDuration ?? const Duration(milliseconds: 500);
     size = widget.size ?? 40.0;
     checkedColor = widget.checkedColor ?? Colors.green;
     uncheckedColor = widget.uncheckedColor;
     borderColor = widget.borderColor ?? Colors.grey;
     checkedWidget =
-        widget.checkedWidget ?? Icon(Icons.check, color: Colors.white);
+        widget.checkedWidget ?? const Icon(Icons.check, color: Colors.white);
     uncheckedWidget = widget.uncheckedWidget ?? const SizedBox.shrink();
     super.initState();
   }
@@ -102,7 +103,7 @@ class _RoundCheckBoxState extends State<RoundCheckBox> {
     }
     if (animationDuration != widget.animationDuration) {
       animationDuration =
-          widget.animationDuration ?? Duration(milliseconds: 500);
+          widget.animationDuration ?? const Duration(milliseconds: 500);
     }
     if (size != widget.size) {
       size = widget.size ?? 40.0;
@@ -115,7 +116,7 @@ class _RoundCheckBoxState extends State<RoundCheckBox> {
     }
     if (checkedWidget != widget.checkedWidget) {
       checkedWidget =
-          widget.checkedWidget ?? Icon(Icons.check, color: Colors.white);
+          widget.checkedWidget ?? const Icon(Icons.check, color: Colors.white);
     }
     if (uncheckedWidget != widget.uncheckedWidget) {
       uncheckedWidget = widget.uncheckedWidget ?? const SizedBox.shrink();

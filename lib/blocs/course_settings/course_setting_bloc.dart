@@ -9,25 +9,23 @@
  */
 
 import 'dart:async';
-
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:meta/meta.dart';
 import 'package:school_timetable/models/academic_year.dart';
-import 'package:school_timetable/models/preferences/configuration.dart';
-
-import '../../models/courses/course.dart';
-import '../../repositories/configuration_repository.dart';
+import 'package:school_timetable/models/courses/course.dart';
+import 'package:school_timetable/repositories/configuration_repository.dart';
 
 part 'course_setting_bloc.freezed.dart';
+
 part 'course_setting_event.dart';
+
 part 'course_setting_state.dart';
 
 class CourseSettingBloc extends Bloc<CourseSettingEvent, CourseSettingState> {
   final ConfigurationRepository repository;
 
   CourseSettingBloc({required this.repository})
-      : super(CourseSettingState.initial()) {
+      : super(const CourseSettingState.initial()) {
     on<_SelectionCourseSettingEvent>(_onInitial);
     on<_ChosenCourseSettingEvent>(_onTeachingsLoad);
     on<_SavingCourseSettingEvent>(_onSaving);
@@ -36,7 +34,7 @@ class CourseSettingBloc extends Bloc<CourseSettingEvent, CourseSettingState> {
   Future<void> _onInitial(_SelectionCourseSettingEvent event,
       Emitter<CourseSettingState> emit) async {
     try {
-      emit(CourseSettingState.initial());
+      emit(const CourseSettingState.initial());
     } catch (error) {
       //TODO: Implement
     }
@@ -56,7 +54,7 @@ class CourseSettingBloc extends Bloc<CourseSettingEvent, CourseSettingState> {
       _SavingCourseSettingEvent event, Emitter<CourseSettingState> emit) async {
     try {
       if (await repository.setCourse(event.course)) {
-        emit(CourseSettingState.saved());
+        emit(const CourseSettingState.saved());
       }
       //emit(CourseSettingState.teachings());
     } catch (error) {
@@ -64,7 +62,7 @@ class CourseSettingBloc extends Bloc<CourseSettingEvent, CourseSettingState> {
     }
   }
 
-  void initial() => add(_SelectionCourseSettingEvent());
+  void initial() => add(const _SelectionCourseSettingEvent());
 
   void chosenCourse(AcademicYear academicYear, Course course) =>
       add(_ChosenCourseSettingEvent(academicYear, course));

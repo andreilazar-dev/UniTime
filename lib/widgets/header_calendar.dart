@@ -31,7 +31,7 @@ class CalendarHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
+          const SizedBox(
             //width: 120.0,
             child: Text(
               "Calendar",
@@ -45,32 +45,33 @@ class CalendarHeader extends StatelessWidget {
                 //width: 120.0,
                 child: Text(
                   headerText,
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
+                  style: const TextStyle(
+                      fontSize: 20.0, fontWeight: FontWeight.w400),
                 ),
               ),
               Row(
                 children: [
                   ElevatedButton(
                     onPressed: onLeftArrowTap,
-                    child: const Icon(
-                      Icons.chevron_left,
-                      size: 50,
-                    ),
                     style: ElevatedButton.styleFrom(
                       shape: const CircleBorder(),
                       padding: const EdgeInsets.all(0),
                     ),
+                    child: const Icon(
+                      Icons.chevron_left,
+                      size: 50,
+                    ),
                   ),
-                  SizedBox(width: 15),
+                  const SizedBox(width: 15),
                   ElevatedButton(
                       onPressed: onRightArrowTap,
-                      child: const Icon(
-                        Icons.chevron_right,
-                        size: 50,
-                      ),
                       style: ElevatedButton.styleFrom(
                         shape: const CircleBorder(),
                         padding: const EdgeInsets.all(0),
+                      ),
+                      child: const Icon(
+                        Icons.chevron_right,
+                        size: 50,
                       )),
                 ],
               )

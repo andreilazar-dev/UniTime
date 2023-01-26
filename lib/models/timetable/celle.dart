@@ -10,10 +10,6 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'informazioni_lezione_dto.dart';
-
-// part 'celle.g.dart';
-
 part 'celle.freezed.dart';
 
 @freezed

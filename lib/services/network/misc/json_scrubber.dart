@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 class JsonScrubber {
   static Iterable academicYear(String rawjson) {
@@ -11,14 +12,14 @@ class JsonScrubber {
 
     for (Match m in matches1) {
       //print(m.group(0));
-      cleanJson = cleanJson + m.group(0)! + ",";
+      cleanJson = "$cleanJson${m.group(0)!},";
     }
-    cleanJson = cleanJson.substring(0, cleanJson.length - 1) + "]";
+    cleanJson = "${cleanJson.substring(0, cleanJson.length - 1)}]";
 
     int startIndex = cleanJson.indexOf(':', cleanJson.indexOf(':'));
 
     // Extract the substring between the indices
-    cleanJson = "[" + cleanJson.substring(startIndex + 1, cleanJson.length);
+    cleanJson = "[${cleanJson.substring(startIndex + 1, cleanJson.length)}";
     // cleanJson = cleanJson + "]";
     return json.decode(cleanJson);
   }
@@ -41,7 +42,7 @@ class JsonScrubber {
     // Find the position of the last ',' character
     int commaIndex = data.lastIndexOf(',');
     if (commaIndex == -1) {
-      print('Error: No comma found in the string');
+      log('Error: No comma found in the string');
     }
 
     // Extract the portion of the string before the last ',' character
@@ -49,19 +50,19 @@ class JsonScrubber {
 
     //end
 
-    return json.decode("[{" + data + "}]")[0];
+    return json.decode("[{$data}]")[0];
   }
 
   static String _removeElencoCdl(String data) {
     // Find the position of the first ';' character after 'var elenco_cdl'
     int startIndex = data.indexOf('var elenco_cdl');
     if (startIndex == -1) {
-      print('Error: No "var elenco_cdl" found in the string');
+      log('Error: No "var elenco_cdl" found in the string');
       return "";
     }
     int semicolonIndex = data.indexOf(';', startIndex);
     if (semicolonIndex == -1) {
-      print('Error: No semicolon found in the string');
+      log('Error: No semicolon found in the string');
       return "";
     }
 
@@ -94,7 +95,7 @@ class JsonScrubber {
     // Find the position of the last ',' character
     int commaIndex = data.lastIndexOf(',');
     if (commaIndex == -1) {
-      print('Error: No comma found in the string');
+      log('Error: No comma found in the string');
     }
 
     // Extract the portion of the string before the last ',' character
@@ -102,7 +103,7 @@ class JsonScrubber {
 
     //end
 
-    final value = json.decode("[{" + data + "}]");
+    final value = json.decode("[{$data}]");
     return value[0];
   }
 }

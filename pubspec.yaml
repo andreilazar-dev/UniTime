@@ -34,7 +34,7 @@ dependencies:
   font_awesome_flutter: ^10.3.0
   syncfusion_flutter_calendar: ^20.4.43
   table_calendar: ^3.0.8
-  flutter_launcher_icons: ^0.10.0
+  flutter_launcher_icons: ^0.11.0
   flutter_native_splash: ^2.1.1
 
 dev_dependencies:
@@ -58,10 +58,15 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/UniTime.png
+    - assets/images/notices/noLessons.png
+    - assets/images/notices/error.png
 
 flutter_icons:
   image_path: "assets/icon.png"
+#  image_path_android: "assets/icon.png"
+#  image_path_ios: "assets/images/icon-1024x1024.png"
   android: true
+  ios: true
   adaptive_icon_background: "#2d3a68"
   adaptive_icon_foreground: "assets/icon.png"
-  ios: true
+  min_sdk_android: 21
