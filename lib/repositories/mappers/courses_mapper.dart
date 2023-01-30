@@ -13,7 +13,7 @@ import 'package:school_timetable/models/courses/course.dart';
 import 'package:school_timetable/models/courses/school.dart';
 import 'package:school_timetable/models/courses/teaching.dart';
 import 'package:school_timetable/models/courses/year.dart';
-import 'package:school_timetable/services/network/dto/courses/course_list_response.dart';
+import 'package:school_timetable/services/network/responses/courses/course_list_response.dart';
 import 'package:school_timetable/models/courses/courses.dart';
 import 'package:school_timetable/models/courses/periodo.dart';
 

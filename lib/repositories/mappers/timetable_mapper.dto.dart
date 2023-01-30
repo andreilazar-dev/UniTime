@@ -79,6 +79,7 @@ class TimeTableMapper extends DTOMapper<TimeTableDTO, TimeTable> {
                   docente: celle.docente,
                   display: celle.display,
                   insegnamentoTipo: celle.insegnamentoTipo,
+                  percorsoDidattico: celle.percorsoDidattico,
                 ))
             .toList(),
         //dateInizioFineCurriculum: dto.dateInizioFineCurriculum,

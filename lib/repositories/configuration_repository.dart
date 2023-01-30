@@ -44,10 +44,18 @@ class ConfigurationRepository {
 
   Future<void> setAcademic(AcademicYear academicYear) async =>
       _academicYear = academicYear;
+  Future<AcademicYear?> getAcademic() async => _academicYear;
 
   Future<void> setServer(Server server) async => _serverCode = server.code;
 
-  Future<String> getServer() async => _serverCode ?? "";
+  Future<String> getServer() async {
+    if (_serverCode != null) {
+      return _serverCode!;
+    }
+    final data = await configurationData;
+
+    return data!.university;
+  }
 
   Future<bool> setCourse(Course config) async {
     var configData = await configurationData;

@@ -8,6 +8,7 @@
  *
  */
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
 class CalendarHeader extends StatelessWidget {
@@ -31,11 +32,11 @@ class CalendarHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
+          SizedBox(
             //width: 120.0,
             child: Text(
-              "Calendar",
-              style: TextStyle(fontSize: 36.0, fontWeight: FontWeight.bold),
+              AppLocalizations.of(context)?.calendar_label ?? '',
+              style: Theme.of(context).textTheme.displayMedium,
             ),
           ),
           Row(
@@ -45,8 +46,7 @@ class CalendarHeader extends StatelessWidget {
                 //width: 120.0,
                 child: Text(
                   headerText,
-                  style: const TextStyle(
-                      fontSize: 20.0, fontWeight: FontWeight.w400),
+                  style: Theme.of(context).textTheme.displaySmall,
                 ),
               ),
               Row(

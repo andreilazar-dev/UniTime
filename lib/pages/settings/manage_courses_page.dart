@@ -54,11 +54,10 @@ class _ManageCoursesPageState extends State<ManageCoursesPage> {
             fit: BoxFit.fitWidth,
             child: Text(
               AppLocalizations.of(context)?.settings_manage_courses ?? '',
-              style: const TextStyle(
-                fontSize: 25,
-                fontFamily: 'Roboto-Medium',
-                fontWeight: FontWeight.w700,
-              ),
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineMedium
+                  ?.copyWith(color: Colors.white),
             ),
           ),
         ),
@@ -89,8 +88,14 @@ class _ManageCoursesPageState extends State<ManageCoursesPage> {
                   context.router.replace(RegistrationDetailsRoute());
                 },
                 backgroundColor: const Color.fromRGBO(114, 114, 186, 1),
-                label: const Text('Course'),
-                icon: const Icon(Icons.add),
+                label: Text(
+                  'Course',
+                  style: Theme.of(context).textTheme.labelMedium,
+                ),
+                icon: Icon(
+                  Icons.add,
+                  size: Theme.of(context).textTheme.labelMedium?.fontSize,
+                ),
               ),
             ),
           ),

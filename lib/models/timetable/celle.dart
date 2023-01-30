@@ -28,7 +28,7 @@ class Celle with _$Celle {
     String? linkCorso,
 
     ///String? linkInsegnamento,
-    //String? percorsoDidattico,
+    String? percorsoDidattico,
     String? id,
     int? timestamp,
     String? data,

@@ -8,15 +8,18 @@
  *
  */
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_essentials_kit/flutter_essentials_kit.dart';
 import 'package:intl/intl.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:school_timetable/blocs/daily_timetable/daily_timetable_bloc.dart';
 import 'package:school_timetable/models/timetable/celle.dart';
 import 'package:school_timetable/models/timetable/time_table.dart';
 import 'package:school_timetable/widgets/event_card.dart';
+import 'package:school_timetable/widgets/event_details.dart';
 import 'package:school_timetable/widgets/loading_widget.dart';
 
 class DailyLessonsPage extends StatelessWidget with AutoRouteWrapper {
@@ -49,7 +52,7 @@ class DailyLessonsPage extends StatelessWidget with AutoRouteWrapper {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SafeArea(bottom: false, child: _header()),
+                    SafeArea(bottom: false, child: _header(context)),
                     state.when(
                       fetching: () => const LoadingWidget(),
                       fetched: (timeTable) => _body(context, timeTable),
@@ -94,6 +97,15 @@ class DailyLessonsPage extends StatelessWidget with AutoRouteWrapper {
   }
 
   Widget _body(BuildContext context, TimeTable timeTable) {
+    if (timeTable.celle?.isEmpty ?? true) {
+      final mediaQuery = MediaQuery.of(context);
+      return SizedBox(
+          height: mediaQuery.size.height * 0.3,
+          child: Image.asset(
+            'assets/images/notices/noLessons.png',
+            fit: BoxFit.contain,
+          ));
+    }
     return Column(
       children: [
         ListView.builder(
@@ -112,7 +124,14 @@ class DailyLessonsPage extends StatelessWidget with AutoRouteWrapper {
                       "${timeTable.celle![index].oraInizio!}- ${timeTable.celle![index].oraFine!}",
                   eventPlace: timeTable.celle![index].aula ?? "",
                   onEventTap: (event) {
-                    //TODO: POPUP
+                    showCupertinoModalBottomSheet(
+                      expand: false,
+                      context: context,
+                      backgroundColor: Colors.white,
+                      builder: (context) => EventDetails(
+                        cell: event,
+                      ),
+                    );
                   },
                 ),
               );
@@ -121,7 +140,7 @@ class DailyLessonsPage extends StatelessWidget with AutoRouteWrapper {
     );
   }
 
-  Widget _header() {
+  Widget _header(BuildContext context) {
     final headerText =
         DateFormat(DateFormat.MONTH_WEEKDAY_DAY).format(DateTime.now());
     return Padding(
@@ -129,12 +148,10 @@ class DailyLessonsPage extends StatelessWidget with AutoRouteWrapper {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
+          SizedBox(
             //width: 120.0,
-            child: Text(
-              "Today",
-              style: TextStyle(fontSize: 36.0, fontWeight: FontWeight.w700),
-            ),
+            child: Text(AppLocalizations.of(context)?.today_label ?? '',
+                style: Theme.of(context).textTheme.displayMedium),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -143,8 +160,7 @@ class DailyLessonsPage extends StatelessWidget with AutoRouteWrapper {
                 //width: 120.0,
                 child: Text(
                   headerText,
-                  style: const TextStyle(
-                      fontSize: 20.0, fontWeight: FontWeight.w400),
+                  style: Theme.of(context).textTheme.headlineMedium,
                 ),
               ),
             ],

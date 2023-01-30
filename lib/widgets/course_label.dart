@@ -93,69 +93,69 @@ class CourseLabel extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          const Padding(
+                          Padding(
                             padding: EdgeInsets.only(right: 10),
                             child: Icon(
                               Icons.school,
-                              size: 20,
-                              color: Color.fromRGBO(255, 255, 252, 1),
+                              size: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium
+                                  ?.fontSize,
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium
+                                  ?.color,
                             ),
                           ),
                           Flexible(
                             child: Text(
                               courseName!,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontFamily: 'Roboto-Medium',
-                                fontWeight: FontWeight.w700,
-                                color: Color.fromRGBO(255, 255, 252, 1),
-                              ),
+                              style: Theme.of(context).textTheme.labelLarge,
                             ),
                           ),
                         ],
                       ),
                       Row(
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.only(right: 10, left: 6),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10, left: 6),
                             child: Icon(
                               Icons.calendar_today,
-                              size: 12,
-                              color: Color.fromRGBO(255, 255, 252, 1),
+                              size: Theme.of(context)
+                                  .textTheme
+                                  .labelSmall
+                                  ?.fontSize,
+                              color:
+                                  Theme.of(context).textTheme.labelSmall?.color,
                             ),
                           ),
                           Flexible(
                             child: Text(
                               year!,
-                              style: const TextStyle(
-                                fontSize: 12,
-                                fontFamily: 'Roboto-regular',
-                                color: Color.fromRGBO(255, 255, 252, 1),
-                              ),
+                              style: Theme.of(context).textTheme.labelSmall,
                             ),
                           ),
                         ],
                       ),
                       Row(
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.only(right: 10, left: 4),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10, left: 4),
                             child: Icon(
                               Icons.adjust_sharp,
-                              size: 16,
-                              color: Color.fromRGBO(255, 255, 252, 1),
+                              size: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium
+                                  ?.fontSize,
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium
+                                  ?.color,
                             ),
                           ),
                           Flexible(
-                            child: Text(
-                              studyYear!,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'Roboto-Regular',
-                                fontWeight: FontWeight.w700,
-                                color: Color.fromRGBO(255, 255, 252, 1),
-                              ),
-                            ),
+                            child: Text(studyYear!,
+                                style: Theme.of(context).textTheme.labelMedium),
                           ),
                         ],
                       ),

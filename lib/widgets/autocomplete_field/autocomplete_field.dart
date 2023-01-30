@@ -35,22 +35,15 @@ class AutoCompleteField extends StatelessWidget {
       textFieldConfiguration: TextFieldConfiguration(
         controller: textEditingController,
         focusNode: focusNode,
-        style: const TextStyle(
-          color: Color(0xFFFFFFFC),
-          fontFamily: 'Roboto',
-          fontSize: 16,
-          fontWeight: FontWeight.w500,
-        ),
+        style: Theme.of(context).textTheme.labelMedium,
         decoration: InputDecoration(
             border: InputBorder.none,
             filled: true,
             labelText: fieldProps.labelText,
-            labelStyle: const TextStyle(
-              color: Color.fromRGBO(255, 255, 252, 0.5),
-              fontFamily: 'Roboto',
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
+            labelStyle: Theme.of(context)
+                .textTheme
+                .labelMedium
+                ?.copyWith(color: const Color.fromRGBO(255, 255, 252, 0.5)),
             suffixIcon: fieldProps.suffixIcon),
       ),
       onSuggestionSelected: (select) =>

@@ -41,7 +41,10 @@ class SettingsPage extends StatelessWidget {
               height: buttonheight,
               onPressed: context.read<RegistrationBloc>().resetApp,
               borderRadius: BorderRadius.circular(20),
-              child: Text(AppLocalizations.of(context)?.settings_reset ?? ''),
+              child: Text(
+                AppLocalizations.of(context)?.settings_reset ?? '',
+                style: Theme.of(context).textTheme.labelMedium,
+              ),
             ),
             CustomButton(
               width: buttonwidth,
@@ -52,6 +55,7 @@ class SettingsPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               child: Text(
                 AppLocalizations.of(context)?.settings_manage_courses ?? '',
+                style: Theme.of(context).textTheme.labelMedium,
               ),
             ),
             CustomButton(
@@ -61,7 +65,10 @@ class SettingsPage extends StatelessWidget {
                 context.router.replace(const FilterModulesRoute());
               },
               borderRadius: BorderRadius.circular(20),
-              child: Text(AppLocalizations.of(context)?.settings_filter ?? ''),
+              child: Text(
+                AppLocalizations.of(context)?.settings_filter ?? '',
+                style: Theme.of(context).textTheme.labelMedium,
+              ),
             ),
             Container(
                 width: buttonwidth,
@@ -85,9 +92,7 @@ class SettingsPage extends StatelessWidget {
                 padding: const EdgeInsets.all(12.0),
                 child: Text(
                   AppLocalizations.of(context)?.settings_theme ?? '',
-                  //style: Theme.of(context).textTheme.headline3,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w700, fontSize: 20),
+                  style: Theme.of(context).textTheme.displaySmall,
                 ),
               ),
               DropdownSearch<theme.Theme>(
@@ -95,10 +100,10 @@ class SettingsPage extends StatelessWidget {
                 compareFn: (i, s) => i.name == s.name,
                 itemAsString: (theme) => theme.localize(context) ?? "",
                 selectedItem: state.theme,
-                dropdownDecoratorProps: const DropDownDecoratorProps(
+                dropdownDecoratorProps: DropDownDecoratorProps(
                   textAlign: TextAlign.end,
-                  baseStyle: TextStyle(fontWeight: FontWeight.w700),
-                  dropdownSearchDecoration: InputDecoration(
+                  baseStyle: Theme.of(context).textTheme.labelMedium,
+                  dropdownSearchDecoration: const InputDecoration(
                     filled: true,
                     contentPadding: EdgeInsets.fromLTRB(0, 0, 20, 0),
                   ),
@@ -113,8 +118,10 @@ class SettingsPage extends StatelessWidget {
                   ),
                 ),
                 clearButtonProps: const ClearButtonProps(isVisible: false),
-                dropdownButtonProps:
-                    const DropdownButtonProps(isVisible: false),
+                dropdownButtonProps: DropdownButtonProps(
+                  isVisible: true,
+                  color: Theme.of(context).textTheme.labelLarge?.color,
+                ),
                 onChanged: context.read<ThemeCubit>().setTheme,
               ),
             ],

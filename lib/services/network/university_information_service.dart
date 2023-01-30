@@ -12,9 +12,9 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:school_timetable/errors/network_error.dart';
-import 'package:school_timetable/services/network/dto/courses/course_list_response.dart';
+import 'package:school_timetable/services/network/responses/courses/course_list_response.dart';
 import 'package:school_timetable/services/network/dto/courses/year_dto.dart';
-import 'package:school_timetable/services/network/dto/courses/years_response.dart';
+import 'package:school_timetable/services/network/responses/years/years_response.dart';
 import 'package:school_timetable/services/network/dto/years/academic_year_dto.dart';
 import 'package:school_timetable/services/network/misc/json_scrubber.dart';
 

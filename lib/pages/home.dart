@@ -38,39 +38,23 @@ class HomePage extends StatelessWidget {
           // Here we're building our Scaffold inside of AutoTabsRouter
           // to access the tabsRouter controller provided in this context
           //
-          //alterntivly you could use a global key
+          //alternatively you could use a global key
           return Scaffold(
             extendBody: true,
             body: FadeTransition(
               opacity: animation,
-              // the passed child is techinaclly our animated selected-tab page
+              // the passed child is technically our animated selected-tab page
               child: child,
             ),
-            // bottomNavigationBar: BottomNavigationBar(
-            //   currentIndex: tabsRouter.activeIndex,
-            //   onTap: (index) {
-            //     // here we switch between tabs
-            //     tabsRouter.setActiveIndex(index);
-            //   },
-            //   items: const [
-            //     BottomNavigationBarItem(
-            //         label: 'Home', icon: Icon(Icons.dashboard)),
-            //     BottomNavigationBarItem(
-            //         label: 'Overview', icon: Icon(Icons.find_in_page_rounded)),
-            //     BottomNavigationBarItem(
-            //         label: 'Settings', icon: Icon(Icons.menu)),
-            //   ],
-            // ),
-            //
             bottomNavigationBar: ReiBottomBar(
-              currentIndex: tabsRouter.activeIndex,
-              onTap: (index) {
-                // here we switch between tabs
-                tabsRouter.setActiveIndex(index);
-              },
-              items: itemsBar,
-              margin: const EdgeInsets.only(left: 0, right: 0),
-            ),
+                currentIndex: tabsRouter.activeIndex,
+                onTap: (index) {
+                  // here we switch between tabs
+                  tabsRouter.setActiveIndex(index);
+                },
+                items: itemsBar,
+                marginR:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 20)),
           );
         },
       ),

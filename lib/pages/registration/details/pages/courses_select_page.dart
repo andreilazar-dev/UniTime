@@ -178,7 +178,7 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
                 Center(
                   child: Text(
                     AppLocalizations.of(ctx)?.course_page_label ?? '',
-                    style: Theme.of(ctx).textTheme.headline2,
+                    style: Theme.of(ctx).textTheme.headlineMedium,
                   ),
                 ),
                 SizedBox(
@@ -186,7 +186,7 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
                         0.1),
                 Text(
                   AppLocalizations.of(ctx)?.select_academic_label ?? '',
-                  style: Theme.of(ctx).textTheme.headline2,
+                  style: Theme.of(ctx).textTheme.headlineMedium,
                 ),
 
                 Padding(
@@ -196,9 +196,12 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
                     compareFn: (i, s) => i == s,
                     itemAsString: (server) => server.label,
                     selectedItem: academicYears[0],
-                    dropdownDecoratorProps: const DropDownDecoratorProps(
-                      baseStyle: TextStyle(fontSize: 16),
-                      dropdownSearchDecoration: InputDecoration(
+                    dropdownButtonProps: DropdownButtonProps(
+                      color: Theme.of(ctx).primaryColorLight,
+                    ),
+                    dropdownDecoratorProps: DropDownDecoratorProps(
+                      baseStyle: Theme.of(ctx).textTheme.labelMedium,
+                      dropdownSearchDecoration: const InputDecoration(
                         filled: true,
                         contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 20),
                       ),
@@ -233,7 +236,7 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
                         0.025),
                 Text(
                   AppLocalizations.of(ctx)?.select_course_label ?? '',
-                  style: Theme.of(ctx).textTheme.headline2,
+                  style: Theme.of(ctx).textTheme.headlineMedium,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0),
@@ -255,7 +258,10 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
                       suffixIcon: _courseEditingController.text.isEmpty
                           ? null // Show nothing if the text field is empty
                           : IconButton(
-                              icon: const Icon(Icons.clear),
+                              icon: Icon(
+                                Icons.clear,
+                                color: Theme.of(ctx).primaryColorLight,
+                              ),
                               onPressed: _clearTextField,
                             ),
                     ),
@@ -270,7 +276,7 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
                         0.025),
                 Text(
                   AppLocalizations.of(ctx)?.select_year_label ?? '',
-                  style: Theme.of(ctx).textTheme.headline2,
+                  style: Theme.of(ctx).textTheme.headlineMedium,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0),
@@ -280,10 +286,15 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
                     enabled: years != null,
                     compareFn: (i, s) => i == s,
                     itemAsString: (year) => year.label,
+                    dropdownButtonProps: DropdownButtonProps(
+                      color: Theme.of(ctx).primaryColorLight,
+                    ),
                     dropdownDecoratorProps: DropDownDecoratorProps(
-                        baseStyle: const TextStyle(fontSize: 16),
+                        baseStyle: Theme.of(ctx).textTheme.labelMedium,
                         dropdownSearchDecoration: InputDecoration(
                           filled: true,
+                          iconColor: Colors.white,
+                          labelStyle: Theme.of(ctx).textTheme.labelMedium,
                           labelText: selectedCourse?.years != null
                               ? AppLocalizations.of(ctx)
                                       ?.select_year_label_hint ??
@@ -298,6 +309,14 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
                     popupProps: PopupPropsMultiSelection.menu(
                       fit: FlexFit.loose,
                       showSelectedItems: true,
+                      itemBuilder: (context, item, isSelected) {
+                        return ListTile(
+                          selected: isSelected,
+                          title: Text(
+                            item.label,
+                          ),
+                        );
+                      },
                       selectionWidget: (context, text, isSelected) {
                         return Padding(
                           padding: const EdgeInsets.only(right: 15.0),
@@ -316,7 +335,6 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
                       },
                       menuProps: MenuProps(
                         elevation: 0,
-                        //backgroundColor: Colors.white70,
                         shape: RoundedRectangleBorder(
                           // side: BorderSide(
                           //   color: Colors.greenAccent,
@@ -324,18 +342,12 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
                           borderRadius: BorderRadius.circular(25.0),
                         ),
                       ),
-                      searchFieldProps: const TextFieldProps(
-                        decoration: InputDecoration(
-                            //iconColor: Colors.white,
-                            border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(25)),
-                        )),
-                      ),
                       //itemBuilder: _universityBuilder,
                     ),
                     // items: serversUny.keys.toList(),
 
                     clearButtonProps: ClearButtonProps(
+                        color: Colors.white,
                         isVisible: true,
                         onPressed: () {
                           _openDropDownProgKeyYears.currentState
@@ -395,7 +407,7 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
             height: (mediaQuery.size.height - mediaQuery.padding.top) * 0.025),
         Text(
           AppLocalizations.of(context)?.select_school_label ?? '',
-          style: Theme.of(context).textTheme.headline2,
+          style: Theme.of(context).textTheme.labelMedium,
         ),
         Padding(
           padding: const EdgeInsets.only(top: 20.0),
@@ -403,22 +415,26 @@ class _CoursesSelectPageState extends State<CoursesSelectPage> {
             items: courses.elencoScuole ?? [],
             compareFn: (i, s) => i == s,
             itemAsString: (server) => server.label,
-            dropdownDecoratorProps: const DropDownDecoratorProps(
-              baseStyle: TextStyle(fontSize: 16),
-              dropdownSearchDecoration: InputDecoration(
+            dropdownButtonProps: DropdownButtonProps(
+              color: Theme.of(context).primaryColorLight,
+            ),
+            dropdownDecoratorProps: DropDownDecoratorProps(
+              baseStyle: Theme.of(context).textTheme.labelMedium,
+              dropdownSearchDecoration: const InputDecoration(
                 filled: true,
                 contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 20),
               ),
             ),
-            popupProps: const PopupProps.menu(
+            popupProps: PopupProps.menu(
               fit: FlexFit.loose,
               showSelectedItems: true,
               //showSearchBox: true,
-              menuProps: MenuProps(
+              menuProps: const MenuProps(
                 elevation: 0,
               ),
               searchFieldProps: TextFieldProps(
-                decoration: InputDecoration(
+                style: Theme.of(context).textTheme.labelMedium,
+                decoration: const InputDecoration(
                     border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(25)),
                 )),

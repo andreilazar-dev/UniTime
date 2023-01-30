@@ -20,7 +20,7 @@ class CustomShape extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return ColoredBox(
-      color: theme.backgroundColor,
+      color: theme.scaffoldBackgroundColor,
       child: CustomPaint(
         size: const Size(0, 0),
         //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically

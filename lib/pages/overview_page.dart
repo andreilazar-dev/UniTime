@@ -12,10 +12,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_essentials_kit/errors/localized_error.dart';
 import 'package:intl/intl.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:school_timetable/blocs/overview/overview_bloc.dart';
 import 'package:school_timetable/misc/date_util.dart';
 import 'package:school_timetable/models/celle_data_source.dart';
 import 'package:school_timetable/models/timetable/time_table.dart';
+import 'package:school_timetable/widgets/event_details.dart';
 import 'package:school_timetable/widgets/header_calendar.dart';
 import 'package:school_timetable/widgets/loading_widget.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -148,9 +150,10 @@ class _OverviewPageState extends State<OverviewPage> {
                   }
                 },
               ),
-              if (overviewState is FetchingOverviewState) const LoadingWidget(),
+              if (overviewState is FetchingOverviewState)
+                const Expanded(child: LoadingWidget()),
               if (overviewState is FetchedOverviewState)
-                _timeline(overviewState.timeTable),
+                _timeline(context, overviewState.timeTable),
               if (overviewState is ErrorOverviewState) _error(context),
             ],
           );
@@ -173,7 +176,7 @@ class _OverviewPageState extends State<OverviewPage> {
     );
   }
 
-  Widget _timeline(TimeTable timeTable) {
+  Widget _timeline(BuildContext context, TimeTable timeTable) {
     _timeLineController.displayDate = _focusedDay.value;
     return Expanded(
       child: SfCalendar(
@@ -185,27 +188,28 @@ class _OverviewPageState extends State<OverviewPage> {
         showCurrentTimeIndicator: true,
         minDate: _inputDateFormat.parse(timeTable.firstDayLabel),
         maxDate: _inputDateFormat.parse(timeTable.lastDayLabel),
-        timeSlotViewSettings: const TimeSlotViewSettings(
+        timeSlotViewSettings: TimeSlotViewSettings(
           startHour: 8,
           endHour: 23,
-          timeInterval: Duration(minutes: 30),
+          timeInterval: const Duration(minutes: 30),
           // timeIntervalHeight: -1,
           // timeIntervalWidth: 60,
           timeFormat: "HH:mm",
           numberOfDaysInView: 1,
-          nonWorkingDays: <int>[DateTime.monday, DateTime.friday],
-          timeTextStyle: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontStyle: FontStyle.italic,
-            fontSize: 12,
-          ),
+          nonWorkingDays: const <int>[DateTime.monday, DateTime.friday],
+          timeTextStyle: Theme.of(context).textTheme.headlineSmall,
         ),
         dataSource: CelleDataSource(timeTable.celle!, _colors),
         onTap: (details) {
-          //TODO: POP UP
           if (details.appointments != null) {
-            //TODO: POP UP
-            //details.appointments![0]!.nomeInsegnamento
+            showCupertinoModalBottomSheet(
+              expand: false,
+              context: context,
+              backgroundColor: Colors.white,
+              builder: (context) => EventDetails(
+                cell: details.appointments![0],
+              ),
+            );
           }
         },
         // onSelectionChanged: (sel) {

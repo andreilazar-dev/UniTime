@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020 - 2022
+ *  Copyright (c) 2020 - 2023
  *  Author: Andrei Lazar
  *
  *  This file is part of UniTime.
@@ -10,7 +10,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:school_timetable/services/network/dto/courses/school_dto.dart';
-import 'course_dto.dart';
+import '../../dto/courses/course_dto.dart';
 
 part 'course_list_response.g.dart';
 

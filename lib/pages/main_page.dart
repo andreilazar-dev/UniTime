@@ -11,12 +11,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:upgrader/upgrader.dart';
 import 'package:school_timetable/blocs/registration/registration_bloc.dart';
 import 'package:school_timetable/repositories/courses_repository.dart';
 import 'package:school_timetable/routers/app_router.gr.dart';
 import 'package:school_timetable/widgets/loading_widget.dart';
-
-import '../services/network/university_information_service.dart';
+import 'package:school_timetable/services/network/university_information_service.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -24,21 +24,28 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => WillPopScope(
         onWillPop: () async => false,
-        child: BlocConsumer<RegistrationBloc, RegistrationState>(
-          listener: (context, state) => state.whenOrNull(
-            registered: (baseUrl, config) {
-              context
-                  .read<UniversityInformationService>()
-                  .setServer(server: baseUrl);
-              context.read<CoursesRepository>().setConfiguration(config);
-              _goToPage(context, const HomeRoute());
-              return null;
-            },
-            notRegistered: () => _goToPage(context, const RegistrationHomeRoute()),
-          ),
-          builder: (context, state) => Scaffold(
-            body: state.whenOrNull(
-              checking: () => const LoadingWidget(),
+        child: UpgradeAlert(
+          upgrader: Upgrader(
+              // debugLogging: true,
+              // debugDisplayAlways: true,
+              ),
+          child: BlocConsumer<RegistrationBloc, RegistrationState>(
+            listener: (context, state) => state.whenOrNull(
+              registered: (baseUrl, config) {
+                context
+                    .read<UniversityInformationService>()
+                    .setServer(server: baseUrl);
+                context.read<CoursesRepository>().setConfiguration(config);
+                _goToPage(context, const HomeRoute());
+                return null;
+              },
+              notRegistered: () =>
+                  _goToPage(context, const RegistrationHomeRoute()),
+            ),
+            builder: (context, state) => Scaffold(
+              body: state.whenOrNull(
+                checking: () => const LoadingWidget(),
+              ),
             ),
           ),
         ),

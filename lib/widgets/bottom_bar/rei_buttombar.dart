@@ -28,7 +28,7 @@ class ReiBottomBar extends StatelessWidget {
           const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       this.duration = const Duration(milliseconds: 500),
       this.curve = Curves.easeOutQuint,
-      this.borderRadius = 60,
+      this.borderRadius = 25,
 
       //TODO: This need for margin need dynamic
       this.marginR = const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
@@ -171,7 +171,7 @@ class ReiBottomBar extends StatelessWidget {
                                       data: IconThemeData(
                                         color: Color.lerp(
                                             unselectedColor, selectedColor, t),
-                                        size: 24,
+                                        size: 26, //24,
                                       ),
                                       child: items.indexOf(item) == currentIndex
                                           ? item.activeIcon ?? item.icon
@@ -183,7 +183,7 @@ class ReiBottomBar extends StatelessWidget {
                                         ///
                                         /// The Align property appears to make these full height, would be
                                         /// best to find a way to make it respond only to padding.
-                                        height: 20,
+                                        height: 30,
                                         child: Align(
                                           alignment: const Alignment(-0.2, 0.0),
                                           widthFactor: t,

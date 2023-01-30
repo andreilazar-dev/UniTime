@@ -54,11 +54,10 @@ class _FilterModulesPageState extends State<FilterModulesPage> {
             fit: BoxFit.fitWidth,
             child: Text(
               AppLocalizations.of(context)?.settings_filter ?? '',
-              style: const TextStyle(
-                fontSize: 25,
-                fontFamily: 'Roboto-Medium',
-                fontWeight: FontWeight.w700,
-              ),
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineMedium
+                  ?.copyWith(color: Colors.white),
             ),
           ),
         ),
@@ -113,11 +112,8 @@ class _FilterModulesPageState extends State<FilterModulesPage> {
                                 padding: const EdgeInsets.only(top: 8.0),
                                 child: Text(
                                   data.selectedCourses[index].label,
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    fontFamily: 'Roboto-Medium',
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
                                 ),
                               ),
                               Padding(
@@ -125,11 +121,9 @@ class _FilterModulesPageState extends State<FilterModulesPage> {
                                 child: Text(
                                   data.selectedCourses[index].years[indexYears]
                                       .label,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontFamily: 'Roboto-Medium',
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium,
                                 ),
                               ),
                               ListView.builder(
@@ -166,8 +160,9 @@ class _FilterModulesPageState extends State<FilterModulesPage> {
                                                     .elencoInsegnamenti[
                                                         indexModule]
                                                     .label,
-                                                style: const TextStyle(
-                                                    color: Color(0xFFFFFFFC)),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .labelMedium,
                                               ),
                                               value: data
                                                   .selectedCourses[index]
@@ -219,12 +214,9 @@ class _FilterModulesPageState extends State<FilterModulesPage> {
                     context.read<FilterModulesBloc>().saveChanges(data);
                   },
                   backgroundColor: const Color.fromRGBO(62, 62, 112, 1),
-                  label: const Text(
+                  label: Text(
                     'confirm',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                    ),
+                    style: Theme.of(context).textTheme.labelMedium,
                   ),
                   icon:
                       const Icon(Icons.check, color: Colors.green, size: 24.0),
@@ -245,6 +237,7 @@ class _FilterModulesPageState extends State<FilterModulesPage> {
         content: Text(
           AppLocalizations.of(context)?.modules_saved_dialog ?? '',
           textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.labelSmall,
         ),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -265,18 +258,25 @@ class _FilterModulesPageState extends State<FilterModulesPage> {
             content: Text(
               AppLocalizations.of(context)?.exit_dialog_text ?? '',
               textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.labelMedium,
             ),
             actions: <Widget>[
               TextButton(
                 onPressed: () => Navigator.pop(context, 'Back'),
-                child: Text(AppLocalizations.of(context)?.go_back_dialog ?? ''),
+                child: Text(
+                  AppLocalizations.of(context)?.go_back_dialog ?? '',
+                  style: Theme.of(context).textTheme.labelMedium,
+                ),
               ),
               TextButton(
                 onPressed: () {
                   //context.router.removeLast();
                   context.router.replace(const HomeRoute());
                 },
-                child: Text(AppLocalizations.of(context)?.confirm_dialog ?? ''),
+                child: Text(
+                  AppLocalizations.of(context)?.confirm_dialog ?? '',
+                  style: Theme.of(context).textTheme.labelMedium,
+                ),
               ),
             ],
           );

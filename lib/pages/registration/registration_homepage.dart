@@ -53,7 +53,7 @@ class RegistrationHomePage extends StatelessWidget {
                   Center(
                     child: Text(
                       AppLocalizations.of(context)?.welcome ?? '',
-                      style: Theme.of(context).textTheme.headline1,
+                      style: Theme.of(context).textTheme.displayLarge,
                     ),
                   ),
                   SizedBox(
@@ -62,7 +62,7 @@ class RegistrationHomePage extends StatelessWidget {
                               0.15),
                   Text(
                     AppLocalizations.of(context)?.select_uni ?? '',
-                    style: Theme.of(context).textTheme.headline2,
+                    style: Theme.of(context).textTheme.headlineMedium,
                   ),
                   SizedBox(
                       height:
@@ -76,11 +76,15 @@ class RegistrationHomePage extends StatelessWidget {
                       itemAsString: (server) =>
                           (AppLocalizations.of(context)?.uni_of ?? '') +
                           server.label,
+                      dropdownButtonProps: DropdownButtonProps(
+                        color: Theme.of(context).primaryColorLight,
+                      ),
                       dropdownDecoratorProps: DropDownDecoratorProps(
-                          baseStyle: const TextStyle(fontSize: 16),
+                          baseStyle: Theme.of(context).textTheme.labelMedium,
                           dropdownSearchDecoration: InputDecoration(
                             labelText:
                                 AppLocalizations.of(context)?.tap_uni ?? '',
+                            labelStyle: Theme.of(context).textTheme.labelMedium,
                             filled: true,
                             contentPadding:
                                 const EdgeInsets.fromLTRB(20, 20, 20, 20),
@@ -90,7 +94,6 @@ class RegistrationHomePage extends StatelessWidget {
                         showSelectedItems: true,
                         showSearchBox: false,
                         menuProps: MenuProps(
-                          //backgroundColor: Colors.green,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                             // side: BorderSide(
@@ -102,14 +105,14 @@ class RegistrationHomePage extends StatelessWidget {
                         searchFieldProps: const TextFieldProps(
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25)),
+                            borderRadius: BorderRadius.all(Radius.circular(25)),
                           )),
                         ),
                         itemBuilder: _universityBuilder,
                       ),
                       // items: serversUny.keys.toList(),
-                      clearButtonProps: const ClearButtonProps(isVisible: false),
+                      clearButtonProps:
+                          const ClearButtonProps(isVisible: false),
                       onChanged: (server) {
                         selectedServer = server!;
                       },
@@ -163,10 +166,10 @@ class RegistrationHomePage extends StatelessWidget {
             ),
       child: ListTile(
         selected: isSelected,
-        title:
-            Text((AppLocalizations.of(context)?.uni_of ?? '') + server.label),
+        title: Text(
+          (AppLocalizations.of(context)?.uni_of ?? '') + server.label,
+        ),
         subtitle: Text(server.code),
-        selectedColor: Colors.black,
         // leading: CircleAvatar(
         //   backgroundImage: NetworkImage('link'),
         //     ),

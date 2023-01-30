@@ -113,12 +113,7 @@ class EventCard<T> extends StatelessWidget {
                             Flexible(
                               child: Text(
                                 eventName!,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontFamily: 'Roboto-Medium',
-                                  fontWeight: FontWeight.w700,
-                                  color: Color.fromRGBO(255, 255, 252, 1),
-                                ),
+                                style: Theme.of(context).textTheme.labelMedium,
                               ),
                             ),
                           ],
@@ -128,11 +123,7 @@ class EventCard<T> extends StatelessWidget {
                             Flexible(
                               child: Text(
                                 eventPlace!,
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontFamily: 'Roboto-regular',
-                                  color: Color.fromRGBO(255, 255, 252, 1),
-                                ),
+                                style: Theme.of(context).textTheme.labelSmall,
                               ),
                             ),
                           ],
@@ -143,20 +134,18 @@ class EventCard<T> extends StatelessWidget {
                             Flexible(
                               child: Text(
                                 eventTimeInterval!,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontFamily: 'Roboto-Regular',
-                                  fontWeight: FontWeight.w700,
-                                  color: Color.fromRGBO(255, 255, 252, 1),
-                                ),
+                                style: Theme.of(context).textTheme.labelLarge,
                               ),
                             ),
-                            const Padding(
-                              padding: EdgeInsets.only(right: 10),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
                               child: Icon(
                                 Icons.info_outline_rounded,
                                 size: 24,
-                                color: Color.fromRGBO(255, 255, 252, 1),
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .labelLarge
+                                    ?.color,
                               ),
                             ),
                           ],
