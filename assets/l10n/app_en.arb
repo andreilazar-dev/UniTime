@@ -4,6 +4,7 @@
   "select_uni": "Select your university",
   "tap_uni": "tap to view universities",
   "uni_of" : "University of ",
+  "policy_label_button" : "Agree",
 
   "course_page_label" : "Some more information",
   "select_academic_label" : "Select academic year",

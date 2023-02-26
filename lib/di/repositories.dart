@@ -11,9 +11,12 @@
 part of 'dependency_injector.dart';
 
 final List<RepositoryProvider> _repositories = [
+  RepositoryProvider<Future<SharedPreferences>>(
+    create: (context) => SharedPreferences.getInstance(),
+  ),
   RepositoryProvider<ConfigurationRepository>(
     create: (context) => ConfigurationRepository(
-      sharedPreferences: SharedPreferences.getInstance(),
+      sharedPreferences: context.read(),
     ),
   ),
   RepositoryProvider<CoursesRepository>(
@@ -24,5 +27,6 @@ final List<RepositoryProvider> _repositories = [
             academicYearMapper: context.read<AcademicYearMapper>(),
             timeTableMapper: context.read<TimeTableMapper>(),
             yearsMapper: context.read<YearsMapper>(),
+            sharedPreferences: context.read(),
           ))
 ];

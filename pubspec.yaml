@@ -39,6 +39,8 @@ dependencies:
   modal_bottom_sheet: ^2.1.2
   firebase_core: ^2.4.1
   firebase_analytics: ^10.1.0
+  flutter_markdown: ^0.6.13
+  url_launcher: ^6.1.8
 
 dev_dependencies:
   flutter_test:
@@ -59,10 +61,21 @@ dev_dependencies:
 flutter:
   generate: true
   uses-material-design: true
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Italic.ttf
+        - asset: assets/fonts/Poppins-Light.ttf
+        - asset: assets/fonts/Poppins-Medium.ttf
+        - asset: assets/fonts/Poppins-Bold.ttf
+
   assets:
     - assets/images/UniTime.png
     - assets/images/notices/noLessons.png
     - assets/images/notices/error.png
+    - assets/policy/privacy_policy_en.md
+    - assets/policy/privacy_policy_it.md
 
 flutter_icons:
   image_path: "assets/icon.png"

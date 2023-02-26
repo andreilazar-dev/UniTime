@@ -2,6 +2,13 @@
     package="com.lorenzobonanni.school_timetable">
 
     <!--        android:name="${applicationName}"-->
+    <queries>
+        <!-- If your app opens https URLs -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+    </queries>
     <application
         android:name="${applicationName}"
         android:label="UniTime"

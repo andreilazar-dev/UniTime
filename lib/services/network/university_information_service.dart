@@ -176,7 +176,7 @@ class UniversityInformationService {
     required String date,
     String lang = 'it',
     String highlightedDate = '0',
-    String allEvents = '1',
+    String allEvents = '0',
   }) async {
     const extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{

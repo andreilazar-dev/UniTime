@@ -7,7 +7,6 @@
  *  Use of this source code is governed by a GPL-3.0 license that can be found in the LICENSE file
  *
  */
-
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +20,7 @@ import 'package:school_timetable/models/timetable/time_table.dart';
 import 'package:school_timetable/widgets/event_card.dart';
 import 'package:school_timetable/widgets/event_details.dart';
 import 'package:school_timetable/widgets/loading_widget.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class DailyLessonsPage extends StatelessWidget with AutoRouteWrapper {
   const DailyLessonsPage({Key? key}) : super(key: key);
@@ -36,6 +36,7 @@ class DailyLessonsPage extends StatelessWidget with AutoRouteWrapper {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: LayoutBuilder(builder: (context, constraints) {
         return RefreshIndicator(
           onRefresh: () async {

@@ -55,3 +55,4 @@ app.*.map.json
 #custom
 /lib/misc/server/**.dart
 /lib/misc/firebase_options.dart
+/UniTime/**

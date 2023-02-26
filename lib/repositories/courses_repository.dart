@@ -8,11 +8,13 @@
  *
  */
 
+import 'dart:convert';
 import 'dart:developer';
 import 'package:intl/intl.dart';
 import 'package:school_timetable/errors/generic_error.dart';
 import 'package:school_timetable/errors/network_error.dart';
 import 'package:school_timetable/errors/repository_error.dart';
+import 'package:school_timetable/misc/date_util.dart';
 import 'package:school_timetable/models/academic_year.dart';
 import 'package:school_timetable/models/courses/year.dart';
 import 'package:school_timetable/models/preferences/configuration.dart';
@@ -26,6 +28,9 @@ import 'package:school_timetable/services/network/dto/time_table/time_table_dto.
 import 'package:school_timetable/services/network/university_information_service.dart';
 import 'package:school_timetable/repositories/mappers/accademic_year_mapper.dart';
 import 'package:school_timetable/models/courses/courses.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+const _kAppCached = "APP_CACHEDTIMETABLE";
 
 class CoursesRepository {
   final UniversityInformationService universityInformationService;
@@ -34,13 +39,16 @@ class CoursesRepository {
   final TimeTableMapper timeTableMapper;
   final YearsMapper yearsMapper;
   Configuration? _configuration;
+  final Future<SharedPreferences> sharedPreferences;
 
-  CoursesRepository(
-      {required this.universityInformationService,
-      required this.coursesMapper,
-      required this.academicYearMapper,
-      required this.timeTableMapper,
-      required this.yearsMapper});
+  CoursesRepository({
+    required this.universityInformationService,
+    required this.coursesMapper,
+    required this.academicYearMapper,
+    required this.timeTableMapper,
+    required this.yearsMapper,
+    required this.sharedPreferences,
+  });
 
   void setConfiguration(Configuration configuration) =>
       _configuration = configuration;
@@ -103,6 +111,7 @@ class CoursesRepository {
         return _filtering(obj.map(timeTableMapper.toModel).toList());
       } on NetworkError catch (error) {
         //TODO: ADDED CACHE
+        // _cachedTimetable(date);
         throw RepositoryError(error);
       } catch (e) {
         log("Generic RepositoryError", name: "Course_Repository lessons");
@@ -155,6 +164,13 @@ class CoursesRepository {
     return filtered;
   }
 
+  // Future<List<TimeTable>> _cachedTimetable(DateTime date) async {
+  //   final cached = (await sharedPreferences).getString(_kAppCached);
+  //   if (cached != null) {
+  //       final timetable = List<TimeTable>.from(json.decode(cached));
+  //       AppDateUtils.isSameWeek(timetable.first.firstDayLabel,DateTime.now());
+  //   }
+  // }
   // bool _timeCompare(String time, String time2) {
   //   double first = double.parse(time.split(":")[0]) * 60 +
   //       double.parse(time.split(":")[1]);

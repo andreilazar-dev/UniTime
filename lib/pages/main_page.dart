@@ -39,8 +39,7 @@ class MainPage extends StatelessWidget {
                 _goToPage(context, const HomeRoute());
                 return null;
               },
-              notRegistered: () =>
-                  _goToPage(context, const RegistrationHomeRoute()),
+              notRegistered: () => _goToPage(context, RegistrationHomeRoute()),
             ),
             builder: (context, state) => Scaffold(
               body: state.whenOrNull(

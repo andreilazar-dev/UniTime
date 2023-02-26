@@ -56,7 +56,6 @@ class CourseSettingBloc extends Bloc<CourseSettingEvent, CourseSettingState> {
       if (await repository.setCourse(event.course)) {
         emit(const CourseSettingState.saved());
       }
-      //emit(CourseSettingState.teachings());
     } catch (error) {
       //TODO : ERROR Implement
     }

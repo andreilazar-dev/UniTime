@@ -9,6 +9,7 @@
  */
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_essentials_kit/errors/localized_error.dart';
 import 'package:intl/intl.dart';
@@ -45,7 +46,7 @@ class _OverviewPageState extends State<OverviewPage> {
   DateTime? _selectedDay;
   late PageController _pageController;
   final ValueNotifier<DateTime> _focusedDay = ValueNotifier(DateTime.now());
-  final DateFormat _inputDateFormat = DateFormat('dd/MM/yyyy');
+  final DateFormat _inputDateFormat = DateFormat('dd-MM-yyyy');
   final CalendarController _timeLineController = CalendarController();
 
   final List<Color> _colors = [
@@ -116,6 +117,8 @@ class _OverviewPageState extends State<OverviewPage> {
               TableCalendar(
                 firstDay: _kFirstDay,
                 lastDay: _kLastDay,
+                //TODO: cancel this when set initializeDateFormatting for intl
+                locale: Localizations.localeOf(context).languageCode,
                 startingDayOfWeek: StartingDayOfWeek.monday,
                 headerVisible: false,
                 focusedDay: _focusedDay.value,
@@ -131,15 +134,20 @@ class _OverviewPageState extends State<OverviewPage> {
                 },
                 onDaySelected: (selectedDay, focusedDay) {
                   if (!isSameDay(_selectedDay, selectedDay)) {
-                    if (!AppDateUtils.isSameWeek(
-                        _focusedDay.value, selectedDay)) {
+                    if (_selectedDay != null &&
+                        !AppDateUtils.isSameWeek(_selectedDay!, selectedDay)) {
                       context.read<OverviewBloc>().loadTimetable(selectedDay);
+                      SchedulerBinding.instance
+                          .addPostFrameCallback((duration) {
+                        _timeLineController.displayDate = _focusedDay.value;
+                      });
                     }
                     // Call `setState()` when updating the selected day
                     setState(() {
                       _selectedDay = selectedDay;
                       _focusedDay.value = focusedDay;
                     });
+                    _timeLineController.displayDate = _focusedDay.value;
                   }
                 },
                 onCalendarCreated: (controller) => _pageController = controller,
@@ -177,7 +185,12 @@ class _OverviewPageState extends State<OverviewPage> {
   }
 
   Widget _timeline(BuildContext context, TimeTable timeTable) {
-    _timeLineController.displayDate = _focusedDay.value;
+    //_timeLineController.displayDate = _focusedDay.value;
+    // if (_timeLineController.displayDate != null &&
+    //     !AppDateUtils.isSameWeek(
+    //         _timeLineController.displayDate!, _focusedDay.value)) {
+    //   _timeLineController.displayDate = _focusedDay.value;
+    // }
     return Expanded(
       child: SfCalendar(
         view: CalendarView.day,
@@ -186,17 +199,17 @@ class _OverviewPageState extends State<OverviewPage> {
         viewHeaderHeight: 0,
         cellEndPadding: 5,
         showCurrentTimeIndicator: true,
-        minDate: _inputDateFormat.parse(timeTable.firstDayLabel),
-        maxDate: _inputDateFormat.parse(timeTable.lastDayLabel),
+        minDate: _inputDateFormat.parse(timeTable.firstDay),
+        maxDate: _inputDateFormat.parse(timeTable.lastDay),
         timeSlotViewSettings: TimeSlotViewSettings(
           startHour: 8,
           endHour: 23,
           timeInterval: const Duration(minutes: 30),
-          // timeIntervalHeight: -1,
+          //timeIntervalHeight: -1,
           // timeIntervalWidth: 60,
           timeFormat: "HH:mm",
           numberOfDaysInView: 1,
-          nonWorkingDays: const <int>[DateTime.monday, DateTime.friday],
+          // nonWorkingDays: const <int>[DateTime.monday, DateTime.friday],
           timeTextStyle: Theme.of(context).textTheme.headlineSmall,
         ),
         dataSource: CelleDataSource(timeTable.celle!, _colors),
@@ -212,17 +225,20 @@ class _OverviewPageState extends State<OverviewPage> {
             );
           }
         },
-        // onSelectionChanged: (sel) {
-        //   print(sel.date);
-        // },
-        // onViewChanged: (view) {
-        //   if (!isSameDay(_focusedDay.value, view.visibleDates[0])) {
-        //     // setState(() {
-        //     //   _selectedDay = view.visibleDates[0];
-        //     //   //   //_focusedDay.value = focusedDay;
-        //     // });
-        //   }
-        //},
+        onViewChanged: (view) {
+          if (!isSameDay(_focusedDay.value, view.visibleDates[0])) {
+            SchedulerBinding.instance.addPostFrameCallback((duration) {
+              setState(() {
+                _selectedDay = view.visibleDates[0];
+              });
+            });
+          } else if (_selectedDay != null &&
+              !isSameDay(_focusedDay.value, _selectedDay)) {
+            setState(() {
+              _selectedDay = view.visibleDates[0];
+            });
+          }
+        },
       ),
     );
   }
