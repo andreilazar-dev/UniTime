@@ -10,7 +10,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-// part 'date_inizio_fine_curriculum.g.dart';
+part 'date_inizio_fine_curriculum.g.dart';
 
 part 'date_inizio_fine_curriculum.freezed.dart';
 
@@ -20,8 +20,8 @@ class DateInizioFineCurriculum with _$DateInizioFineCurriculum {
     Date? date,
   }) = _DateInizioFineCurriculum;
 
-  // factory DateInizioFineCurriculum.fromJson(Map<String, dynamic> json) =>
-  //     _$DateInizioFineCurriculumFromJson(json);
+  factory DateInizioFineCurriculum.fromJson(Map<String, dynamic> json) =>
+      _$DateInizioFineCurriculumFromJson(json);
 }
 
 @freezed
@@ -30,7 +30,7 @@ class Date with _$Date {
     Datedescription? datedescription,
   }) = _Date;
 
-//factory Date.fromJson(Map<String, dynamic> json) => _$DateFromJson(json);
+  factory Date.fromJson(Map<String, dynamic> json) => _$DateFromJson(json);
 }
 
 @freezed
@@ -41,5 +41,6 @@ class Datedescription with _$Datedescription {
     String? dataFine,
   }) = _Datedescription;
 
-// factory Datedescription.fromJson(Map<String, dynamic> json) => _$DatedescriptionFromJson(json);
+  factory Datedescription.fromJson(Map<String, dynamic> json) =>
+      _$DatedescriptionFromJson(json);
 }

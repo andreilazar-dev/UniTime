@@ -41,6 +41,7 @@ dependencies:
   firebase_analytics: ^10.1.0
   flutter_markdown: ^0.6.13
   url_launcher: ^6.1.8
+  flutter_offline: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -64,11 +65,11 @@ flutter:
   fonts:
     - family: Poppins
       fonts:
-        - asset: assets/fonts/Poppins-Regular.ttf
-        - asset: assets/fonts/Poppins-Italic.ttf
-        - asset: assets/fonts/Poppins-Light.ttf
-        - asset: assets/fonts/Poppins-Medium.ttf
-        - asset: assets/fonts/Poppins-Bold.ttf
+        - asset: assets/fonts/Lato-Regular.ttf
+        - asset: assets/fonts/Lato-Italic.ttf
+        - asset: assets/fonts/Lato-Light.ttf
+        - asset: assets/fonts/Lato-Medium.ttf
+        - asset: assets/fonts/Lato-Bold.ttf
 
   assets:
     - assets/images/UniTime.png

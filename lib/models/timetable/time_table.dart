@@ -14,7 +14,7 @@ import 'package:school_timetable/models/timetable/fasce.dart';
 
 import 'package:school_timetable/models/timetable/giorno.dart';
 
-// part 'time_table.g.dart';
+part 'time_table.g.dart';
 
 part 'time_table.freezed.dart';
 
@@ -59,6 +59,6 @@ class TimeTable with _$TimeTable {
     int? containsData,
   }) = _TimeTable;
 
-// factory TimeTable.fromJson(Map<String, dynamic> json) =>
-//     _$TimeTableFromJson(json);
+  factory TimeTable.fromJson(Map<String, dynamic> json) =>
+      _$TimeTableFromJson(json);
 }

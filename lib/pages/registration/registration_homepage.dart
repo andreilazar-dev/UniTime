@@ -11,8 +11,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_offline/flutter_offline.dart';
 import 'package:school_timetable/policy/cubit/privacy_policy_cubit.dart';
 import 'package:school_timetable/policy/widget/privacy_dialog.dart';
 import 'package:school_timetable/repositories/configuration_repository.dart';
@@ -37,6 +39,7 @@ class RegistrationHomePage extends StatelessWidget with AutoRouteWrapper {
     MediaQueryData mediaQuery = MediaQuery.of(context);
     final serversUny = Servers.servers;
     Server? selectedServer;
+    bool connection = false;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: CustomShape(
@@ -45,8 +48,19 @@ class RegistrationHomePage extends StatelessWidget with AutoRouteWrapper {
             context.read<PrivacyPolicyCubit>().setPrivacy(status);
           },
           child: SafeArea(
-            child: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
+            child: OfflineBuilder(
+              connectivityBuilder: (context, connectivity, child) {
+                connection =
+                    connectivity == ConnectivityResult.none ? false : true;
+                if (connectivity == ConnectivityResult.none) {
+                  SchedulerBinding.instance.addPostFrameCallback((duration) {
+                    showErrorConnection(context);
+                  });
+                }
+                return child;
+              },
+              child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
                 return SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -144,9 +158,11 @@ class RegistrationHomePage extends StatelessWidget with AutoRouteWrapper {
                                   mediaQuery.padding.top) *
                               0.10),
                       ElevatedButton(
-                        onPressed: () {
-                          _goToNextPage(context, selectedServer!);
-                        },
+                        onPressed: connection
+                            ? () {
+                                _goToNextPage(context, selectedServer!);
+                              }
+                            : null,
                         child: const Icon(
                           Icons.arrow_forward,
                           color: Colors.white,
@@ -160,7 +176,7 @@ class RegistrationHomePage extends StatelessWidget with AutoRouteWrapper {
                     ],
                   ),
                 );
-              },
+              }),
             ),
           ),
         ),
@@ -195,6 +211,19 @@ class RegistrationHomePage extends StatelessWidget with AutoRouteWrapper {
         //     ),
       ),
     );
+  }
+
+  void showErrorConnection(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+              title: const Center(child: Text("Error")),
+              content: Text(
+                AppLocalizations.of(context)?.error_connection ?? '' ?? "",
+                textAlign: TextAlign.center,
+              ),
+            ),
+        barrierDismissible: true);
   }
 
   Future<void> _goToNextPage(BuildContext context, Server server) async {

@@ -31,7 +31,7 @@ class LightTheme {
         selectedRowColor: primaryColorBright,
         appBarTheme: const AppBarTheme(color: primaryColor),
         //#FONT
-        fontFamily: 'Poppins',
+        fontFamily: 'Lato',
         textTheme: const TextTheme(
           displayLarge: TextStyle(
               color: primaryTextColorDark,
@@ -201,7 +201,7 @@ class DarkTheme {
         selectedRowColor: primaryColorLight,
         appBarTheme: const AppBarTheme(color: primaryColor),
         //#FONT
-        fontFamily: 'Roboto',
+        fontFamily: 'Lato',
         textTheme: const TextTheme(
           displayLarge: TextStyle(
               color: primaryTextColorLight,

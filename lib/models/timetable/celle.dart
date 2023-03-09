@@ -10,6 +10,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'celle.g.dart';
 part 'celle.freezed.dart';
 
 @freezed
@@ -63,6 +64,5 @@ class Celle with _$Celle {
     //int? verticalIdx,
   }) = _Celle;
 
-// factory Celle.fromJson(Map<String, dynamic> json) =>
-//     _$CelleFromJson(json);
+  factory Celle.fromJson(Map<String, dynamic> json) => _$CelleFromJson(json);
 }

@@ -49,47 +49,51 @@ class PrivacyDialog extends StatelessWidget {
     return Dialog(
       //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       backgroundColor: const Color.fromRGBO(97, 97, 168, 1),
-      child: Column(
-        children: [
-          Expanded(
-            child: FutureBuilder(
-              future: Future.delayed(const Duration(milliseconds: 150))
-                  .then((value) {
-                return rootBundle.loadString(findPolicyFile(context));
-              }),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Markdown(
-                    data: snapshot.data ?? '',
-                    onTapLink: (text, url, title) {
-                      launchUrl(Uri.parse(url ?? ""),
-                          mode: LaunchMode.externalApplication);
-                    },
-                  );
+      child: SizedBox(
+        height: 400,
+        child: Column(
+          children: [
+            Expanded(
+              child: FutureBuilder(
+                future: Future.delayed(const Duration(milliseconds: 150))
+                    .then((value) {
+                  return rootBundle.loadString(findPolicyFile(context));
+                }),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Markdown(
+                      data: snapshot.data ?? '',
+                      onTapLink: (text, url, title) {
+                        launchUrl(Uri.parse(url ?? ""),
+                            mode: LaunchMode.externalApplication);
+                      },
+                    );
+                  }
+                  return const LoadingWidget();
+                },
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (onButtonTap != null) {
+                  onButtonTap!(PrivacyStatus.authorized);
                 }
-                return const LoadingWidget();
+                Navigator.of(context).pop();
               },
+              style: ElevatedButton.styleFrom(
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(25))),
+                backgroundColor: const Color(0xFF3E3E70),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+              ),
+              child: Text(
+                AppLocalizations.of(context)?.policy_label_button ?? '',
+                style: Theme.of(context).textTheme.labelLarge,
+              ),
             ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (onButtonTap != null) {
-                onButtonTap!(PrivacyStatus.authorized);
-              }
-              Navigator.of(context).pop();
-            },
-            style: ElevatedButton.styleFrom(
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25))),
-              backgroundColor: const Color(0xFF3E3E70),
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
-            ),
-            child: Text(
-              AppLocalizations.of(context)?.policy_label_button ?? '',
-              style: Theme.of(context).textTheme.labelLarge,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

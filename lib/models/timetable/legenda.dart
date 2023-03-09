@@ -10,7 +10,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-// part 'legenda.g.dart';
+part 'legenda.g.dart';
 
 part 'legenda.freezed.dart';
 
@@ -23,6 +23,6 @@ class Legenda with _$Legenda {
     String? tipo,
   }) = _Legenda;
 
-// factory Legenda.fromJson(Map<String, dynamic> json) =>
-//     _$LegendaFromJson(json);
+  factory Legenda.fromJson(Map<String, dynamic> json) =>
+      _$LegendaFromJson(json);
 }

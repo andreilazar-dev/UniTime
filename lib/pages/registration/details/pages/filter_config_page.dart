@@ -150,9 +150,9 @@ class _FilterConfigPageState extends State<FilterConfigPage> {
                     context.read<CourseSettingBloc>().savingCourse(course);
                   },
                   backgroundColor: const Color.fromRGBO(62, 62, 112, 1),
-                  label: const Text(
-                    'confirm',
-                    style: TextStyle(
+                  label: Text(
+                    AppLocalizations.of(context)?.confirm_dialog ?? '',
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 15,
                     ),

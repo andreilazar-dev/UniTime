@@ -10,7 +10,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-// part 'giorno.g.dart';
+part 'giorno.g.dart';
 
 part 'giorno.freezed.dart';
 
@@ -22,5 +22,5 @@ class Giorno with _$Giorno {
     required String data,
   }) = _Giorno;
 
-//factory Giorno.fromJson(Map<String, dynamic> json) => _$GiornoFromJson(json);
+  factory Giorno.fromJson(Map<String, dynamic> json) => _$GiornoFromJson(json);
 }

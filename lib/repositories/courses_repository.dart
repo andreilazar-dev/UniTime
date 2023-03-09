@@ -40,6 +40,7 @@ class CoursesRepository {
   final YearsMapper yearsMapper;
   Configuration? _configuration;
   final Future<SharedPreferences> sharedPreferences;
+  final DateFormat _inputDateFormat = DateFormat('dd-MM-yyyy');
 
   CoursesRepository({
     required this.universityInformationService,
@@ -107,11 +108,19 @@ class CoursesRepository {
                   corso: course.corso,
                 ))
             .toList();
-        final obj = await Future.wait(responses);
-        return _filtering(obj.map(timeTableMapper.toModel).toList());
+        final timetable = (await Future.wait(responses))
+            .map(timeTableMapper.toModel)
+            .toList();
+        _saveTimetable(timetable);
+        final recovered = await _recoverTimeTable();
+        return _filtering(timetable);
       } on NetworkError catch (error) {
-        //TODO: ADDED CACHE
-        // _cachedTimetable(date);
+        final timeTableCached = await _recoverTimeTable();
+        if (timeTableCached != null &&
+            _isDateInRange(date, timeTableCached.first.firstDay,
+                timeTableCached.first.lastDay)) {
+          return _filtering(timeTableCached);
+        }
         throw RepositoryError(error);
       } catch (e) {
         log("Generic RepositoryError", name: "Course_Repository lessons");
@@ -181,5 +190,29 @@ class CoursesRepository {
 
   bool _sameDate(String date1, String date2) {
     return date1 == date2;
+  }
+
+  bool _isDateInRange(DateTime date, String start, String end) {
+    DateTime startDate = _inputDateFormat.parse(start);
+    DateTime endDate = _inputDateFormat.parse(end);
+    return date.isAtSameMomentAs(startDate) ||
+        date.isAtSameMomentAs(endDate) ||
+        (date.isAfter(startDate) && date.isBefore(endDate));
+  }
+
+  Future<bool> _saveTimetable(List<TimeTable> timetable) async {
+    return (await sharedPreferences)
+        .setString(_kAppCached, json.encode(timetable));
+  }
+
+  Future<List<TimeTable>?> _recoverTimeTable() async {
+    final prefs = (await sharedPreferences).getString(_kAppCached);
+    if (prefs != null) {
+      final Iterable iterable = jsonDecode(prefs);
+      return iterable
+          .map((json) => TimeTable.fromJson(json))
+          .toList(growable: false);
+    }
+    return null;
   }
 }
