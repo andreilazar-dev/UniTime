@@ -25,7 +25,9 @@ class CalendarHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final headerText = DateFormat.yMMMM().format(focusedDay);
+    final headerText =
+        DateFormat.yMMMM(AppLocalizations.of(context)?.localeName)
+            .format(focusedDay);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 15),

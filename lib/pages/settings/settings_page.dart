@@ -13,10 +13,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:school_timetable/blocs/registration/registration_bloc.dart';
+import 'package:school_timetable/cubits/easter_egg/easter_egg_cubit.dart';
 import 'package:school_timetable/routers/app_router.gr.dart';
 import 'package:school_timetable/theme/cubits/theme_cubit.dart';
 import 'package:school_timetable/theme/models/theme.dart' as theme;
 import 'package:school_timetable/widgets/custom_button.dart';
+import 'package:school_timetable/widgets/custom_switch.dart';
+import 'package:school_timetable/widgets/easter_egg_widget.dart';
+import 'package:school_timetable/widgets/hidden_button.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -28,53 +32,59 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-      child: Align(
-        alignment: const FractionalOffset(0.5, 0.2),
-        child: Wrap(
-          spacing: 20,
-          // to apply margin in the main axis of the wrap
-          runSpacing: 20,
-          // to apply margin in the cross axis of the wrap
-          children: [
-            CustomButton(
-              width: buttonwidth,
-              height: buttonheight,
-              onPressed: context.read<RegistrationBloc>().resetApp,
-              borderRadius: BorderRadius.circular(20),
-              child: Text(
-                AppLocalizations.of(context)?.settings_reset ?? '',
-                style: Theme.of(context).textTheme.labelMedium,
-              ),
-            ),
-            CustomButton(
-              width: buttonwidth,
-              height: buttonheight,
-              onPressed: () {
-                context.router.replace(const ManageCoursesRoute());
-              },
-              borderRadius: BorderRadius.circular(20),
-              child: Text(
-                AppLocalizations.of(context)?.settings_manage_courses ?? '',
-                style: Theme.of(context).textTheme.labelMedium,
-              ),
-            ),
-            CustomButton(
-              width: buttonwidth,
-              height: buttonheight,
-              onPressed: () {
-                context.router.replace(const FilterModulesRoute());
-              },
-              borderRadius: BorderRadius.circular(20),
-              child: Text(
-                AppLocalizations.of(context)?.settings_filter ?? '',
-                style: Theme.of(context).textTheme.labelMedium,
-              ),
-            ),
-            Container(
+      child: EasterEggWidget(
+        child: Align(
+          alignment: const FractionalOffset(0.5, 0.2),
+          child: Wrap(
+            spacing: 20,
+            // to apply margin in the main axis of the wrap
+            runSpacing: 20,
+            // to apply margin in the cross axis of the wrap
+            children: [
+              CustomButton(
                 width: buttonwidth,
-                alignment: Alignment.center,
-                child: _themeButton()),
-          ],
+                height: buttonheight,
+                onPressed: context.read<RegistrationBloc>().resetApp,
+                borderRadius: BorderRadius.circular(20),
+                child: Text(
+                  AppLocalizations.of(context)?.settings_reset ?? '',
+                  style: Theme.of(context).textTheme.labelMedium,
+                ),
+              ),
+              CustomButton(
+                width: buttonwidth,
+                height: buttonheight,
+                onPressed: () {
+                  context.router.replace(const ManageCoursesRoute());
+                },
+                borderRadius: BorderRadius.circular(20),
+                child: Text(
+                  AppLocalizations.of(context)?.settings_manage_courses ?? '',
+                  style: Theme.of(context).textTheme.labelMedium,
+                ),
+              ),
+              CustomButton(
+                width: buttonwidth,
+                height: buttonheight,
+                onPressed: () {
+                  context.router.replace(const FilterModulesRoute());
+                },
+                borderRadius: BorderRadius.circular(20),
+                child: Text(
+                  AppLocalizations.of(context)?.settings_filter ?? '',
+                  style: Theme.of(context).textTheme.labelMedium,
+                ),
+              ),
+              Container(
+                  width: buttonwidth,
+                  alignment: Alignment.center,
+                  child: _themeButton()),
+              Container(
+                  width: buttonwidth,
+                  alignment: Alignment.center,
+                  child: _secretButton()),
+            ],
+          ),
         ),
       ),
     ));
@@ -128,6 +138,49 @@ class SettingsPage extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Widget _secretButton() {
+    return BlocBuilder<EasterEggCubit, EasterEggState>(
+        builder: (context, state) {
+      if (state.easterEgg.visibility) {
+        return CustomSwitch(
+          width: buttonwidth,
+          height: buttonheight,
+          switchvalue: state.easterEgg.active,
+          text: "Special",
+          onChanged: (value) => context
+              .read<EasterEggCubit>()
+              .setState(state.easterEgg.copyWith(active: value)),
+        );
+      }
+      return HiddenButton(
+        onAction: () {
+          _snackEasterEgg(context);
+          context
+              .read<EasterEggCubit>()
+              .setState(state.easterEgg.copyWith(visibility: true));
+        },
+      );
+    });
+  }
+
+  void _snackEasterEgg(BuildContext ctx) {
+    ScaffoldMessenger.of(ctx).showSnackBar(
+      SnackBar(
+        elevation: 6.0,
+        behavior: SnackBarBehavior.floating,
+        content: Text(
+          'EasterEgg Active!',
+          textAlign: TextAlign.center,
+          style: Theme.of(ctx).textTheme.labelSmall,
+        ),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        duration: const Duration(milliseconds: 1500),
+      ),
     );
   }
 }

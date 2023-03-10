@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LightTheme {
-  static const backgroundColor = Color.fromRGBO(255, 251, 245, 1);
+  static const backgroundColor = Color.fromRGBO(233, 233, 248, 1.0);
   static const primaryTextColorLight = Color.fromRGBO(247, 239, 229, 1);
   static const primaryTextColorDark = Color.fromRGBO(21, 21, 21, 1.0);
   static const primaryColor = Color.fromRGBO(62, 62, 112, 1);
@@ -31,7 +31,7 @@ class LightTheme {
         selectedRowColor: primaryColorBright,
         appBarTheme: const AppBarTheme(color: primaryColor),
         //#FONT
-        fontFamily: 'Lato',
+        fontFamily: 'OpenSans',
         textTheme: const TextTheme(
           displayLarge: TextStyle(
               color: primaryTextColorDark,
@@ -89,11 +89,13 @@ class LightTheme {
             color: primaryTextColorLight,
             fontSize: 14,
             fontWeight: FontWeight.w700,
+            letterSpacing: 0,
           ),
           labelSmall: TextStyle(
             color: primaryTextColorLight,
             fontSize: 12,
             fontWeight: FontWeight.w700,
+            letterSpacing: 0,
           ),
 
           //Calendar

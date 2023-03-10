@@ -14,6 +14,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:school_timetable/blocs/registration/registration_bloc.dart';
+import 'package:school_timetable/cubits/easter_egg/easter_egg_cubit.dart';
 import 'package:school_timetable/repositories/configuration_repository.dart';
 import 'package:school_timetable/repositories/courses_repository.dart';
 import 'package:school_timetable/repositories/mappers/accademic_year_mapper.dart';

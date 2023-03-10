@@ -34,10 +34,10 @@ class Background extends StatelessWidget {
     return Container(
         decoration: BoxDecoration(
           gradient: RadialGradient(
-              center: Alignment(1.5, -0.5), // near the top right
+              center: const Alignment(1.5, -0.5), // near the top right
               radius: 0.8,
               colors: colors,
-              stops: <double>[0.0, 1]),
+              stops: const <double>[0.0, 1]),
         ),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 60.0, sigmaY: 60.0),

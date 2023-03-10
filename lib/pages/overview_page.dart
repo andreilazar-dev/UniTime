@@ -18,6 +18,7 @@ import 'package:school_timetable/blocs/overview/overview_bloc.dart';
 import 'package:school_timetable/misc/date_util.dart';
 import 'package:school_timetable/models/celle_data_source.dart';
 import 'package:school_timetable/models/timetable/time_table.dart';
+import 'package:school_timetable/widgets/easter_egg_widget.dart';
 import 'package:school_timetable/widgets/event_details.dart';
 import 'package:school_timetable/widgets/header_calendar.dart';
 import 'package:school_timetable/widgets/loading_widget.dart';
@@ -79,93 +80,97 @@ class _OverviewPageState extends State<OverviewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<OverviewBloc, OverviewState>(
-        listener: (context, state) => state.whenOrNull(
-          error: (error) => showError(context, error),
-        ),
-        builder: (context, overviewState) {
-          // return state.when(
-          //   fetching: () => Center(child: CircularProgressIndicator()),
-          //   fetched: (timeTable) => _body(context, timeTable),
-          //   error: () => Container(),
-          // );
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 50.0),
-              ValueListenableBuilder<DateTime>(
-                valueListenable: _focusedDay,
-                builder: (context, value, _) {
-                  return CalendarHeader(
-                    focusedDay: value,
-                    onLeftArrowTap: () {
-                      _pageController.previousPage(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeOut,
-                      );
-                    },
-                    onRightArrowTap: () {
-                      _pageController.nextPage(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeOut,
-                      );
-                    },
-                  );
-                },
-              ),
-              const SizedBox(height: 20.0),
-              TableCalendar(
-                firstDay: _kFirstDay,
-                lastDay: _kLastDay,
-                //TODO: cancel this when set initializeDateFormatting for intl
-                locale: Localizations.localeOf(context).languageCode,
-                startingDayOfWeek: StartingDayOfWeek.monday,
-                headerVisible: false,
-                focusedDay: _focusedDay.value,
-                //selectedDayPredicate: (day) => _selectedDays.contains(day),
-                calendarFormat: _calendarFormat,
-                selectedDayPredicate: (day) {
-                  // Use `selectedDayPredicate` to determine which day is currently selected.
-                  // If this returns true, then `day` will be marked as selected.
+      body: EasterEggWidget(
+        child: BlocConsumer<OverviewBloc, OverviewState>(
+          listener: (context, state) => state.whenOrNull(
+            error: (error) => showError(context, error),
+          ),
+          builder: (context, overviewState) {
+            // return state.when(
+            //   fetching: () => Center(child: CircularProgressIndicator()),
+            //   fetched: (timeTable) => _body(context, timeTable),
+            //   error: () => Container(),
+            // );
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 50.0),
+                ValueListenableBuilder<DateTime>(
+                  valueListenable: _focusedDay,
+                  builder: (context, value, _) {
+                    return CalendarHeader(
+                      focusedDay: value,
+                      onLeftArrowTap: () {
+                        _pageController.previousPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeOut,
+                        );
+                      },
+                      onRightArrowTap: () {
+                        _pageController.nextPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeOut,
+                        );
+                      },
+                    );
+                  },
+                ),
+                const SizedBox(height: 20.0),
+                TableCalendar(
+                  firstDay: _kFirstDay,
+                  lastDay: _kLastDay,
+                  //TODO: cancel this when set initializeDateFormatting for intl
+                  locale: Localizations.localeOf(context).languageCode,
+                  startingDayOfWeek: StartingDayOfWeek.monday,
+                  headerVisible: false,
+                  focusedDay: _focusedDay.value,
+                  //selectedDayPredicate: (day) => _selectedDays.contains(day),
+                  calendarFormat: _calendarFormat,
+                  selectedDayPredicate: (day) {
+                    // Use `selectedDayPredicate` to determine which day is currently selected.
+                    // If this returns true, then `day` will be marked as selected.
 
-                  // Using `isSameDay` is recommended to disregard
-                  // the time-part of compared DateTime objects.
-                  return isSameDay(_selectedDay, day);
-                },
-                onDaySelected: (selectedDay, focusedDay) {
-                  if (!isSameDay(_selectedDay, selectedDay)) {
-                    if (_selectedDay != null &&
-                        !AppDateUtils.isSameWeek(_selectedDay!, selectedDay)) {
-                      context.read<OverviewBloc>().loadTimetable(selectedDay);
-                      SchedulerBinding.instance
-                          .addPostFrameCallback((duration) {
-                        _timeLineController.displayDate = _focusedDay.value;
+                    // Using `isSameDay` is recommended to disregard
+                    // the time-part of compared DateTime objects.
+                    return isSameDay(_selectedDay, day);
+                  },
+                  onDaySelected: (selectedDay, focusedDay) {
+                    if (!isSameDay(_selectedDay, selectedDay)) {
+                      if (_selectedDay != null &&
+                          !AppDateUtils.isSameWeek(
+                              _selectedDay!, selectedDay)) {
+                        context.read<OverviewBloc>().loadTimetable(selectedDay);
+                        SchedulerBinding.instance
+                            .addPostFrameCallback((duration) {
+                          _timeLineController.displayDate = _focusedDay.value;
+                        });
+                      }
+                      // Call `setState()` when updating the selected day
+                      setState(() {
+                        _selectedDay = selectedDay;
+                        _focusedDay.value = focusedDay;
                       });
+                      _timeLineController.displayDate = _focusedDay.value;
                     }
-                    // Call `setState()` when updating the selected day
-                    setState(() {
-                      _selectedDay = selectedDay;
-                      _focusedDay.value = focusedDay;
-                    });
-                    _timeLineController.displayDate = _focusedDay.value;
-                  }
-                },
-                onCalendarCreated: (controller) => _pageController = controller,
-                onPageChanged: (focusedDay) => _focusedDay.value = focusedDay,
-                onFormatChanged: (format) {
-                  if (_calendarFormat != format) {
-                    setState(() => _calendarFormat = format);
-                  }
-                },
-              ),
-              if (overviewState is FetchingOverviewState)
-                const Expanded(child: LoadingWidget()),
-              if (overviewState is FetchedOverviewState)
-                _timeline(context, overviewState.timeTable),
-              if (overviewState is ErrorOverviewState) _error(context),
-            ],
-          );
-        },
+                  },
+                  onCalendarCreated: (controller) =>
+                      _pageController = controller,
+                  onPageChanged: (focusedDay) => _focusedDay.value = focusedDay,
+                  onFormatChanged: (format) {
+                    if (_calendarFormat != format) {
+                      setState(() => _calendarFormat = format);
+                    }
+                  },
+                ),
+                if (overviewState is FetchingOverviewState)
+                  const Expanded(child: LoadingWidget()),
+                if (overviewState is FetchedOverviewState)
+                  _timeline(context, overviewState.timeTable),
+                if (overviewState is ErrorOverviewState) _error(context),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

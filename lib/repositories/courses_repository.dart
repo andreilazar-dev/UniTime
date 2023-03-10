@@ -14,7 +14,6 @@ import 'package:intl/intl.dart';
 import 'package:school_timetable/errors/generic_error.dart';
 import 'package:school_timetable/errors/network_error.dart';
 import 'package:school_timetable/errors/repository_error.dart';
-import 'package:school_timetable/misc/date_util.dart';
 import 'package:school_timetable/models/academic_year.dart';
 import 'package:school_timetable/models/courses/year.dart';
 import 'package:school_timetable/models/preferences/configuration.dart';
@@ -112,7 +111,6 @@ class CoursesRepository {
             .map(timeTableMapper.toModel)
             .toList();
         _saveTimetable(timetable);
-        final recovered = await _recoverTimeTable();
         return _filtering(timetable);
       } on NetworkError catch (error) {
         final timeTableCached = await _recoverTimeTable();

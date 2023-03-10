@@ -17,10 +17,10 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:school_timetable/blocs/daily_timetable/daily_timetable_bloc.dart';
 import 'package:school_timetable/models/timetable/celle.dart';
 import 'package:school_timetable/models/timetable/time_table.dart';
+import 'package:school_timetable/widgets/easter_egg_widget.dart';
 import 'package:school_timetable/widgets/event_card.dart';
 import 'package:school_timetable/widgets/event_details.dart';
 import 'package:school_timetable/widgets/loading_widget.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 class DailyLessonsPage extends StatelessWidget with AutoRouteWrapper {
   const DailyLessonsPage({Key? key}) : super(key: key);
@@ -37,35 +37,37 @@ class DailyLessonsPage extends StatelessWidget with AutoRouteWrapper {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: LayoutBuilder(builder: (context, constraints) {
-        return RefreshIndicator(
-          onRefresh: () async {
-            context.read<DailyTimetableBloc>().loadTimetable(DateTime.now());
-          },
-          child: SingleChildScrollView(
-            // To make RefreshIndicator work, it child widget should scroll, thats why I added [AlwaysScrollableScrollPhysics]
-            physics: const AlwaysScrollableScrollPhysics(
-                parent: BouncingScrollPhysics()),
-            child: BlocConsumer<DailyTimetableBloc, DailyTimetableState>(
-              listener: (context, state) =>
-                  state.whenOrNull(error: (error) => showError(context, error)),
-              builder: (context, state) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    SafeArea(bottom: false, child: _header(context)),
-                    state.when(
-                      fetching: () => const LoadingWidget(),
-                      fetched: (timeTable) => _body(context, timeTable),
-                      error: (_) => _error(context),
-                    ),
-                  ],
-                );
-              },
+      body: EasterEggWidget(
+        child: LayoutBuilder(builder: (context, constraints) {
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<DailyTimetableBloc>().loadTimetable(DateTime.now());
+            },
+            child: SingleChildScrollView(
+              // To make RefreshIndicator work, it child widget should scroll, thats why I added [AlwaysScrollableScrollPhysics]
+              physics: const AlwaysScrollableScrollPhysics(
+                  parent: BouncingScrollPhysics()),
+              child: BlocConsumer<DailyTimetableBloc, DailyTimetableState>(
+                listener: (context, state) => state.whenOrNull(
+                    error: (error) => showError(context, error)),
+                builder: (context, state) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SafeArea(bottom: false, child: _header(context)),
+                      state.when(
+                        fetching: () => const LoadingWidget(),
+                        fetched: (timeTable) => _body(context, timeTable),
+                        error: (_) => _error(context),
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 
@@ -142,8 +144,9 @@ class DailyLessonsPage extends StatelessWidget with AutoRouteWrapper {
   }
 
   Widget _header(BuildContext context) {
-    final headerText =
-        DateFormat(DateFormat.MONTH_WEEKDAY_DAY).format(DateTime.now());
+    final headerText = DateFormat(DateFormat.MONTH_WEEKDAY_DAY,
+            AppLocalizations.of(context)?.localeName)
+        .format(DateTime.now());
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
       child: Column(

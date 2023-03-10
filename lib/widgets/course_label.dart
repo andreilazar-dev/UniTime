@@ -94,7 +94,7 @@ class CourseLabel extends StatelessWidget {
                       Row(
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(right: 10),
+                            padding: const EdgeInsets.only(right: 10),
                             child: Icon(
                               Icons.school,
                               size: Theme.of(context)

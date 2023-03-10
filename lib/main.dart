@@ -15,6 +15,7 @@ import 'package:school_timetable/app.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'misc/firebase_options.dart';
+import 'dart:io';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,16 +29,23 @@ void main() async {
   );
   HydratedBloc.storage = storage;
 
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-      overlays: [SystemUiOverlay.top]).then(
-    (_) => runApp(App()),
-  );
-
-  //Callback when Ui change
-  SystemChrome.setSystemUIChangeCallback((systemOverlaysAreVisible) async {
-    return await Future.delayed(const Duration(seconds: 2), () {
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-          overlays: [SystemUiOverlay.top]);
+  //Android 11 and lower
+  if (!Platform.operatingSystemVersion.contains("12")) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky).then(
+      (_) => runApp(App()),
+    );
+  } else {
+    //Setting SystemUIMode
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky,
+        overlays: [SystemUiOverlay.top]).then(
+      (_) => runApp(App()),
+    );
+    //Callback when Ui change
+    SystemChrome.setSystemUIChangeCallback((systemOverlaysAreVisible) async {
+      return await Future.delayed(const Duration(seconds: 2), () {
+        SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+            overlays: [SystemUiOverlay.top]);
+      });
     });
-  });
+  }
 }

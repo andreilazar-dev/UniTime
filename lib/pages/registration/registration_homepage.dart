@@ -219,7 +219,7 @@ class RegistrationHomePage extends StatelessWidget with AutoRouteWrapper {
         builder: (ctx) => AlertDialog(
               title: const Center(child: Text("Error")),
               content: Text(
-                AppLocalizations.of(context)?.error_connection ?? '' ?? "",
+                AppLocalizations.of(context)?.error_connection ?? '',
                 textAlign: TextAlign.center,
               ),
             ),
