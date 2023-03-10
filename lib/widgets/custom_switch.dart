@@ -50,7 +50,7 @@ class CustomSwitch extends StatelessWidget {
                   value: switchvalue,
                   onChanged: onChanged,
                   activeColor: const Color.fromRGBO(115, 115, 194, 1),
-                  thumbColor: theme.backgroundColor,
+                  thumbColor: Colors.white70,
                   trackColor: const Color.fromRGBO(86, 86, 131, 1),
                 ),
               ),

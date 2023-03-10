@@ -12,15 +12,18 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:school_timetable/blocs/registration/registration_bloc.dart';
 import 'package:school_timetable/cubits/easter_egg/easter_egg_cubit.dart';
 import 'package:school_timetable/routers/app_router.gr.dart';
 import 'package:school_timetable/theme/cubits/theme_cubit.dart';
 import 'package:school_timetable/theme/models/theme.dart' as theme;
+import 'package:school_timetable/widgets/credits_dialog.dart';
 import 'package:school_timetable/widgets/custom_button.dart';
 import 'package:school_timetable/widgets/custom_switch.dart';
 import 'package:school_timetable/widgets/easter_egg_widget.dart';
 import 'package:school_timetable/widgets/hidden_button.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -72,6 +75,18 @@ class SettingsPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 child: Text(
                   AppLocalizations.of(context)?.settings_filter ?? '',
+                  style: Theme.of(context).textTheme.labelMedium,
+                ),
+              ),
+              CustomButton(
+                width: buttonwidth,
+                height: buttonheight,
+                onPressed: () {
+                  _creditsDialog(context);
+                },
+                borderRadius: BorderRadius.circular(20),
+                child: Text(
+                  AppLocalizations.of(context)?.settings_credits ?? '',
                   style: Theme.of(context).textTheme.labelMedium,
                 ),
               ),
@@ -182,5 +197,10 @@ class SettingsPage extends StatelessWidget {
         duration: const Duration(milliseconds: 1500),
       ),
     );
+  }
+
+  void _creditsDialog(BuildContext ctx) {
+    showDialog<String>(
+        context: ctx, builder: (BuildContext context) => const CreditsDialog());
   }
 }
