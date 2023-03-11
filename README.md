@@ -65,5 +65,15 @@ To generate icon files
 fvm flutter pub run flutter_launcher_icons
 ```
 
+To build the app correctly, the following example values must be in the local.properties file:
+
+```
+flutter.compileSdkVersion=33
+flutter.minSdkVersion=21
+flutter.targetSdkVersion=32
+````
+
+
+
 
 ## Feel free to contact us for feedback or modifications. If you want to contribute, please create a branch from the development branch with a descriptive name of what you are working on. Then, submit a merge request.
