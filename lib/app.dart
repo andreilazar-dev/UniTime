@@ -64,46 +64,4 @@ class App extends StatelessWidget {
     );
     return mode;
   }
-  // ThemeData _theme(BuildContext context) {
-  //   final primaryColor = Colors.blue[700]!;
-  //   final primaryColorDark = Colors.blue[900]!;
-  //   const secondaryColor = Colors.orange;
-  //   final onSecondaryColor = Colors.grey[100]!;
-  //
-  //   return ThemeData(
-  //     primaryColor: primaryColor,
-  //     primaryColorDark: primaryColorDark,
-  //     colorScheme: ColorScheme.light(
-  //       primary: primaryColor,
-  //       secondary: secondaryColor,
-  //       surface: secondaryColor,
-  //       onSecondary: onSecondaryColor,
-  //     ),
-  //     brightness: Brightness.light,
-  //     floatingActionButtonTheme: FloatingActionButtonThemeData(
-  //       backgroundColor: primaryColor,
-  //     ),
-  //   );
-  // }
-  //
-  // ThemeData _darkTheme(BuildContext context) {
-  //   final primaryColor = Colors.blue[700]!;
-  //   final primaryColorDark = Colors.blue[900]!;
-  //   const secondaryColor = Colors.orange;
-  //   const surfaceColor = Colors.black26;
-  //
-  //   return ThemeData(
-  //     primaryColor: primaryColor,
-  //     primaryColorDark: primaryColorDark,
-  //     colorScheme: ColorScheme.dark(
-  //       primary: primaryColor,
-  //       secondary: secondaryColor,
-  //       surface: surfaceColor,
-  //     ),
-  //     brightness: Brightness.dark,
-  //     floatingActionButtonTheme: FloatingActionButtonThemeData(
-  //       backgroundColor: primaryColor,
-  //     ),
-  //   );
-  // }
 }
