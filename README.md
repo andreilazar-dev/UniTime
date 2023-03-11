@@ -6,7 +6,7 @@ control and daily task planning. Our project encourages user collaboration so th
 contribute to the improvement of the application. We are open to suggestions and feedback, and we
 invite users to contribute to the source code to adapt it to their needs.
 
-### Discalment
+### Disclaimer
 We would like to clarify that our project does not contain any files related to various servers for privacy reasons.
 So you will need the following files to properly run the app: lib/misc/server/server.dart and lib/misc/server/servers.dart.
 #### lib/misc/server/server.dart
