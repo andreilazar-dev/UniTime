@@ -1,69 +1,16 @@
+<img src="assets/icon.png" align="left"
+     alt="UniTime Icon" width="150" height = "150"/>
+
 # UniTime
 
-Our project on GitHub consists of a time management application developed under GPL 3 license. The
-app was created to provide users with a simple and intuitive interface to facilitate schedule
-control and daily task planning. Our project encourages user collaboration so that they can
-contribute to the improvement of the application. We are open to suggestions and feedback, and we
-invite users to contribute to the source code to adapt it to their needs.
+UniTime is an application that started during university years due to the lack of a way to quickly view class schedules. The main goal of UniTime is to provide a clear and simple view of academic commitments, helping students organize their time more efficiently. Thanks to its intuitive interface, users can easily add their courses and view schedules in a clear and detailed manner. UniTime also offers the option to add multiple courses together and view schedules in daily or weekly view.
 
-### Discalment
-We would like to clarify that our project does not contain any files related to various servers for privacy reasons.
-So you will need the following files to properly run the app: lib/misc/server/server.dart and lib/misc/server/servers.dart.
-#### lib/misc/server/server.dart
-```dart
-@freezed
-class Server with _$Server {
-  const factory Server({
-    required String label,
-    required String code,
-    required String server,
-  }) = _Server;
-}
-```
-#### lib/misc/server/servers.dart
-```dart
-class Servers {
-  static final List<Server> servers = [
-    const Server(
-        label: "XXX",
-        code: "XXX",
-        server: "https://"),
-  ];
-}
-```
+#
+## UniTime is now available for various universities and can be downloaded on
 
-## To correctly start an application, there are several steps you can follow:
+[<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Android" height="100">](https://play.google.com/store/apps/details?id=com.lorenzobonanni.school_timetable.OrariUniVR)
 
-1. Install [fvm](https://github.com/leoafarias/fvm)
-2. Install the project Flutter version:
+## Some basic view screens
 
-```bash 
-fvm install
-```
-
-3. Generate the source code:
-
-```bash
-fvm flutter pub run build_runner build --delete-conflicting-outputs
-```
-
-If you want, you can use the watcher to generate code during development:
-
-```bash
-fvm flutter pub run build_runner watch --delete-conflicting-outputs
-```
-
-To generate splash screen files
-
-```bash
-fvm flutter pub run flutter_native_splash:create
-```
-
-To generate icon files
-
-```bash
-fvm flutter pub run flutter_launcher_icons
-```
-
-
-## Feel free to contact us for feedback or modifications. If you want to contribute, please create a branch from the development branch with a descriptive name of what you are working on. Then, submit a merge request.
+<img src="screenshot/demo.png" align="left"
+     alt="UniTime Demo" />
