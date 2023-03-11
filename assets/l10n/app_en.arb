@@ -1,0 +1,52 @@
+{
+  "app_name": "UniTime",
+  "welcome": "Welcome",
+  "select_uni": "Select your university",
+  "tap_uni": "tap to view universities",
+  "uni_of" : "University of ",
+  "policy_label_button" : "Agree",
+
+  "course_page_label" : "Some more information",
+  "select_academic_label" : "Select academic year",
+  "select_course_label" : "Course of study" ,
+  "select_school_label" : "Select School",
+  "select_course_label_hint" : "Enter the course of study" ,
+  "select_year_label" : "Year of study",
+  "select_year_label_hint" : "Enter the year of study",
+
+  "filter_course_page_label" : "Select the teachings you want to see",
+
+
+  "today_label": "Today",
+  "calendar_label": "Calendar",
+  "error_generic": "Something went wrong!",
+  "error_connection": "It is not possible to connect to the server at this time.\nThe connection was lost",
+
+
+  "settings_app": "App",
+  "settings_dark_mode": "Dark Mode",
+
+
+  "settings_theme": "Theme",
+  "theme_system": "System",
+  "theme_light": "Light",
+  "theme_dark": "Dark",
+  "title_settings": "Settings",
+  "settings_reset" : "Reset App",
+  "settings_manage_courses" : "Manage Courses",
+  "settings_filter" : "Filter lessons",
+  "settings_credits" : "Credits",
+  "settings_credits_social_desc" : "Would you like to stay updated on the latest news or help us out? You can find us here",
+  "settings_credits_desc" : "UniTime is an project created by Andrei Lazar & Lorenzo Bonanni.",
+  "settings_credits_desc_copyright" : "The UniTime app is an open-source project under the GPL-3.0 license, which means that its source code is publicly available and can be used freely under the terms of the license. This demonstrates our commitment to providing innovative and accessible solutions to the global community.",
+  "settings_credits_donation" : "Do you like this project? Support us by buying us a coffee.",
+  "modules_saved_dialog" : "Changes applied successfully",
+  "exit_dialog_text":  "Are you sure you want to quit?\nAll unconfirmed changes will be lost",
+  "confirm_dialog": "Confirm",
+  "go_back_dialog": "Back",
+
+  "hours_label" : "hours",
+  "degree_label" : "degree",
+  "teacher_label" : "teacher",
+  "classroom_label" : "classroom"
+}

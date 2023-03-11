@@ -1,0 +1,34 @@
+default_platform(:ios)
+
+platform :ios do
+    mls_setup_ci(is_flutter: true)
+
+    output_directory = './archives'
+    output_name = '#{ENV["BUNDLE_IDENTIFIER"]}.ipa'
+
+    lane :matches do
+      match(type: "development")
+      match
+    end
+
+    lane :archive do
+      cocoapods(
+        try_repo_update_on_error: true,
+      )
+
+      matches
+
+      gym(
+        output_directory: output_directory,
+        output_name: output_name,
+      )
+    end
+
+    lane :upload do
+      upload_to_testflight(
+        api_key_path: ENV["MLS_APP_STORE_CONNECT_API_KEY_IOS"],
+        ipa: "#{output_directory}/#{output_name}",
+        skip_waiting_for_build_processing: true,
+      )
+    end
+end

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "926965077484",
+    "project_id": "unitime-kodikas",
+    "storage_bucket": "unitime-kodikas.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:926965077484:android:21835a9a798549b7b41cc9",
+        "android_client_info": {
+          "package_name": "com.lorenzobonanni.school_timetable.OrariUniVR"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "926965077484-4v78efr68r0ujm73camufcijf79a6i2t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4QUkiwkzFVBlnOWMBBBHWUZWU0vzxz4Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "926965077484-4v78efr68r0ujm73camufcijf79a6i2t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "926965077484-63o2vg73nm81i9f68i50foddi3hqls0d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.lorenzobonanni.schoolTimetable"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-1329928883684189~6147460005"
+    }
+  ],
+  "configuration_version": "1"
+}

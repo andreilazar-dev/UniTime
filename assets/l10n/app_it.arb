@@ -1,0 +1,49 @@
+{
+  "app_name": "UniTime",
+  "welcome": "Benvenuto",
+  "select_uni": "Seleziona la tua università",
+  "tap_uni": "tocca per visualizzare le università",
+  "uni_of" : "Università di ",
+  "policy_label_button" : "Accetto",
+
+  "course_page_label" : "Alcune informazioni aggiuntive",
+  "select_academic_label" : "Seleziona l'anno accademico",
+  "select_course_label" : "Corso di studio" ,
+  "select_school_label" : "Seleziona la scuola",
+  "select_course_label_hint" : "Inserisci il corso di studio" ,
+  "select_year_label" : "Anno di studio",
+  "select_year_label_hint" : "Inserisci l'anno di studio",
+
+  "filter_course_page_label" : "Seleziona le lezioni che vuoi vedere",
+
+  "today_label": "Oggi",
+  "calendar_label": "Calendario",
+  "error_generic": "Qualcosa è andato storto!",
+  "error_connection": "Non è possibile connettersi al server in questo momento.\nLa connessione è stata persa",
+
+  "settings_app": "App",
+  "settings_dark_mode": "Modalità scura",
+
+  "settings_theme": "Tema",
+  "theme_system": "Sistema",
+  "theme_light": "Chiaro",
+  "theme_dark": "Scuro",
+  "title_settings": "Impostazioni",
+  "settings_reset" : "Resetta App",
+  "settings_manage_courses" : "Gestisci Corsi",
+  "settings_filter" : "Filtra lezioni",
+  "settings_credits" : "Crediti",
+  "settings_credits_social_desc" : "Vuoi rimanere aggiornato sulle ultime novità o aiutarci? Puoi trovarci qui.",
+  "settings_credits_desc" : "UniTime è un progetto creato da Andrei Lazar e Lorenzo Bonanni.",
+  "settings_credits_desc_copyright" : "L'app UniTime è un progetto open-source con licenza GPL-3.0, il che significa che il codice sorgente è disponibile pubblicamente e può essere utilizzato liberamente secondo i termini della licenza. Questo dimostra il nostro impegno a fornire soluzioni innovative e accessibili alla comunità globale",
+  "settings_credits_donation" : "Ti piace questo progetto? Sostienilo offrendoci un caffè.",
+  "modules_saved_dialog" : "Modifiche applicate con successo",
+  "exit_dialog_text": "Sei sicuro di voler uscire?\nTutte le modifiche non confermate andranno perse",
+  "confirm_dialog": "Conferma",
+  "go_back_dialog": "Indietro",
+
+  "hours_label" : "ore",
+  "degree_label" : "laurea",
+  "teacher_label" : "docente",
+  "classroom_label" : "aula"
+}
