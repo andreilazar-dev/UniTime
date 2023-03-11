@@ -97,6 +97,10 @@ class ReiBottomBar extends StatelessWidget {
     final theme = Theme.of(context);
     final Color background = (theme.bottomNavigationBarTheme.backgroundColor ??
         backgroundColor) as Color;
+    final Color secondaryBackground =
+        (theme.primaryColorDark ?? backgroundColor) as Color;
+    var brightness = theme.brightness;
+    bool isDarkMode = brightness == Brightness.dark;
     return BottomAppBar(
       color: Colors.transparent,
       elevation: 0,
@@ -115,8 +119,10 @@ class ReiBottomBar extends StatelessWidget {
                     begin: Alignment.topRight,
                     end: Alignment.bottomLeft,
                     colors: [
-                      background,
-                      Colors.white70.withOpacity(0.3),
+                      background.withOpacity(1),
+                      isDarkMode
+                          ? Colors.white70.withOpacity(0.3)
+                          : secondaryBackground.withOpacity(1),
                     ]),
                 boxShadow: boxShadow,
               ),

@@ -62,7 +62,8 @@ class EventCard<T> extends StatelessWidget {
                       width: constrains.maxWidth,
                       height: constrains.maxHeight,
                       borderRadius: 25,
-                      blur: 3,
+                      //blur: 3,
+                      blur: 0,
                       border: 4,
                       linearGradient: const LinearGradient(
                           begin: Alignment.bottomLeft,

@@ -24,7 +24,6 @@ import 'package:school_timetable/widgets/loading_widget.dart';
 
 class DailyLessonsPage extends StatelessWidget with AutoRouteWrapper {
   const DailyLessonsPage({Key? key}) : super(key: key);
-
   @override
   Widget wrappedRoute(BuildContext context) => BlocProvider<DailyTimetableBloc>(
         create: (context) =>
@@ -43,26 +42,50 @@ class DailyLessonsPage extends StatelessWidget with AutoRouteWrapper {
             onRefresh: () async {
               context.read<DailyTimetableBloc>().loadTimetable(DateTime.now());
             },
-            child: SingleChildScrollView(
-              // To make RefreshIndicator work, it child widget should scroll, thats why I added [AlwaysScrollableScrollPhysics]
-              physics: const AlwaysScrollableScrollPhysics(
-                  parent: BouncingScrollPhysics()),
-              child: BlocConsumer<DailyTimetableBloc, DailyTimetableState>(
-                listener: (context, state) => state.whenOrNull(
-                    error: (error) => showError(context, error)),
-                builder: (context, state) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      SafeArea(bottom: false, child: _header(context)),
-                      state.when(
-                        fetching: () => const LoadingWidget(),
-                        fetched: (timeTable) => _body(context, timeTable),
-                        error: (_) => _error(context),
-                      ),
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 60.0),
+              child: ShaderMask(
+                shaderCallback: (Rect rect) {
+                  return const LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.purple,
+                      Colors.transparent,
+                      Colors.transparent,
+                      Colors.purple
                     ],
-                  );
+                    stops: [
+                      0.0,
+                      0.1,
+                      0.9,
+                      1.0
+                    ], // 10% purple, 80% transparent, 10% purple
+                  ).createShader(rect);
                 },
+                blendMode: BlendMode.dstOut,
+                child: SingleChildScrollView(
+                  // To make RefreshIndicator work, it child widget should scroll, thats why I added [AlwaysScrollableScrollPhysics]
+                  physics: const AlwaysScrollableScrollPhysics(
+                      parent: BouncingScrollPhysics()),
+                  child: BlocConsumer<DailyTimetableBloc, DailyTimetableState>(
+                    listener: (context, state) => state.whenOrNull(
+                        error: (error) => showError(context, error)),
+                    builder: (context, state) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          SafeArea(bottom: false, child: _header(context)),
+                          state.when(
+                            fetching: () => const LoadingWidget(),
+                            fetched: (timeTable) => _body(context, timeTable),
+                            error: (_) => _error(context),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
               ),
             ),
           );

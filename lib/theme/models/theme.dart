@@ -23,6 +23,7 @@ class LightTheme {
   static get make => ThemeData(
         brightness: Brightness.light,
         scaffoldBackgroundColor: backgroundColor,
+        primaryColorDark: primaryColor,
         //This is used in multi selction for widget color in formfield
         primaryColorLight: primaryTextColorLight,
         //#Used for check box
@@ -84,6 +85,7 @@ class LightTheme {
             color: primaryTextColorLight,
             fontSize: 20,
             fontWeight: FontWeight.w700,
+            letterSpacing: 0,
           ),
           labelMedium: TextStyle(
             color: primaryTextColorLight,
@@ -120,8 +122,10 @@ class LightTheme {
         ),
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           //selectedItemColor: Color.fromRGBO(97, 97, 168, 1),
-          unselectedItemColor: Color.fromRGBO(118, 118, 122, 1),
-          backgroundColor: Color.fromRGBO(226, 226, 226, 0.8),
+          //unselectedItemColor: Color.fromRGBO(118, 118, 122, 1),
+          unselectedItemColor: backgroundColor,
+          //backgroundColor: Color.fromRGBO(226, 226, 226, 0.8),
+          backgroundColor: primaryColorLight,
         ),
 
         buttonTheme: const ButtonThemeData(
@@ -256,16 +260,19 @@ class DarkTheme {
             color: primaryTextColorLight,
             fontSize: 20,
             fontWeight: FontWeight.w700,
+            letterSpacing: 0,
           ),
           labelMedium: TextStyle(
             color: primaryTextColorLight,
             fontSize: 14,
             fontWeight: FontWeight.w700,
+            letterSpacing: 0,
           ),
           labelSmall: TextStyle(
             color: primaryTextColorLight,
             fontSize: 12,
             fontWeight: FontWeight.w700,
+            letterSpacing: 0,
           ),
 
           //Calendar
